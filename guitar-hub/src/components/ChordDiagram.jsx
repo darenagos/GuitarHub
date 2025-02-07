@@ -2,32 +2,44 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import Chord from "@tombatossals/react-chords/lib/Chord";
+import chordDB from "@tombatossals/chords-db/lib/guitar.json";
 
-const ChordDiagram = ({ chord }) => {
-  console.log("Chord dataaaa:", chord);
-  console.log("Chord frets:", chord.positions);
-  console.log("Chord fingers:", chord.fingerings);
+console.log("Chord log:         " + Chord);
+console.log("Chord db guitar.json log:          " + chordDB);
 
-  const defaultInstrument = {
-    strings: 6,
-    fretsOnChord: 4,
-    name: "Guitar",
-    keys: [],
-    tunings: {
-      standard: ["E", "A", "D", "G", "B", "E"],
-    },
-  };
+const instrument = {
+  name: "Guitar",
+  tunings: {
+    standard: ["E", "A", "D", "G", "B", "E"],
+  },
+  strings: 6,
+  fretsOnChord: 4,
+};
+
+const ChordDiagram = ({ chordName, suffix = "major" }) => {
+  // Access chord data correctly
+  const chordVariations = chordDB.chords[chordName];
+
+  if (!chordVariations) {
+    return <p>Chord not found</p>;
+  }
+
+  // Find the correct suffix variation
+  const chordData = chordVariations.find((ch) => ch.suffix === suffix);
+
+  if (!chordData) {
+    return <p>Suffix not found for {chordName}</p>;
+  }
 
   return (
     <div>
-      <h3>{chord.name}</h3>
+      <h2>
+        {chordName} {suffix}
+      </h2>
       <Chord
-        chord={chord.positions}
-        instrument={defaultInstrument}
+        chord={chordData.positions[0]} // Use the first variation
+        instrument={instrument}
         lite={false}
-        height={200}
-        width={200}
-        finger={chord.fingerings}
       />
     </div>
   );

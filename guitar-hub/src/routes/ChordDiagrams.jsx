@@ -3,20 +3,21 @@ import NavBar from "../components/Navbar";
 import Heading from "../components/Heading";
 import ChordDiagramSearchBar from "../components/ChordDiagramSearchBar";
 import ChordDiagramGrid from "../components/ChordDiagramGrid";
+import ChordDiagram from "../components/ChordDiagram";
 import { useState } from "react";
-import chordData from "../../chord-collection.json";
 
 const ChordDiagrams = () => {
-  const [searchItem, setSearchItem] = useState("");
-  const [chords, setChord] = useState([]);
+  const [searchChord, setSearchChord] = useState("");
 
-  const handleSearch = (event) => {};
+  const handleSearch = (event) => {
+    setSearchChord(event.target.value.toUpperCase());
+  };
 
   return (
     <>
       <Heading />
-      <ChordDiagramSearchBar value={searchItem} onChange={handleSearch} />
-      <ChordDiagramGrid chords={chords} />
+      <ChordDiagramSearchBar value={searchChord} onChange={handleSearch} />
+      <ChordDiagram chordName={searchChord} />
       <p>inside chord diagrams</p>
     </>
   );
