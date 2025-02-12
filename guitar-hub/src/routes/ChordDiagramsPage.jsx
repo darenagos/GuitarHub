@@ -3,6 +3,7 @@ import NavBar from "../components/Navbar";
 import Heading from "../components/Heading";
 import ChordDiagramSearchBar from "../components/ChordDiagramSearchBar";
 import ChordDiagramGrid from "../components/ChordDiagramGrid";
+import ChordDatabase from "../components/ChordDatabase";
 import ChordDiagram from "../components/ChordDiagram";
 import { useState } from "react";
 import chordDB from "@tombatossals/chords-db/lib/guitar.json";
@@ -53,6 +54,8 @@ const ChordDiagramsPage = () => {
       ) : (
         <p>No chords found matching your search criteria.</p>
       )}
+
+      <ChordDatabase />
     </div>
   );
 };

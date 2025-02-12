@@ -1,0 +1,96 @@
+/* Global styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main layout */
+.chord-database-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px;
+}
+
+/* Container for the key selection and main content */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Tabs for selecting chords at the top */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  padding: 10px 20px;
+  margin: 0 5px;
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.tabs button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Main content layout */
+.main-content {
+  display: flex;
+  flex-grow: 1;
+}
+
+/* Sidebar for suffixes on the left */
+.filter-sidebar {
+  width: 200px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-right: 2px solid #ddd;
+}
+
+.filter-sidebar button {
+  padding: 8px 12px;
+  margin: 5px 0;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.filter-sidebar button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Chords List and Diagram Section */
+.chords-list {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.chord-diagram {
+  margin-top: 20px;
+  max-width: 400px; /* Adjust diagram size */
+  margin-bottom: 20px;
+}
+
+.chord {
+  margin-bottom: 20px;
+}
+
+.chord h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
