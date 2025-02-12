@@ -1,12 +1,12 @@
 import React from "react";
 import NavBar from "../components/Navbar";
 
-const MySongs = () => {
+const LearningPage = () => {
   return (
     <>
-      <p>inside my songs</p>
+      <p>inside learning</p>
     </>
   );
 };
 
-export default MySongs;
+export default LearningPage;

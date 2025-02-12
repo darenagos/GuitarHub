@@ -16,25 +16,28 @@ const instrument = {
   fretsOnChord: 4,
 };
 
-const ChordDiagram = ({ chordName, suffix = "major" }) => {
+const ChordDiagram = ({ chordData }) => {
   // Access chord data correctly
-  const chordVariations = chordDB.chords[chordName];
+  // const chordVariations = chordDB.chords[chordData.key];
+  // console.log("Chord Variations:        " + chordVariations);
 
-  if (!chordVariations) {
-    return <p>Chord not found</p>;
-  }
+  // if (!chordVariations) {
+  //   return <p>Chord not found</p>;
+  // }
 
-  // Find the correct suffix variation
-  const chordData = chordVariations.find((ch) => ch.suffix === suffix);
+  // // Find the correct suffix variation
+  // const chordData = chordVariations.find((ch) => ch.suffix === suffix);
 
   if (!chordData) {
-    return <p>Suffix not found for {chordName}</p>;
+    return <p>Chord not found {chordName}</p>;
   }
+
+  console.log("Chord Data:", chordData);
 
   return (
     <div>
       <h2>
-        {chordName} {suffix}
+        {chordData.key} {chordData.suffix}
       </h2>
       <Chord
         chord={chordData.positions[0]} // Use the first variation
