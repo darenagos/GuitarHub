@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import chordDB from "@tombatossals/chords-db/lib/guitar.json";
 import Chord from "@tombatossals/react-chords/lib/Chord";
-import "../assets/styles/ChordDatabase.css";
+import "../../assets/styles/ChordDatabase.css";
 
 const instrument = {
   name: "Guitar",

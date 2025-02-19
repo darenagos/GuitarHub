@@ -1,10 +1,10 @@
 import React from "react";
 import NavBar from "../components/Navbar";
 import Heading from "../components/Heading";
-import ChordDiagramSearchBar from "../components/ChordDiagramSearchBar";
-import ChordDiagramGrid from "../components/ChordDiagramGrid";
-import ChordDatabase from "../components/ChordDatabase";
-import ChordDiagram from "../components/ChordDiagram";
+import ChordDiagramSearchBar from "../components/ChordDiagramComponents/ChordDiagramSearchBar";
+import ChordDiagramGrid from "../components/ChordDiagramComponents/ChordDiagramGrid";
+import ChordDatabase from "../components/ChordDiagramComponents/ChordDatabase";
+import ChordDiagram from "../components/ChordDiagramComponents/ChordDiagram";
 import { useState } from "react";
 import chordDB from "@tombatossals/chords-db/lib/guitar.json";
 
