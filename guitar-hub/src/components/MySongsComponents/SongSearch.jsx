@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import SongSearchBar from "./SongSearchBar";
+import SongRetrievalList from "./SongRetrievalList";
 
 const API_KEY = "05955013";
 
@@ -34,14 +35,10 @@ const SongSearch = ({ onSongSelect }) => {
   return (
     <div>
       <SongSearchBar query={query} setQuery={setQuery} onSearch={fetchSongID} />
-      <ul>
-        {searchResults.map((song) => (
-          <li key={song.id} onClick={() => onSongSelect(song.id)}>
-            {song.name} - {song.artist_name} - <strong>Song id: </strong>
-            {song.id}
-          </li>
-        ))}
-      </ul>
+      <SongRetrievalList
+        searchResults={searchResults}
+        onSongSelect={onSongSelect}
+      />
     </div>
   );
 };
