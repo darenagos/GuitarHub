@@ -17,17 +17,6 @@ const instrument = {
 };
 
 const ChordDiagram = ({ chordData }) => {
-  // Access chord data correctly
-  // const chordVariations = chordDB.chords[chordData.key];
-  // console.log("Chord Variations:        " + chordVariations);
-
-  // if (!chordVariations) {
-  //   return <p>Chord not found</p>;
-  // }
-
-  // // Find the correct suffix variation
-  // const chordData = chordVariations.find((ch) => ch.suffix === suffix);
-
   if (!chordData) {
     return <p>Chord not found {chordName}</p>;
   }

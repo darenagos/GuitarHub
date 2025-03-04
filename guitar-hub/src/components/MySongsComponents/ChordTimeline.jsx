@@ -10,8 +10,9 @@ const ChordTimeline = ({ chords }) => {
     return null; // Early return if totalDuration is invalid
   }
 
-  const timelineWidth = 800; // Width of the entire timeline in pixels
-  const scale = timelineWidth / totalDuration; // Scale factor based on total duration
+  const scale = 50;
+  const timelineWidth = totalDuration * scale; // Width of the entire timeline in pixels
+  // const scale = timelineWidth / totalDuration; // Scale factor based on total duration
 
   return (
     <div

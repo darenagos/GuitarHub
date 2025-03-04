@@ -12,7 +12,7 @@ const SongSearch = ({ onSongSelect }) => {
     if (!query.trim()) return;
     console.log("Fetching song ID for:", query);
 
-    const url = `https://api.jamendo.com/v3.0/tracks/?client_id=${API_KEY}&format=json&limit=5&name=${encodeURIComponent(
+    const url = `https://api.jamendo.com/v3.0/tracks/?client_id=${API_KEY}&format=json&limit=50&name=${encodeURIComponent(
       query
     )}`;
 
