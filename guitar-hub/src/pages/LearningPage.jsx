@@ -4,6 +4,7 @@ import NavBar from "../components/Navbar";
 const LearningPage = () => {
   return (
     <>
+      <NavBar />
       <p>inside learning</p>
     </>
   );

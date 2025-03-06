@@ -1,8 +1,6 @@
 import React from "react";
 import NavBar from "../components/Navbar";
-import Heading from "../components/Heading";
 import ChordDiagramSearchBar from "../components/ChordDiagramComponents/ChordDiagramSearchBar";
-import ChordDiagramGrid from "../components/ChordDiagramComponents/ChordDiagramGrid";
 import ChordDatabase from "../components/ChordDiagramComponents/ChordDatabase";
 import ChordDiagram from "../components/ChordDiagramComponents/ChordDiagram";
 import { useState } from "react";
@@ -47,7 +45,8 @@ const ChordDiagramsPage = () => {
   };
 
   return (
-    <div>
+    <>
+      <NavBar />
       <ChordDiagramSearchBar onSearch={handleSearch} />
       {searchResults ? (
         <ChordDiagram chordData={searchResults[0]} />
@@ -56,7 +55,7 @@ const ChordDiagramsPage = () => {
       )}
 
       <ChordDatabase />
-    </div>
+    </>
   );
 };
 

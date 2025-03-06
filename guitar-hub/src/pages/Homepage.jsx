@@ -6,6 +6,7 @@ import NavBar from "../components/Navbar";
 const Homepage = () => {
   return (
     <>
+      <NavBar />
       <p>inside homepage</p>
     </>
   );

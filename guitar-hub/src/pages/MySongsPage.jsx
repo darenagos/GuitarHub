@@ -23,7 +23,8 @@ const MySongsPage = () => {
   };
 
   return (
-    <div>
+    <>
+      <NavBar />
       <h1>My Songs</h1>
       <SongSearch
         onSongSelect={(id) => {
@@ -36,7 +37,7 @@ const MySongsPage = () => {
         <h2>Chord Timeline</h2>
         <ChordTimeline chords={chords} />
       </div>
-    </div>
+    </>
   );
 };
 export default MySongsPage;
