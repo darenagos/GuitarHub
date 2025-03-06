@@ -1,7 +1,12 @@
 import React from "react";
+import SignupPage from "./pages/SignupPage.jsx";
 
 function App() {
-  return <></>;
+  return (
+    <>
+      <SignupPage />
+    </>
+  );
 }
 
 export default App;
