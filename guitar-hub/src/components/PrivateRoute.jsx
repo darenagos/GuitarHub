@@ -4,6 +4,9 @@ import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
   const { session } = UserAuth();
+
+  // console.log("PrivateRoute session:", session); // Debugging log
+
   if (session === undefined) {
     return <p>Loading...</p>;
   }
