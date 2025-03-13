@@ -6,6 +6,9 @@ import { UserAuth } from "../context/AuthContext"; // Import UserAuth
 import SongForm from "../components/LearningComponents/SongForm";
 import SongList from "../components/LearningComponents/SongList";
 
+// custom hook to handle fetching logic
+import useFetchSongs from "../hooks/useFetchSongs"; // import the new custom hook
+
 const LearningPage = () => {
   const [wantToLearnList, setWantToLearnList] = useState([]);
   const [songToLearn, setSongToLearn] = useState("");
@@ -13,35 +16,11 @@ const LearningPage = () => {
   const [status, setStatus] = useState("want_to_learn");
   const { session } = UserAuth(); // Get session from AuthContext
 
-  useEffect(() => {
-    if (session) {
-      console.log("User session:", session);
-      console.log("Session user ID:", session.user.id);
+  console.log("Session:", session);
+  console.log("User ID:", session?.user?.id);
 
-      fetchSongsToLearn(session.user.id);
-    } else {
-      console.log("User is not authenticated");
-    }
-  }, [session]);
-
-  const fetchSongsToLearn = async (userId) => {
-    console.log("Fetching songs for user:", userId);
-
-    const { data, error } = await supabase
-      .from("songs")
-      .select("*")
-      .eq("user_id", userId);
-
-    console.log("Fetched data:", data);
-    console.log("Fetch error:", error);
-
-    if (error) {
-      console.log("Error fetching: ", error);
-    } else {
-      setWantToLearnList(data || []);
-      console.log("Updated wantToLearnList:", data);
-    }
-  };
+  const { songs, loading, error } = useFetchSongs(session?.user?.id);
+  console.log("Fetched songs:", songs);
 
   const addSongToWantToLearn = async () => {
     const userId = session.user.id; // Access the user ID from session
@@ -62,7 +41,6 @@ const LearningPage = () => {
     if (error) {
       console.log("error adding song: ", error);
     } else {
-      fetchSongsToLearn(userId);
       setSongToLearn("");
       setArtistOfSongToLearn("");
     }
@@ -81,7 +59,7 @@ const LearningPage = () => {
         status={status}
         setStatus={setStatus}
       />
-      <SongList wantToLearnList={wantToLearnList} />
+      <SongList wantToLearnList={songs} />
     </div>
   );
 };

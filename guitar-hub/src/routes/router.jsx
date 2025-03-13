@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router";
 import App from "../App.jsx";
 import Homepage from "../pages/Homepage.jsx";
 import LearningPage from "../pages/LearningPage.jsx";
+import SongDetailPage from "../pages/SongDetailPage.jsx";
 import ChordDiagramsPage from "../pages/ChordDiagramsPage.jsx";
 import MySongsPage from "../pages/MySongsPage.jsx";
 import SignupPage from "../pages/SignupPage.jsx";
@@ -43,6 +44,14 @@ export const router = createBrowserRouter([
     element: (
       <PrivateRoute>
         <MySongsPage />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/songs/:id",
+    element: (
+      <PrivateRoute>
+        <SongDetailPage />
       </PrivateRoute>
     ),
   },
