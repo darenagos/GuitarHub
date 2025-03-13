@@ -3,6 +3,9 @@ import NavBar from "../components/Navbar";
 import { supabase } from "../supabaseClient";
 import { UserAuth } from "../context/AuthContext"; // Import UserAuth
 
+import SongForm from "../components/LearningComponents/SongForm";
+import SongList from "../components/LearningComponents/SongList";
+
 const LearningPage = () => {
   const [wantToLearnList, setWantToLearnList] = useState([]);
   const [songToLearn, setSongToLearn] = useState("");
@@ -69,44 +72,16 @@ const LearningPage = () => {
     <div>
       <NavBar />
       <h1>My Learning</h1>
-      <div>
-        <input
-          type="text"
-          placeholder="Name of song: "
-          value={songToLearn}
-          onChange={(e) => setSongToLearn(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Name of artist: "
-          value={artistOfSongToLearn}
-          onChange={(e) => setArtistOfSongToLearn(e.target.value)}
-        />
-        {/* drop down for selecting status */}
-        <select value={status} onChange={(e) => setStatus(e.target.value)}>
-          <option value="want_to_learn">Want to Learn</option>
-          <option value="currently_learning">Currently Learning</option>
-          <option value="learnt">Learnt</option>
-        </select>
-        <button onClick={addSongToWantToLearn}>
-          Add Song to "{status.replace("_", " ").toUpperCase()}"
-        </button>
-      </div>
-      <ul>
-        <p>My Song Categories:</p>
-        {wantToLearnList && wantToLearnList.length > 0 ? (
-          wantToLearnList.map((songs) => (
-            <li key={songs.id}>
-              <p>
-                {songs.name} by {songs.artist}(
-                {songs.status.replace("_", " ").toUpperCase()})
-              </p>
-            </li>
-          ))
-        ) : (
-          <p>No Songs Found.</p>
-        )}
-      </ul>
+      <SongForm
+        addSongToWantToLearn={addSongToWantToLearn}
+        songToLearn={songToLearn}
+        setSongToLearn={setSongToLearn}
+        artistOfSongToLearn={artistOfSongToLearn}
+        setArtistOfSongToLearn={setArtistOfSongToLearn}
+        status={status}
+        setStatus={setStatus}
+      />
+      <SongList wantToLearnList={wantToLearnList} />
     </div>
   );
 };
