@@ -10,6 +10,7 @@ import MySongsPage from "../pages/MySongsPage.jsx";
 import SignupPage from "../pages/SignupPage.jsx";
 import SigninPage from "../pages/SigninPage.jsx";
 import PrivateRoute from "../components/PrivateRoute.jsx";
+import UserCustomSongDetailPage from "../components/MySongsComponents/UserCustomSongDetailPage.jsx";
 
 export const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -52,6 +53,14 @@ export const router = createBrowserRouter([
     element: (
       <PrivateRoute>
         <SongDetailPage />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/user-songs/:id",
+    element: (
+      <PrivateRoute>
+        <UserCustomSongDetailPage />
       </PrivateRoute>
     ),
   },
