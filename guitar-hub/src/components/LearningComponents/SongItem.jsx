@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const SongItem = ({ song }) => (
   <li>
     <Link to={`/songs/${song.id}`}>
-      <p>
+      <p className="p-2">
         {song.name} by {song.artist} (
         {song.status.replace("_", " ").toUpperCase()})
       </p>
