@@ -9,10 +9,12 @@ import "./index.css";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <>
-      <h1>Guitar Hub project</h1>
-      <AuthContextProvider>
-        <RouterProvider router={router} />
-      </AuthContextProvider>
+      <div className="p-5">
+        <h1>Guitar Hub project</h1>
+        <AuthContextProvider>
+          <RouterProvider router={router} />
+        </AuthContextProvider>
+      </div>
     </>
   </StrictMode>
 );

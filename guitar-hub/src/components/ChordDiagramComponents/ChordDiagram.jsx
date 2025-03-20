@@ -28,11 +28,13 @@ const ChordDiagram = ({ chordData }) => {
       <h2>
         {chordData.key} {chordData.suffix}
       </h2>
-      <Chord
-        chord={chordData.positions[0]} // Use the first variation
-        instrument={instrument}
-        lite={false}
-      />
+      <div className="w-xs">
+        <Chord
+          chord={chordData.positions[0]} // Use the first variation
+          instrument={instrument}
+          lite={false}
+        />
+      </div>
     </div>
   );
 };
