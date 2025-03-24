@@ -3,8 +3,8 @@ import NavBar from "../components/Navbar";
 import useFetchSong from "../hooks/useFetchSong";
 import { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
-import ChordSequenceDisplay from "../components/MySongsComponents/ChordSequenceDisplay";
-import ChordTimeline from "../components/MySongsComponents/ChordTimeline";
+import ChordSequenceDisplay from "../components/ChordSequenceComponents/ChordSequenceDisplay";
+import ChordTimeline from "../components/ChordSequenceComponents/ChordTimeline";
 
 const SongDetailPage = () => {
   const { id } = useParams();

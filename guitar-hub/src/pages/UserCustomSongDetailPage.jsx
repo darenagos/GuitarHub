@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { supabase } from "../../supabaseClient";
-import ChordDiagram from "../ChordDiagramComponents/ChordDiagram";
-import Navbar from "../Navbar";
-import { findChordsFromJSON } from "../../utils/chordUtils"; // Import new function
+import { supabase } from "../supabaseClient";
+import ChordDiagram from "../components/ChordDiagramComponents/ChordDiagram";
+import Navbar from "../components/Navbar";
+import { findChordsFromJSON } from "../utils/chordUtils"; // Import new function
+
+import UserCustomSongHeader from "../components/MySongsComponents/UserCustomSongHeader";
+import UserCustomChordSequence from "../components/MySongsComponents/UserCustomChordSequence";
 
 const UserCustomSongDetailPage = () => {
   const { id } = useParams();
@@ -80,52 +83,11 @@ const UserCustomSongDetailPage = () => {
   return (
     <div>
       <Navbar />
-      <h1>{song.song_name}</h1>
-      <button onClick={handleDeleteSong}>Delete Song</button>
-      <p>Chord Sequence:</p>
-      <div>
-        {song.chord_sequence ? (
-          <div>
-            <p>{song.chord_sequence}</p>
-            <div className="flex flex-wrap justify-center space-x-4 gap-4 ">
-              {chordDiagrams.length > 0 ? (
-                chordDiagrams.map((diagram, index) =>
-                  diagram ? (
-                    <div className="border p-2 justify-center" key={index}>
-                      <ChordDiagram chordData={diagram} />
-                    </div>
-                  ) : (
-                    <div>
-                      {chordDiagrams.some((diagram) => diagram === null) && (
-                        <div>
-                          <p>Chords not found:</p>
-                          <ul>
-                            {song.chord_sequence
-                              .split(",") // Assuming it's a comma-separated string
-                              .map((chord, index) => {
-                                // Check if this chord didn't have a corresponding diagram
-                                if (!chordDiagrams[index]) {
-                                  return <li key={index}>{chord}</li>;
-                                }
-                                return null;
-                              })}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  )
-                )
-              ) : (
-                <p>No diagrams available</p>
-              )}
-            </div>
-
-            {/* List the missing chords */}
-          </div>
-        ) : (
-          <p>No chord sequence found for this song.</p>
-        )}
-      </div>
+      <UserCustomSongHeader
+        songName={song.song_name}
+        onDelete={handleDeleteSong}
+      />
+      <UserCustomChordSequence song={song} chordDiagrams={chordDiagrams} />
     </div>
   );
 };
