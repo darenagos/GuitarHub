@@ -21,7 +21,9 @@ const ChordDiagramsPage = () => {
       <NavBar />
       <ChordDiagramSearchBar onSearch={handleSearch} />
       {searchResults ? (
-        <ChordDiagram chordData={searchResults[0]} />
+        <div className="w-xs">
+          <ChordDiagram chordData={searchResults[0]} />
+        </div>
       ) : (
         <p>No chords found matching your search criteria.</p>
       )}

@@ -17,8 +17,8 @@ const instrument = {
 };
 
 const ChordDiagram = ({ chordData }) => {
-  if (!chordData) {
-    return <p>Chord not found {chordName}</p>;
+  if (!chordData || !chordData.positions || chordData.positions.length === 0) {
+    return <p>Chord not found </p>;
   }
 
   console.log("Chord Data:", chordData);

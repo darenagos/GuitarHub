@@ -7,6 +7,7 @@ const ChordDiagramSearchBar = ({ onSearch }) => {
     const [chordName, ...rest] = query.split(" ");
     const suffix = rest.join(" ").toLowerCase();
     onSearch(chordName.toUpperCase(), suffix); // Pass the chord name and suffix
+    setQuery("");
   };
 
   return (

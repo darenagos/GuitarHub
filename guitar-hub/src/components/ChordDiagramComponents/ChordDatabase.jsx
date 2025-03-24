@@ -20,7 +20,7 @@ const ChordDatabase = () => {
 
   const handleKeyClick = (key) => {
     setSelectedKey(key);
-    setSelectedSuffix(null); // Reset suffix selection when key changes
+    setSelectedSuffix(""); // Reset suffix selection when key changes
   };
 
   const handleSuffixClick = (suffix) => {
@@ -40,9 +40,10 @@ const ChordDatabase = () => {
   });
 
   return (
-    <div className="chord-database-page">
+    <div className="chord-database-page flex justify-center items-center">
       <div className="container">
         {/* Key Selection Tabs */}
+
         <div className="tabs">
           {Object.keys(chordDB.chords).map((key) => (
             <button
@@ -54,11 +55,10 @@ const ChordDatabase = () => {
             </button>
           ))}
         </div>
-
         {/* Main content area */}
-        <div className="main-content">
+        <div className="main-content gap-6">
           {/* Suffix Filter Sidebar */}
-          <div className="filter-sidebar">
+          <div className="filter-sidebar ">
             {suffixes.map((suffix) => (
               <button
                 key={suffix}
@@ -75,21 +75,26 @@ const ChordDatabase = () => {
             {filteredChords.length === 0 ? (
               <p>No chords found</p>
             ) : (
-              filteredChords.map((chord, index) => (
-                <div key={index} className="chord">
-                  <h3>
-                    {chord.key} {chord.suffix}
-                  </h3>
-
-                  {/* Render Chord Diagram */}
-                  <Chord
-                    chord={chord.positions[0]} // Render the first position of the chord
-                    instrument={instrument}
-                    lite={false}
-                    className="chord-diagram"
-                  />
-                </div>
-              ))
+              <div className="grid grid-cols-4 ">
+                {filteredChords.map((chord, index) => (
+                  <div key={index}>
+                    <h3 className="text-center ">
+                      {chord.key} {chord.suffix}
+                    </h3>
+                    <div className="chord  flex justify-center items-center  ">
+                      {/* Render Chord Diagram */}
+                      <div className="w-2xs">
+                        <Chord
+                          chord={chord.positions[0]} // Render the first position of the chord
+                          instrument={instrument}
+                          lite={false}
+                          className="chord-diagram"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         </div>

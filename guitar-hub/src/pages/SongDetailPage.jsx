@@ -1,86 +1,100 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import NavBar from "../components/Navbar";
-import useFetchSong from "../hooks/useFetchSong"; // Assuming this hook is handling song details fetch
-
+import useFetchSong from "../hooks/useFetchSong";
+import { useState, useEffect } from "react";
+import { supabase } from "../supabaseClient";
 import ChordSequenceDisplay from "../components/MySongsComponents/ChordSequenceDisplay";
 import ChordTimeline from "../components/MySongsComponents/ChordTimeline";
 
-import { useState, useEffect } from "react";
-import { supabase } from "../supabaseClient"; // Assuming you have this setup
-
 const SongDetailPage = () => {
-  const { id } = useParams(); // Grabs the song ID from the URL
+  const { id } = useParams();
   const { song, loading: songLoading, error: songError } = useFetchSong(id);
+  const [status, setStatus] = useState(song?.status || "want_to_learn");
 
-  // States to handle chord sequence
-  const [chords, setChords] = useState(null);
-  const [chordLoading, setChordLoading] = useState(true);
-  const [chordError, setChordError] = useState(null);
+  const navigate = useNavigate();
 
-  // Fetch the chord sequence for the song from Supabase
   useEffect(() => {
-    const fetchChords = async () => {
-      setChordLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from("songs")
-          .select("chord_sequence")
-          .eq("id", id)
-          .single(); // Expecting a single row
+    if (song) setStatus(song.status);
+  }, [song]);
 
-        if (error) {
-          setChordError(error);
-          setChords(null); // Clear chords on error
-        } else {
-          setChords(data.chord_sequence); // Set chord sequence
-        }
-      } catch (error) {
-        setChordError(error);
-        setChords(null); // Clear chords on catch error
-      } finally {
-        setChordLoading(false);
-      }
-    };
+  // Function to handle status change and update it in the database
+  const handleStatusChange = async (newStatus) => {
+    setStatus(newStatus); // Update local state
 
-    if (id) {
-      // Ensure we only fetch chords if there's a valid song ID
-      fetchChords(); // Fetch chords when the song ID changes
+    // Update the status in Supabase
+    const { error } = await supabase
+      .from("songs")
+      .update({ status: newStatus }) // Set the new status
+      .eq("id", id); // Find the specific song by ID
+
+    if (error) {
+      console.error("Error updating status:", error);
+      alert("Failed to update status. Please try again.");
     }
-  }, [id]); // Ensure it only runs when ID changes
+  };
 
-  // Check loading and error for song details
+  const handleDelete = async () => {
+    const { error } = await supabase.from("songs").delete().eq("id", id);
+
+    if (error) {
+      console.error("Error deleting song:", error);
+      alert("Failed to delete song");
+    } else {
+      alert("Song deleted succesfully.");
+      navigate("/learning");
+    }
+  };
+
   if (songLoading) return <p>Loading song details...</p>;
   if (songError) return <p>Error loading song: {songError.message}</p>;
-
-  // Loading and error handling for chord sequence
-  if (chordLoading) return <p>Loading chord sequence...</p>;
-  if (chordError)
-    return <p>Error loading chord sequence: {chordError.message}</p>;
 
   return (
     <div>
       <NavBar />
       <h2>Song Details</h2>
-      <p>Song ID: {id}</p>
       <p>Song Name: {song.name}</p>
       <p>Artist: {song.artist}</p>
-      <p>Status: {song.status.replace("_", " ").toUpperCase()}</p>
 
-      {/* Display Chord Sequence and Timeline if available */}
-      {chords ? (
-        chords.length > 0 ? (
-          <>
-            <ChordSequenceDisplay chords={chords} />
-            <div>
-              <h2>Chord Timeline</h2>
-              <ChordTimeline chords={chords} />
-            </div>
-          </>
-        ) : (
-          <p>No chord sequence available for this song.</p>
-        )
+      <p>Status:</p>
+      {/* Checkboxes for each status */}
+      <label>
+        <input
+          type="checkbox"
+          checked={status === "want_to_learn"}
+          onChange={() => handleStatusChange("want_to_learn")}
+        />
+        Want to Learn
+      </label>
+      <br />
+      <label>
+        <input
+          type="checkbox"
+          checked={status === "currently_learning"}
+          onChange={() => handleStatusChange("currently_learning")}
+        />
+        Currently Learning
+      </label>
+      <br />
+      <label>
+        <input
+          type="checkbox"
+          checked={status === "learnt"}
+          onChange={() => handleStatusChange("learnt")}
+        />
+        Learnt
+      </label>
+      <p></p>
+      <button className="text-xl" onClick={() => handleDelete()}>
+        Delete Song
+      </button>
+      {song.chord_sequence?.length > 0 ? (
+        <>
+          <ChordSequenceDisplay chords={song.chord_sequence} />
+          <h2>Chord Timeline</h2>
+          <ChordTimeline chords={song.chord_sequence} />
+        </>
       ) : (
-        <p>Chord data is not available.</p>
+        <p>No chord sequence available for this song.</p>
       )}
     </div>
   );
