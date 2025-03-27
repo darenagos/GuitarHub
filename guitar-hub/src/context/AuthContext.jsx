@@ -1,3 +1,4 @@
+import React from "react";
 import { createContext, useEffect, useState, useContext } from "react";
 import { supabase } from "../supabaseClient";
 

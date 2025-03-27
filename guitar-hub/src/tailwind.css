@@ -1,0 +1,3 @@
+/* Import Tailwind's base styles first (this should be handled correctly in your build setup) */
+@import "tailwindcss";
+
