@@ -40,24 +40,40 @@ const AddCustomSongForm = ({ userId, fetchUserSongs }) => {
     }
   };
   return (
-    <div>
-      <h1>My Songs</h1>
-
-      {/* Form for adding custom songs */}
-      <div>
-        <input
-          type="text"
-          placeholder="Song Name"
-          value={songName}
-          onChange={(e) => setSongName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Chord Sequence (comma-separated)"
-          value={chordSequence}
-          onChange={(e) => setChordSequence(e.target.value)}
-        />
-        <button onClick={addCustomSong}>Add My Song</button>
+    <div className="flex justify-center items-center pt-10 px-3 min-w-screen">
+      <div className="w-full max-w-xl">
+        <div>
+          <h1 className="text-3xl font-semibold text-center mb-6">My Songs</h1>
+        </div>
+        <div className="space-y-4">
+          {/* Form for adding custom songs */}
+          <div>
+            <input
+              type="text"
+              placeholder="Song Name"
+              value={songName}
+              onChange={(e) => setSongName(e.target.value)}
+              className="p-3 w-full border-b-2 border-gray-500 outline-none placeholder-gray-500 text-lg"
+            />
+          </div>
+          <div className="space-y-4">
+            <input
+              type="text"
+              placeholder="Chord Sequence (comma-separated)"
+              value={chordSequence}
+              onChange={(e) => setChordSequence(e.target.value)}
+              className="p-3 w-full border-b-2 border-gray-500 outline-none placeholder-gray-500 text-lg"
+            />
+            <div className="flex justify-center">
+              <button
+                onClick={addCustomSong}
+                className="mt-4 p-3 text-gray-800 hover:scale-105 transition-all duration-300 ease-in-out"
+              >
+                Add My Song
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

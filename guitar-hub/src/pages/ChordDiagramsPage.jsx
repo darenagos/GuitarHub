@@ -19,13 +19,24 @@ const ChordDiagramsPage = () => {
   return (
     <>
       <NavBar />
-      <ChordDiagramSearchBar onSearch={handleSearch} />
+      <div className="max-w-4xl mx-auto mb-8 px-6">
+        <ChordDiagramSearchBar onSearch={handleSearch} />
+      </div>
+      {/* Search Results */}
       {searchResults ? (
-        <div className="w-xs">
-          <ChordDiagram chordData={searchResults[0]} />
+        <div className="max-w-4xl mx-auto mb-8 px-6">
+          <div className="flex justify-center">
+            <div className="w-full max-w-xs">
+              <ChordDiagram chordData={searchResults[0]} />
+            </div>
+          </div>
         </div>
       ) : (
-        <p>No chords found matching your search criteria.</p>
+        <div className="max-w-4xl mx-auto mb-8 px-6 text-center">
+          <p className="text-lg text-gray-600">
+            No chords found matching your search criteria.
+          </p>
+        </div>
       )}
 
       <ChordDatabase />

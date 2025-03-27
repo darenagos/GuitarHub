@@ -49,7 +49,11 @@ const ChordDatabase = () => {
             <button
               key={key}
               onClick={() => handleKeyClick(key)}
-              className={selectedKey === key ? "active" : ""}
+              className={`py-2 px-4 text-lg font-medium rounded-md ${
+                selectedKey === key
+                  ? "bg-[#F5F0E1] text-gray-800"
+                  : "bg-transparent text-gray-600 hover:bg-[#e3d8b3]"
+              }`}
             >
               {key}
             </button>
@@ -63,7 +67,11 @@ const ChordDatabase = () => {
               <button
                 key={suffix}
                 onClick={() => handleSuffixClick(suffix)}
-                className={selectedSuffix === suffix ? "active" : ""}
+                className={`py-2 px-4 text-lg font-medium rounded-md ${
+                  selectedSuffix === suffix
+                    ? "bg-[#F5F0E1] text-gray-800"
+                    : "bg-transparent text-gray-600 hover:bg-[#e3d8b3]"
+                }`}
               >
                 {suffix}
               </button>

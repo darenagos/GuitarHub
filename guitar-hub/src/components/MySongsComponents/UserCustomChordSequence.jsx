@@ -4,17 +4,17 @@ import MissingChords from "./MissingChords";
 
 const UserCustomChordSequence = ({ song, chordDiagrams }) => {
   return (
-    <div>
+    <div className="mt-6 flex flex-wrap justify-center max-w-6xl mx-auto">
       <p>Chord Sequence:</p>
-      <div>
+      <div className="mt-6">
         {song.chord_sequence ? (
           <div>
             <p>{song.chord_sequence}</p>
-            <div className="flex flex-wrap justify-center space-x-4 gap-4">
+            <div className="flex flex-wrap justify-center space-x-4 gap-4 mt-6">
               {chordDiagrams.length > 0 ? (
                 chordDiagrams.map((diagram, index) =>
                   diagram ? (
-                    <div className="border p-2 justify-center" key={index}>
+                    <div className="bg-white p-2 justify-center" key={index}>
                       <ChordDiagram chordData={diagram} />
                     </div>
                   ) : null

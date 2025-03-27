@@ -22,18 +22,21 @@ const SongSearchSection = ({
     }
   };
   return (
-    <div>
-      <h3>Search for a song:</h3>
-      <SongSearch
-        onSongSelect={(id) => {
-          setSelectedSongId(id);
-          fetchChords(id);
-        }}
-      />
-      {selectedSongId && <ChordSequenceDisplay chords={chords} />}
-      <div>
-        <h2>Chord Timeline:</h2>
-        <ChordTimeline chords={chords} />
+    <div className="flex justify-start items-center p-6 w-full max-w-4xl  mx-auto">
+      <div className="w-full">
+        <h3 className="text-2xl mb-4">Search for a song:</h3>
+        <SongSearch
+          onSongSelect={(id) => {
+            setSelectedSongId(id);
+            fetchChords(id);
+          }}
+        />
+        {selectedSongId && <ChordSequenceDisplay chords={chords} />}
+        <div className="mb-6">
+          <h2 className="text-2xl mb-4 mt-6">Chord Timeline:</h2>
+          <p>~</p>
+          <ChordTimeline chords={chords} />
+        </div>
       </div>
     </div>
   );

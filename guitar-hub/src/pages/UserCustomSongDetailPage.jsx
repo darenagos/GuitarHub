@@ -131,13 +131,22 @@ const UserCustomSongDetailPage = () => {
   console.log("Chord Diagrams before rendering:", chordDiagrams);
 
   return (
-    <div>
+    <div className="flex flex-col items-center min-h-screen mb-6">
       <Navbar />
-      <UserCustomSongHeader
-        songName={song.song_name}
-        onDelete={handleDeleteSong}
-      />
-      <button onClick={handleEditClick}>Edit Song</button>
+      <div className="w-full max-w-2xl bg-white p-6 rounded-lg">
+        <UserCustomSongHeader
+          songName={song.song_name}
+          onDelete={handleDeleteSong}
+        />
+      </div>
+      <div>
+        <button
+          onClick={handleEditClick}
+          className="mt-6 text-xl hover:scale-105 transition duration-300"
+        >
+          Edit Song
+        </button>
+      </div>
       {isEditing && (
         <UserCustomSongEditForm
           editedSongName={editedSongName}
