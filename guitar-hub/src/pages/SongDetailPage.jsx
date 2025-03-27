@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import NavBar from "../components/Navbar";
 import useFetchSong from "../hooks/useFetchSong";
 import { useState, useEffect } from "react";
@@ -50,7 +50,15 @@ const SongDetailPage = () => {
 
   return (
     <div className="min-h-screen px-8 py-10">
-      <NavBar />
+      <div className="max-w-4xl mx-auto text-left">
+        <Link
+          to="/Learning"
+          className="hover:text-gray-700 transition-all ease-in-out text-gray-500 "
+        >
+          {" "}
+          &lt; Back
+        </Link>
+      </div>
 
       <div className="max-w-4xl mx-auto">
         <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">

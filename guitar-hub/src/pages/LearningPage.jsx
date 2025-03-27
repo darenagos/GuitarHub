@@ -92,7 +92,6 @@ const LearningPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <NavBar />
       <h1 className="flex justify-center items-center">My Learning</h1>
       <SongForm
         addSongToWantToLearn={addSongToWantToLearn}

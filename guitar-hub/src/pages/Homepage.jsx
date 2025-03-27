@@ -23,7 +23,6 @@ const Homepage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <NavBar />
       <h2 className="flex justify-center items-center mt-8">
         Welcome, {session?.user?.email} ☺
       </h2>

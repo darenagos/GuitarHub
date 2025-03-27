@@ -34,7 +34,6 @@ const SongSearchSection = ({
         {selectedSongId && <ChordSequenceDisplay chords={chords} />}
         <div className="mb-6">
           <h2 className="text-2xl mb-4 mt-6">Chord Timeline:</h2>
-          <p>~</p>
           <ChordTimeline chords={chords} />
         </div>
       </div>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const UserCustomSongList = ({ userSongs }) => {
   return (
-    <div className="flex justify-center items-center min-w-screen">
+    <div className="flex justify-center items-center w-full max-w-full">
       <div className="p-3">
         <h2 className="m-5">My Created Songs :</h2>
         <ul className="grid justify-center">

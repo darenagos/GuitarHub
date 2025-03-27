@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
-import NavBar from "../components/Navbar";
 
 import { UserAuth } from "../context/AuthContext"; // Import UserAuth
 import AddCustomSongForm from "../components/MySongsComponents/AddCustomSongForm";
@@ -14,6 +13,8 @@ const MySongsPage = () => {
   const [selectedSongId, setSelectedSongId] = useState(null);
   const [chords, setChords] = useState([]);
   const [userSongs, setUserSongs] = useState([]);
+
+  const [loading, setLoading] = useState(true); // Track loading state
 
   useEffect(() => {
     console.log("User ID:", userId); // Log userId to confirm it
@@ -37,27 +38,34 @@ const MySongsPage = () => {
       console.log("Fetched user songs:", data); // Log fetched data
       setUserSongs(data); // Set the user songs state
     }
+
+    setLoading(false); // Set loading to false after the data is fetched
   };
 
+  // Set a fixed height for the song list container
   return (
     <>
-      <div>
-        <NavBar />
+      {/* Form for adding custom songs */}
+      <AddCustomSongForm userId={userId} fetchUserSongs={fetchUserSongs} />
 
-        {/* Form for adding custom songs */}
-        <AddCustomSongForm userId={userId} fetchUserSongs={fetchUserSongs} />
-
-        {/* Display list of user-created songs */}
-        <UserCustomSongList userSongs={userSongs} />
-
-        {/* Search for a song section */}
-        <SongSearchSection
-          selectedSongId={selectedSongId}
-          setSelectedSongId={setSelectedSongId}
-          setChords={setChords}
-          chords={chords}
-        />
+      {/* Display list of user-created songs */}
+      <div className="song-list-container" style={{ minHeight: "300px" }}>
+        {loading ? (
+          <div className="flex justify-center items-center space-x-2">
+            <span></span>
+          </div>
+        ) : (
+          <UserCustomSongList userSongs={userSongs} />
+        )}
       </div>
+
+      {/* Search for a song section */}
+      <SongSearchSection
+        selectedSongId={selectedSongId}
+        setSelectedSongId={setSelectedSongId}
+        setChords={setChords}
+        chords={chords}
+      />
     </>
   );
 };

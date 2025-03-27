@@ -2,6 +2,7 @@ import React from "react";
 
 import { createBrowserRouter } from "react-router";
 import App from "../App.jsx";
+import Layout from "../components/LayoutComponents/Layout.jsx";
 import Homepage from "../pages/Homepage.jsx";
 import LearningPage from "../pages/LearningPage.jsx";
 import SongDetailPage from "../pages/SongDetailPage.jsx";
@@ -15,53 +16,22 @@ import UserCustomSongDetailPage from "../pages/UserCustomSongDetailPage.jsx";
 export const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/signup", element: <SignupPage /> },
-  { path: "signin", element: <SigninPage /> },
+  { path: "/signin", element: <SigninPage /> },
+
   {
-    path: "/homepage",
+    path: "/",
     element: (
       <PrivateRoute>
-        <Homepage />
+        <Layout /> {/* Layout ensures Navbar persists across private pages */}
       </PrivateRoute>
     ),
-  },
-  {
-    path: "/learning",
-    element: (
-      <PrivateRoute>
-        <LearningPage />
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: "/chord-diagrams",
-    element: (
-      <PrivateRoute>
-        <ChordDiagramsPage />{" "}
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: "/my-songs",
-    element: (
-      <PrivateRoute>
-        <MySongsPage />{" "}
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: "/songs/:id",
-    element: (
-      <PrivateRoute>
-        <SongDetailPage />
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: "/user-songs/:id",
-    element: (
-      <PrivateRoute>
-        <UserCustomSongDetailPage />
-      </PrivateRoute>
-    ),
+    children: [
+      { path: "homepage", element: <Homepage /> },
+      { path: "learning", element: <LearningPage /> },
+      { path: "chord-diagrams", element: <ChordDiagramsPage /> },
+      { path: "my-songs", element: <MySongsPage /> },
+      { path: "songs/:id", element: <SongDetailPage /> },
+      { path: "user-songs/:id", element: <UserCustomSongDetailPage /> },
+    ],
   },
 ]);

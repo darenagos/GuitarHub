@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
-import ChordDiagram from "../components/ChordDiagramComponents/ChordDiagram";
-import Navbar from "../components/Navbar";
-import { findChordsFromJSON } from "../utils/chordUtils"; // Import new function
+import { findChordsFromJSON } from "../utils/chordUtils";
 
 import UserCustomSongHeader from "../components/MySongsComponents/UserCustomSongHeader";
 import UserCustomChordSequence from "../components/MySongsComponents/UserCustomChordSequence";
@@ -14,26 +12,24 @@ const UserCustomSongDetailPage = () => {
   const [song, setSong] = useState(null);
   const [loading, setLoading] = useState(true);
   const [chordDiagrams, setChordDiagrams] = useState([]);
-
   const [isEditing, setIsEditing] = useState(false);
   const [editedSongName, setEditedSongName] = useState("");
   const [editedChordSequence, setEditedChordSequence] = useState("");
-
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSong = async () => {
-      const { data, error } = await supabase
-        .from("usersChordProgressions")
-        .select("*")
-        .eq("id", id)
-        .single();
+      try {
+        const { data, error } = await supabase
+          .from("usersChordProgressions")
+          .select("*")
+          .eq("id", id)
+          .single();
 
-      if (error) console.error("Error fetching song:", error);
-      else {
+        if (error) throw error;
+
         setSong(data);
         setEditedSongName(data.song_name);
-
         try {
           const chordsArray = JSON.parse(data.chord_sequence);
           if (Array.isArray(chordsArray)) {
@@ -44,35 +40,30 @@ const UserCustomSongDetailPage = () => {
         } catch (err) {
           console.error("Error parsing chord sequence JSON:", err);
         }
+      } catch (error) {
+        console.error("Error fetching song:", error);
+      } finally {
+        setLoading(false); // Set loading to false once the data is fetched
       }
-      setLoading(false);
     };
     fetchSong();
   }, [id]);
 
   useEffect(() => {
-    if (!song || !song.chord_sequence) {
-      console.warn("song.chord_sequence is missing or undefined:", song);
-      return;
-    }
+    if (!song || !song.chord_sequence) return;
 
     try {
       const chords = JSON.parse(song.chord_sequence);
-      console.log("Parsed Chord Sequence:", chords);
-
-      if (!Array.isArray(chords)) {
+      if (Array.isArray(chords)) {
+        const diagrams = findChordsFromJSON(chords);
+        setChordDiagrams(diagrams);
+      } else {
         console.error("chord_sequence is not an array:", chords);
-        return;
       }
-
-      // Use findChordsFromJSON to process all chords at once
-
-      const diagrams = findChordsFromJSON(chords);
-      setChordDiagrams(diagrams);
     } catch (error) {
       console.error("Error parsing chord sequence:", error);
     }
-  }, [song?.chord_sequence]);
+  }, [song]);
 
   const handleDeleteSong = async () => {
     const { error } = await supabase
@@ -84,7 +75,7 @@ const UserCustomSongDetailPage = () => {
       console.error("Error deleting song:", error);
       alert("Failed to delete song");
     } else {
-      alert("Song deleted succesfully.");
+      alert("Song deleted successfully.");
       navigate("/my-songs");
     }
   };
@@ -92,16 +83,15 @@ const UserCustomSongDetailPage = () => {
   const handleUpdateSong = async (e) => {
     e.preventDefault();
 
-    // Convert user input into JSON format
     const formattedChords = JSON.stringify(
-      editedChordSequence.split(",").map((chord) => chord.trim()) // ["A", "C", "Bm"]
+      editedChordSequence.split(",").map((chord) => chord.trim())
     );
 
     const { error } = await supabase
       .from("usersChordProgressions")
       .update({
         song_name: editedSongName,
-        chord_sequence: formattedChords, // Save as JSON string
+        chord_sequence: formattedChords,
       })
       .eq("id", id);
 
@@ -123,17 +113,34 @@ const UserCustomSongDetailPage = () => {
     setIsEditing(true);
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (!song) return <p>Song not found</p>;
+  // Early return while loading data
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen"></div>
+    );
+  }
 
-  console.log("Song Data:", song);
-  console.log("Chord Sequence:", song?.chord_sequence);
-  console.log("Chord Diagrams before rendering:", chordDiagrams);
+  // If no song found, show error message
+  if (!song) {
+    return (
+      <div className="text-center">
+        <h2>Song not found</h2>
+        <Link to="/my-songs">Back to Songs</Link>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex flex-col items-center min-h-screen mb-6">
-      <Navbar />
-      <div className="w-full max-w-2xl bg-white p-6 rounded-lg">
+    <div className="flex flex-col items-center min-h-screen mb-6 max-w-screen ">
+      <div className="max-w-4xl mx-auto w-full self-start pt-6">
+        <Link
+          to="/my-songs"
+          className="hover:text-gray-700 transition-all ease-in-out text-gray-500"
+        >
+          &lt; Back
+        </Link>
+      </div>
+      <div className="w-full max-w-2xl bg-white p-6 rounded-lg opacity-100 transition-opacity duration-1500 ease-in-out">
         <UserCustomSongHeader
           songName={song.song_name}
           onDelete={handleDeleteSong}
@@ -157,7 +164,6 @@ const UserCustomSongDetailPage = () => {
           setIsEditing={setIsEditing}
         />
       )}
-
       <UserCustomChordSequence song={song} chordDiagrams={chordDiagrams} />
     </div>
   );

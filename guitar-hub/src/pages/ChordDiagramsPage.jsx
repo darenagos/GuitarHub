@@ -18,7 +18,6 @@ const ChordDiagramsPage = () => {
 
   return (
     <>
-      <NavBar />
       <div className="max-w-4xl mx-auto mb-8 px-6">
         <ChordDiagramSearchBar onSearch={handleSearch} />
       </div>
