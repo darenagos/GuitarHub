@@ -133,7 +133,7 @@ const UserCustomSongDetailPage = () => {
 
   return (
     <FadePageWrapper>
-      <div className="flex flex-col items-center min-h-screen mb-6 max-w-screen ">
+      <div className="flex flex-col items-center min-h-screen mb-6 max-w-screen pl-10 pr-10 ">
         <div className="max-w-4xl mx-auto w-full self-start pt-6">
           <Link
             to="/my-songs"

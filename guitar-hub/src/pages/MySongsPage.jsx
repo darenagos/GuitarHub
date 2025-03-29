@@ -13,12 +13,33 @@ const MySongsPage = () => {
   const [selectedSongId, setSelectedSongId] = useState(null);
   const [chords, setChords] = useState([]);
   const [userSongs, setUserSongs] = useState([]);
-
   const [loading, setLoading] = useState(true); // Track loading state
 
   useEffect(() => {
-    console.log("User ID:", userId); // Log userId to confirm it
-    if (userId) fetchUserSongs();
+    if (!userId) return;
+
+    fetchUserSongs(); // Fetch once on load
+
+    const subscription = supabase
+      .channel("user-songs-channel")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "usersChordProgressions",
+          filter: `user_id=eq.${userId}`,
+        },
+        (payload) => {
+          console.log("Database change detected:", payload);
+          fetchUserSongs(); // Re-fetch when database changes
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(subscription); // Cleanup subscription on unmount
+    };
   }, [userId]);
 
   const fetchUserSongs = async () => {
@@ -39,10 +60,9 @@ const MySongsPage = () => {
       setUserSongs(data); // Set the user songs state
     }
 
-    setLoading(false); // Set loading to false after the data is fetched
+    setLoading(false); // Set loading to false after data fetch
   };
 
-  // Set a fixed height for the song list container
   return (
     <FadePageWrapper>
       <>
@@ -53,14 +73,6 @@ const MySongsPage = () => {
         <div className="song-list-container" style={{ minHeight: "300px" }}>
           {!loading && <UserCustomSongList userSongs={userSongs} />}
         </div>
-
-        {/* Search for a song section */}
-        <SongSearchSection
-          selectedSongId={selectedSongId}
-          setSelectedSongId={setSelectedSongId}
-          setChords={setChords}
-          chords={chords}
-        />
       </>
     </FadePageWrapper>
   );

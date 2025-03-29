@@ -6,16 +6,11 @@ import { UserAuth } from "../context/AuthContext"; // Import UserAuth
 import SongForm from "../components/LearningComponents/SongForm";
 import SongList from "../components/LearningComponents/SongList";
 
-// custom hook to handle fetching logic
-import useFetchSongs from "../hooks/useFetchSongs"; // import the new custom hook
+// Custom hook to handle fetching logic
+import useFetchSongs from "../hooks/useFetchSongs";
+import SongSearchSection from "../components/MySongsComponents/SongSearchSection";
 
 const API_KEY = "05955013";
-
-const pageVariants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { duration: 1 } },
-  exit: { opacity: 0, transition: { duration: 1 } },
-};
 
 const LearningPage = () => {
   const [songToLearn, setSongToLearn] = useState("");
@@ -23,18 +18,21 @@ const LearningPage = () => {
   const [status, setStatus] = useState("want_to_learn");
   const { session } = UserAuth(); // Get session from AuthContext
 
-  console.log("Session:", session);
-  console.log("User ID:", session?.user?.id);
-
   const { songs, loading, error, fetchSongs } = useFetchSongs(
     session?.user?.id
   );
-  console.log("Fetched songs:", songs);
+
+  // Missing State Variables for Song Search
+  const [selectedSongId, setSelectedSongId] = useState(null);
+  const [chords, setChords] = useState([]);
 
   const addSongToWantToLearn = async () => {
-    const userId = session.user.id; // Access the user ID from session
+    if (!session?.user?.id) {
+      console.error("User ID not found!");
+      return;
+    }
 
-    console.log("User ID:", userId);
+    const userId = session.user.id;
 
     console.log("Searching for song:", songToLearn, "by", artistOfSongToLearn);
 
@@ -56,8 +54,7 @@ const LearningPage = () => {
 
       console.log("Found song: ", songResult.name, "Jamendo ID: ", jamendoId);
 
-      // fetch chords sequence from Johan's API
-
+      // Fetch chord sequence from Johan's API
       const chordApiUrl = `http://audio-analysis.eecs.qmul.ac.uk/function/analysis/audiocommons/jamendo-tracks:${jamendoId}?descriptors=chords`;
 
       const chordResponse = await fetch(chordApiUrl);
@@ -73,25 +70,24 @@ const LearningPage = () => {
         jamendo_id: jamendoId,
         chord_sequence: chordSequence,
         status: status,
-        user_id: userId, // Pass the user ID here
+        user_id: userId,
       };
+
       const { data, error } = await supabase
         .from("songs")
         .insert([newSongToLearn])
-        .single()
-        .then(() => fetchSongs()); // Refetch songs after inserting a new one
+        .single();
 
       if (error) {
         console.log("Error adding song: ", error);
       } else {
-        // Refetch songs after successfully adding one
+        fetchSongs(); // Refetch songs only if insertion was successful
+        setSongToLearn(""); // Clear form inputs
+        setArtistOfSongToLearn("");
       }
     } catch (error) {
       console.error("Error in addSongToWantToLearn:", error);
     }
-    // Clear form
-    setSongToLearn("");
-    setArtistOfSongToLearn("");
   };
 
   return (
@@ -107,9 +103,17 @@ const LearningPage = () => {
           status={status}
           setStatus={setStatus}
         />
-        <FadePageWrapper>
-          <SongList wantToLearnList={songs} />
-        </FadePageWrapper>
+
+        {/* Display List of Songs */}
+        <SongList wantToLearnList={songs} />
+
+        {/* Search for a Song
+        <SongSearchSection
+          selectedSongId={selectedSongId}
+          setSelectedSongId={setSelectedSongId}
+          setChords={setChords}
+          chords={chords}
+        /> */}
       </div>
     </FadePageWrapper>
   );
