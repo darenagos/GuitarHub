@@ -104,8 +104,10 @@ const LearningPage = () => {
           setStatus={setStatus}
         />
 
-        {/* Display List of Songs */}
-        <SongList wantToLearnList={songs} />
+        <FadePageWrapper>
+          {/* Display List of Songs */}
+          <SongList wantToLearnList={songs} />
+        </FadePageWrapper>
 
         {/* Search for a Song
         <SongSearchSection

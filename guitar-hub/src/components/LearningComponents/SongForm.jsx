@@ -42,8 +42,8 @@ const SongForm = ({
   };
 
   return (
-    <div className="flex justify-center items-center pt-10 px-3 min-w-screen">
-      <div className="grid grid-cols-3 gap-4 w-full max-w-lg mx-auto">
+    <div className="flex justify-center items-center pt-10">
+      <div className="grid grid-cols-3 gap-4  mx-auto">
         {/* First Column - Song Name Input */}
         <input
           type="text"
@@ -90,7 +90,7 @@ const SongForm = ({
         {/* Button Below Grid (Centered) */}
         <button
           onClick={addSongToWantToLearn}
-          className="col-span-3 mt-4 p-3 bg-[#F5F0E1] text-gray-800 font-medium 
+          className="col-span-3 mt-4 p-3 w-full bg-[#F5F0E1] text-gray-800 font-medium 
         hover:bg-[#e3d8b3] transition-all duration-300 ease-in-out"
         >
           Add Song to {status.replace("_", " ").toUpperCase()}
