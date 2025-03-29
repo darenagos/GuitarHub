@@ -1,7 +1,8 @@
 //rafce - react arrow function component with export
 
 import React, { useState } from "react";
-import NavBar from "../components/Navbar";
+import { motion } from "framer-motion";
+import FadePageWrapper from "../components/HOC/FadePageWrapper";
 import { UserAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router";
 
@@ -22,22 +23,24 @@ const Homepage = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <h2 className="flex justify-center items-center mt-8">
-        Welcome, {session?.user?.email} ☺
-      </h2>
-      <div className="flex flex-grow justify-center items-end pb-30">
-        <button
-          onClick={handleSignOut}
-          className="w-30 py-3  text-gray-800 
+    <FadePageWrapper>
+      <div className="flex flex-col py-5">
+        <h2 className="flex justify-center items-center mt-8">
+          Welcome, {session?.user?.email} ☺
+        </h2>
+        <div className="flex flex-grow justify-center items-end pb-30">
+          <button
+            onClick={handleSignOut}
+            className="w-30 py-3  text-gray-800 
             transition-all duration-300 ease-in-out
           hover:scale-105  focus:outline-none focus:ring-[#e3d8b3] 
              disabled:bg-[#e8e4d1] disabled:cursor-not-allowed"
-        >
-          Sign Out
-        </button>
+          >
+            Sign Out
+          </button>
+        </div>
       </div>
-    </div>
+    </FadePageWrapper>
   );
 };
 

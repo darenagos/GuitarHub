@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "../components/Navbar";
+import FadePageWrapper from "../components/HOC/FadePageWrapper";
 import ChordDiagramSearchBar from "../components/ChordDiagramComponents/ChordDiagramSearchBar";
 import ChordDatabase from "../components/ChordDiagramComponents/ChordDatabase";
 import ChordDiagram from "../components/ChordDiagramComponents/ChordDiagram";
@@ -17,29 +17,31 @@ const ChordDiagramsPage = () => {
   };
 
   return (
-    <>
-      <div className="max-w-4xl mx-auto mb-8 px-6">
-        <ChordDiagramSearchBar onSearch={handleSearch} />
-      </div>
-      {/* Search Results */}
-      {searchResults ? (
-        <div className="max-w-4xl mx-auto mb-8 px-6">
-          <div className="flex justify-center">
-            <div className="w-full max-w-xs">
-              <ChordDiagram chordData={searchResults[0]} />
+    <FadePageWrapper>
+      <div className=" flex flex-col">
+        <div className="mx-auto mb-8 px-6">
+          <ChordDiagramSearchBar onSearch={handleSearch} />
+        </div>
+        {/* Search Results */}
+        {searchResults ? (
+          <div className="max-w-4xl mx-auto mb-8 px-6">
+            <div className="flex justify-center">
+              <div className="w-full max-w-xs">
+                <ChordDiagram chordData={searchResults[0]} />
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <div className="max-w-4xl mx-auto mb-8 px-6 text-center">
-          <p className="text-lg text-gray-600">
-            No chords found matching your search criteria.
-          </p>
-        </div>
-      )}
+        ) : (
+          <div className="max-w-4xl mx-auto mb-8 px-6 text-center">
+            <p className="text-lg text-gray-600">
+              No chords found matching your search criteria.
+            </p>
+          </div>
+        )}
 
-      <ChordDatabase />
-    </>
+        <ChordDatabase />
+      </div>
+    </FadePageWrapper>
   );
 };
 

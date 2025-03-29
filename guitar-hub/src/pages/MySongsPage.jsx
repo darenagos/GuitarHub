@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import FadePageWrapper from "../components/HOC/FadePageWrapper";
 import { supabase } from "../supabaseClient";
 
 import { UserAuth } from "../context/AuthContext"; // Import UserAuth
@@ -44,29 +44,25 @@ const MySongsPage = () => {
 
   // Set a fixed height for the song list container
   return (
-    <>
-      {/* Form for adding custom songs */}
-      <AddCustomSongForm userId={userId} fetchUserSongs={fetchUserSongs} />
+    <FadePageWrapper>
+      <>
+        {/* Form for adding custom songs */}
+        <AddCustomSongForm userId={userId} fetchUserSongs={fetchUserSongs} />
 
-      {/* Display list of user-created songs */}
-      <div className="song-list-container" style={{ minHeight: "300px" }}>
-        {loading ? (
-          <div className="flex justify-center items-center space-x-2">
-            <span></span>
-          </div>
-        ) : (
-          <UserCustomSongList userSongs={userSongs} />
-        )}
-      </div>
+        {/* Display list of user-created songs */}
+        <div className="song-list-container" style={{ minHeight: "300px" }}>
+          {!loading && <UserCustomSongList userSongs={userSongs} />}
+        </div>
 
-      {/* Search for a song section */}
-      <SongSearchSection
-        selectedSongId={selectedSongId}
-        setSelectedSongId={setSelectedSongId}
-        setChords={setChords}
-        chords={chords}
-      />
-    </>
+        {/* Search for a song section */}
+        <SongSearchSection
+          selectedSongId={selectedSongId}
+          setSelectedSongId={setSelectedSongId}
+          setChords={setChords}
+          chords={chords}
+        />
+      </>
+    </FadePageWrapper>
   );
 };
 

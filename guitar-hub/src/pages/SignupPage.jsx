@@ -29,7 +29,7 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center">
       <form onSubmit={handleSignIn} className="w-full max-w-md text-gray-800">
         <h2 className="text-3xl text-center mb-6 ">Sign up</h2>
 

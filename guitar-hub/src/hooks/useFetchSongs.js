@@ -26,13 +26,13 @@ const useFetchSongs = (userId) => {
       setError(err);
       setSongs([]);
     } finally {
-      setLoading(false);
+      setLoading(false); // ✅ Always run this
     }
   }, [userId]);
 
   useEffect(() => {
     fetchSongs();
-  }, [userId, fetchSongs]);
+  }, [fetchSongs]);
 
   return { songs, loading, error, fetchSongs };
 };

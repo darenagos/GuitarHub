@@ -43,7 +43,6 @@ const ChordDatabase = () => {
     <div className="chord-database-page flex justify-center items-center">
       <div className="container">
         {/* Key Selection Tabs */}
-
         <div className="tabs">
           {Object.keys(chordDB.chords).map((key) => (
             <button
@@ -59,10 +58,11 @@ const ChordDatabase = () => {
             </button>
           ))}
         </div>
+
         {/* Main content area */}
         <div className="main-content gap-6">
           {/* Suffix Filter Sidebar */}
-          <div className="filter-sidebar ">
+          <div className="filter-sidebar">
             {suffixes.map((suffix) => (
               <button
                 key={suffix}
@@ -78,18 +78,18 @@ const ChordDatabase = () => {
             ))}
           </div>
 
-          {/* Chords List and Diagrams */}
-          <div className="chords-list">
+          {/* Chords List and Diagrams (Scrollable) */}
+          <div className="chords-list  overflow-y-auto px-4">
             {filteredChords.length === 0 ? (
               <p>No chords found</p>
             ) : (
-              <div className="grid grid-cols-4 ">
+              <div className="grid grid-cols-4 gap-4">
                 {filteredChords.map((chord, index) => (
                   <div key={index}>
-                    <h3 className="text-center ">
+                    <h3 className="text-center">
                       {chord.key} {chord.suffix}
                     </h3>
-                    <div className="chord  flex justify-center items-center  ">
+                    <div className="chord flex justify-center items-center">
                       {/* Render Chord Diagram */}
                       <div className="w-2xs">
                         <Chord

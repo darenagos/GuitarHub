@@ -10,7 +10,7 @@ import ChordDiagramsPage from "../pages/ChordDiagramsPage.jsx";
 import MySongsPage from "../pages/MySongsPage.jsx";
 import SignupPage from "../pages/SignupPage.jsx";
 import SigninPage from "../pages/SigninPage.jsx";
-import PrivateRoute from "../components/PrivateRoute.jsx";
+import PrivateRoute from "../components/HOC/PrivateRoute.jsx";
 import UserCustomSongDetailPage from "../pages/UserCustomSongDetailPage.jsx";
 
 export const router = createBrowserRouter([

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import NavBar from "../components/Navbar";
+import FadePageWrapper from "../components/HOC/FadePageWrapper";
 import { supabase } from "../supabaseClient";
 import { UserAuth } from "../context/AuthContext"; // Import UserAuth
 
@@ -11,8 +11,13 @@ import useFetchSongs from "../hooks/useFetchSongs"; // import the new custom hoo
 
 const API_KEY = "05955013";
 
+const pageVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 1 } },
+  exit: { opacity: 0, transition: { duration: 1 } },
+};
+
 const LearningPage = () => {
-  const [wantToLearnList, setWantToLearnList] = useState([]);
   const [songToLearn, setSongToLearn] = useState("");
   const [artistOfSongToLearn, setArtistOfSongToLearn] = useState("");
   const [status, setStatus] = useState("want_to_learn");
@@ -51,7 +56,7 @@ const LearningPage = () => {
 
       console.log("Found song: ", songResult.name, "Jamendo ID: ", jamendoId);
 
-      // fetch chords sequence from Johans API
+      // fetch chords sequence from Johan's API
 
       const chordApiUrl = `http://audio-analysis.eecs.qmul.ac.uk/function/analysis/audiocommons/jamendo-tracks:${jamendoId}?descriptors=chords`;
 
@@ -73,37 +78,40 @@ const LearningPage = () => {
       const { data, error } = await supabase
         .from("songs")
         .insert([newSongToLearn])
-        .single();
+        .single()
+        .then(() => fetchSongs()); // Refetch songs after inserting a new one
 
       if (error) {
-        console.log("error adding song: ", error);
+        console.log("Error adding song: ", error);
       } else {
-        // Clear form
-        setSongToLearn("");
-        setArtistOfSongToLearn("");
-
         // Refetch songs after successfully adding one
-        fetchSongs();
       }
     } catch (error) {
       console.error("Error in addSongToWantToLearn:", error);
     }
+    // Clear form
+    setSongToLearn("");
+    setArtistOfSongToLearn("");
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <h1 className="flex justify-center items-center">My Learning</h1>
-      <SongForm
-        addSongToWantToLearn={addSongToWantToLearn}
-        songToLearn={songToLearn}
-        setSongToLearn={setSongToLearn}
-        artistOfSongToLearn={artistOfSongToLearn}
-        setArtistOfSongToLearn={setArtistOfSongToLearn}
-        status={status}
-        setStatus={setStatus}
-      />
-      <SongList wantToLearnList={songs} />
-    </div>
+    <FadePageWrapper>
+      <div className="flex flex-col max-h-screen pt-5">
+        <h1 className="flex justify-center items-center">My Learning</h1>
+        <SongForm
+          addSongToWantToLearn={addSongToWantToLearn}
+          songToLearn={songToLearn}
+          setSongToLearn={setSongToLearn}
+          artistOfSongToLearn={artistOfSongToLearn}
+          setArtistOfSongToLearn={setArtistOfSongToLearn}
+          status={status}
+          setStatus={setStatus}
+        />
+        <FadePageWrapper>
+          <SongList wantToLearnList={songs} />
+        </FadePageWrapper>
+      </div>
+    </FadePageWrapper>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { findChordsFromJSON } from "../utils/chordUtils";
+import FadePageWrapper from "../components/HOC/FadePageWrapper";
 
 import UserCustomSongHeader from "../components/MySongsComponents/UserCustomSongHeader";
 import UserCustomChordSequence from "../components/MySongsComponents/UserCustomChordSequence";
@@ -131,41 +132,43 @@ const UserCustomSongDetailPage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center min-h-screen mb-6 max-w-screen ">
-      <div className="max-w-4xl mx-auto w-full self-start pt-6">
-        <Link
-          to="/my-songs"
-          className="hover:text-gray-700 transition-all ease-in-out text-gray-500"
-        >
-          &lt; Back
-        </Link>
+    <FadePageWrapper>
+      <div className="flex flex-col items-center min-h-screen mb-6 max-w-screen ">
+        <div className="max-w-4xl mx-auto w-full self-start pt-6">
+          <Link
+            to="/my-songs"
+            className="hover:text-gray-700 transition-all ease-in-out text-gray-500"
+          >
+            &lt; Back
+          </Link>
+        </div>
+        <div className="w-full max-w-2xl bg-white p-6 rounded-lg opacity-100 transition-opacity duration-1500 ease-in-out">
+          <UserCustomSongHeader
+            songName={song.song_name}
+            onDelete={handleDeleteSong}
+          />
+        </div>
+        <div>
+          <button
+            onClick={handleEditClick}
+            className="mt-6 text-xl hover:scale-105 transition duration-300"
+          >
+            Edit Song
+          </button>
+        </div>
+        {isEditing && (
+          <UserCustomSongEditForm
+            editedSongName={editedSongName}
+            setEditedSongName={setEditedSongName}
+            editedChordSequence={editedChordSequence}
+            setEditedChordSequence={setEditedChordSequence}
+            handleUpdateSong={handleUpdateSong}
+            setIsEditing={setIsEditing}
+          />
+        )}
+        <UserCustomChordSequence song={song} chordDiagrams={chordDiagrams} />
       </div>
-      <div className="w-full max-w-2xl bg-white p-6 rounded-lg opacity-100 transition-opacity duration-1500 ease-in-out">
-        <UserCustomSongHeader
-          songName={song.song_name}
-          onDelete={handleDeleteSong}
-        />
-      </div>
-      <div>
-        <button
-          onClick={handleEditClick}
-          className="mt-6 text-xl hover:scale-105 transition duration-300"
-        >
-          Edit Song
-        </button>
-      </div>
-      {isEditing && (
-        <UserCustomSongEditForm
-          editedSongName={editedSongName}
-          setEditedSongName={setEditedSongName}
-          editedChordSequence={editedChordSequence}
-          setEditedChordSequence={setEditedChordSequence}
-          handleUpdateSong={handleUpdateSong}
-          setIsEditing={setIsEditing}
-        />
-      )}
-      <UserCustomChordSequence song={song} chordDiagrams={chordDiagrams} />
-    </div>
+    </FadePageWrapper>
   );
 };
 

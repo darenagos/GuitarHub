@@ -8,3 +8,18 @@ body {
   font-family: 'Archivo Black', sans-serif; /* Apply Archivo Black font globally */
   text-decoration: none; /* Optional: Adjust text-decoration as needed */
 }
+
+
+html {
+  overflow: hidden; /* Prevents unwanted scrollbars */
+  height: 100%; /* Ensures proper height */
+  padding-top: 5%;
+  background-color: #FAF9F6;
+}
+
+
+
+
+
+
+
