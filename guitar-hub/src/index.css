@@ -25,33 +25,12 @@ html {
 .scrollable-content {
   overflow-y: scroll; 
  
+ 
   
    
 }
 
-/* Custom scrollbar styles */
-.scrollable-content::-webkit-scrollbar {
-  width: 12px;
 
-}
-
-.scrollable-content::-webkit-scrollbar-track {
-  background: #FAF9F6;
-  
-  
-}
-
-.scrollable-content::-webkit-scrollbar-thumb {
-  background: #b8b8b8;
-  border-radius: 6px;
- 
- 
-}
-
-.scrollable-content::-webkit-scrollbar-thumb:hover {
-  background: #a0a0a0;
-
-}
 
 
 
