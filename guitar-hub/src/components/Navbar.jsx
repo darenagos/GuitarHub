@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import "../index.css";
+
 const Navbar = () => {
   return (
-    <nav className="fixed top-0 left-0 bg-[#FAF9F6] shadow-2xs w-full z-50 py-5">
+    <nav className="fixed top-0 left-0 bg-[#FAF9F6] shadow-2xs w-full z-50 h-1/10 flex justify-center items-center">
       <div className="flex justify-center space-x-6">
         <Link to="/homepage" className="text-black hover:text-gray-600">
           Homepage

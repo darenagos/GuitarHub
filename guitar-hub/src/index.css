@@ -5,21 +5,53 @@
 
 /* Global styles */
 body {
+ 
+  width: 100%;
   font-family: 'Archivo Black', sans-serif; /* Apply Archivo Black font globally */
-  text-decoration: none; /* Optional: Adjust text-decoration as needed */
+  overflow: hidden; /* Prevents unwanted scrollbars */
+ 
 }
-
 
 html {
   overflow: hidden; /* Prevents unwanted scrollbars */
-  height: 100%; /* Ensures proper height */
-  padding-top: 5%;
   background-color: #FAF9F6;
+  
 }
 
 
 
 
+/* Custom scrollbar styles for the content container */
+.scrollable-content {
+  overflow-y: scroll; 
+ 
+  
+   
+}
+
+/* Custom scrollbar styles */
+.scrollable-content::-webkit-scrollbar {
+  width: 12px;
+
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+  background: #FAF9F6;
+  
+  
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+  background: #b8b8b8;
+  border-radius: 6px;
+ 
+ 
+}
+
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
+
+}
 
 
 

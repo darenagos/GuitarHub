@@ -64,17 +64,19 @@ const MySongsPage = () => {
   };
 
   return (
-    <FadePageWrapper>
-      <>
-        {/* Form for adding custom songs */}
-        <AddCustomSongForm userId={userId} fetchUserSongs={fetchUserSongs} />
+    <div className="scrollable-content mt-[10vh] h-[90vh]">
+      <FadePageWrapper>
+        <div className="h-screen flexflex-col">
+          {/* Form for adding custom songs */}
+          <AddCustomSongForm userId={userId} fetchUserSongs={fetchUserSongs} />
 
-        {/* Display list of user-created songs */}
-        <div className="song-list-container" style={{ minHeight: "300px" }}>
-          {!loading && <UserCustomSongList userSongs={userSongs} />}
+          {/* Display list of user-created songs */}
+          <div className="song-list-container">
+            {!loading && <UserCustomSongList userSongs={userSongs} />}
+          </div>
         </div>
-      </>
-    </FadePageWrapper>
+      </FadePageWrapper>
+    </div>
   );
 };
 

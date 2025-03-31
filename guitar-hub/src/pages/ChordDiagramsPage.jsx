@@ -18,13 +18,13 @@ const ChordDiagramsPage = () => {
 
   return (
     <FadePageWrapper>
-      <div className=" flex flex-col">
-        <div className="mx-auto mb-8 px-6">
+      <div className=" flex flex-col scrollable-content mt-[10vh] h-[90vh] pt-10 ">
+        <div className="mx-auto px-6">
           <ChordDiagramSearchBar onSearch={handleSearch} />
         </div>
         {/* Search Results */}
         {searchResults ? (
-          <div className="max-w-4xl mx-auto mb-8 px-6">
+          <div className="max-w-4xl mx-auto mb-8 px-6 scrollable-content">
             <div className="flex justify-center">
               <div className="w-full max-w-xs">
                 <ChordDiagram chordData={searchResults[0]} />

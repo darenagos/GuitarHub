@@ -24,7 +24,7 @@ const Homepage = () => {
 
   return (
     <FadePageWrapper>
-      <div className="flex flex-col py-5">
+      <div className="flex flex-col py-5 mt-[10vh] h-[90vh]">
         <h2 className="flex justify-center items-center mt-8">
           Welcome, {session?.user?.email} ☺
         </h2>

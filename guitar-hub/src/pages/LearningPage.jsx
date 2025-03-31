@@ -92,30 +92,32 @@ const LearningPage = () => {
 
   return (
     <FadePageWrapper>
-      <div className="flex flex-col max-h-screen pt-5">
-        <h1 className="flex justify-center items-center">My Learning</h1>
-        <SongForm
-          addSongToWantToLearn={addSongToWantToLearn}
-          songToLearn={songToLearn}
-          setSongToLearn={setSongToLearn}
-          artistOfSongToLearn={artistOfSongToLearn}
-          setArtistOfSongToLearn={setArtistOfSongToLearn}
-          status={status}
-          setStatus={setStatus}
-        />
+      <div className="flex flex-col max-h-screen ">
+        <div className="scrollable-content pt-10 mt-[10vh] h-[90vh]s">
+          <h1 className="flex justify-center items-center">My Learning</h1>
+          <SongForm
+            addSongToWantToLearn={addSongToWantToLearn}
+            songToLearn={songToLearn}
+            setSongToLearn={setSongToLearn}
+            artistOfSongToLearn={artistOfSongToLearn}
+            setArtistOfSongToLearn={setArtistOfSongToLearn}
+            status={status}
+            setStatus={setStatus}
+          />
 
-        <FadePageWrapper>
-          {/* Display List of Songs */}
-          <SongList wantToLearnList={songs} />
-        </FadePageWrapper>
+          <FadePageWrapper>
+            {/* Display List of Songs */}
+            <SongList wantToLearnList={songs} />
+          </FadePageWrapper>
 
-        {/* Search for a Song
+          {/* Search for a Song
         <SongSearchSection
           selectedSongId={selectedSongId}
           setSelectedSongId={setSelectedSongId}
           setChords={setChords}
           chords={chords}
         /> */}
+        </div>
       </div>
     </FadePageWrapper>
   );

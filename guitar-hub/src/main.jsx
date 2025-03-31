@@ -11,7 +11,7 @@ import "./tailwind.css";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <>
-      <div className="pt-20 h-screen overflow-y-auto bg-[#FAF9F6] w-full ">
+      <div className=" bg-[#FAF9F6] overflow-hidden  max-h-screen ">
         <AuthContextProvider>
           <RouterProvider router={router} />
         </AuthContextProvider>

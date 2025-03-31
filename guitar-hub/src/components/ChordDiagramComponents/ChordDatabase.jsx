@@ -62,7 +62,7 @@ const ChordDatabase = () => {
         {/* Main content area */}
         <div className="main-content gap-6">
           {/* Suffix Filter Sidebar */}
-          <div className="filter-sidebar">
+          <div className="filter-sidebar mb-10 rounded">
             {suffixes.map((suffix) => (
               <button
                 key={suffix}

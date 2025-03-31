@@ -50,7 +50,7 @@ const SongDetailPage = () => {
 
   return (
     <FadePageWrapper>
-      <div className="min-h-screen px-8 py-10">
+      <div className=" px-8 pt-10 mt-[10vh] h-[90vh] scrollable-content">
         <div className="max-w-4xl mx-auto text-left">
           <Link
             to="/Learning"
