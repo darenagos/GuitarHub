@@ -2,11 +2,19 @@ import { useState } from "react";
 import SongItem from "./SongItem";
 import FadePageWrapper from "../HOC/FadePageWrapper";
 
+import searchIcon from "../../assets/search-interface-symbol.png";
+
 const SongList = ({ wantToLearnList }) => {
   const [sortOrder, setSortOrder] = useState({
     want_to_learn: "desc",
     currently_learning: "desc",
     learnt: "desc",
+  });
+
+  const [searchTerms, setSearchTerms] = useState({
+    want_to_learn: "",
+    currently_learning: "",
+    learnt: "",
   });
 
   const groupedSongs = {
@@ -28,6 +36,13 @@ const SongList = ({ wantToLearnList }) => {
     }));
   };
 
+  const handleSearchChange = (status, value) => {
+    setSearchTerms((prev) => ({
+      ...prev,
+      [status]: value,
+    }));
+  };
+
   return (
     <FadePageWrapper>
       <div className="px-10 py-5">
@@ -39,14 +54,26 @@ const SongList = ({ wantToLearnList }) => {
                 ? new Date(b.created_at) - new Date(a.created_at) // Newest first
                 : new Date(a.created_at) - new Date(b.created_at); // Oldest first
             });
+
+            const filteredSongs =
+              searchTerms[status].trim() === ""
+                ? sortedSongs
+                : sortedSongs.filter((song) =>
+                    song.name
+                      ?.toLowerCase()
+                      .includes(searchTerms[status].toLowerCase())
+                  );
+
             return (
               <div className="flex flex-col items-center" key={status}>
-                <h3 className="text-3xl text-center py-3 text-gray-800 flex items-center gap-2 ">
+                <h3 className="text-3xl text-center py-3 text-gray-800 flex items-center gap-2">
                   {status.replace("_", " ").toUpperCase()}
                   <button
-                    className="ml-3 text-sm cursor-pointer  hover:scale-130 ease-in-out rounded transition flex items-center"
+                    className="ml-3 text-sm cursor-pointer  hover:scale-110 ease-in-out rounded transition flex items-center"
                     onClick={() => handleSortClick(status)}
                   >
+                    {" "}
+                    Date added
                     <span
                       className={`transform transition-transform duration-300 ${
                         sortOrder[status] === "desc" ? "rotate-180" : "rotate-0"
@@ -57,10 +84,27 @@ const SongList = ({ wantToLearnList }) => {
                   </button>
                 </h3>
 
-                {sortedSongs.length > 0 ? (
+                {/* Search Bar for Each Category */}
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  style={{
+                    backgroundImage: `url(${searchIcon})`,
+                    backgroundPosition: "left 10px center",
+                    backgroundSize: "16px",
+                    backgroundRepeat: "no-repeat",
+                    paddingLeft: "35px", // Make space for the icon
+                  }}
+                  value={searchTerms[status]}
+                  onChange={(e) => handleSearchChange(status, e.target.value)}
+                  className="p-2 mb-4 border border-gray-300 rounded w-full "
+                />
+
+                {/* Always show full list when search is empty */}
+                {filteredSongs.length > 0 ? (
                   <div className="px-5">
                     <ul className="space-y-4">
-                      {sortedSongs.map((song) => (
+                      {filteredSongs.map((song) => (
                         <SongItem key={song.id} song={song} />
                       ))}
                     </ul>
