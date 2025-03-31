@@ -15,14 +15,17 @@ const SongForm = ({
   const [suggestions, setSuggestions] = useState([]);
 
   const fetchSongSuggestions = async (query) => {
-    if (!query) {
+    if (!query.trim()) {
       setSuggestions([]);
       return;
     }
     try {
       const response = await fetch(
-        `https://api.jamendo.com/v3.0/tracks/?client_id=${API_KEY}&format=json&limit=8&search=${query}`
+        `https://api.jamendo.com/v3.0/tracks/?client_id=${API_KEY}&format=json&limit=20&name=${encodeURIComponent(
+          query
+        )}`
       );
+
       const data = await response.json();
       setSuggestions(data.results);
     } catch (error) {
@@ -90,7 +93,7 @@ const SongForm = ({
         {/* Button Below Grid (Centered) */}
         <button
           onClick={addSongToWantToLearn}
-          className="col-span-3 mt-4 p-3 w-full bg-[#F5F0E1] text-gray-800 font-medium 
+          className="col-span-3 mt-4 p-3 w-fulls bg-[#F5F0E1] text-gray-800 font-medium 
         hover:bg-[#e3d8b3] transition-all duration-300 ease-in-out"
         >
           Add Song to {status.replace("_", " ").toUpperCase()}
