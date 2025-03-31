@@ -9,11 +9,22 @@ import chordDB from "@tombatossals/chords-db/lib/guitar.json";
 import { findChord } from "../utils/chordUtils";
 
 const ChordDiagramsPage = () => {
-  const [searchResults, setSearchResults] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
+
+  const [isSearchCleared, setIsSearchCleared] = useState(false); // Track if search was cleared
 
   const handleSearch = (chordName, suffix) => {
-    const result = findChord(chordName, suffix);
-    setSearchResults(result);
+    if (!chordName) {
+      setSearchResults([]);
+      setIsSearchCleared(true); // Mark search as cleared
+      console.log("Search cleared, hiding 'No chords found' message.");
+      return;
+    }
+
+    setIsSearchCleared(false); // Reset cleared flag when searching
+    const result = findChord(chordName, suffix) || [];
+    console.log("Chord search result:", result);
+    setSearchResults(result.length > 0 ? result : []);
   };
 
   return (
@@ -23,8 +34,8 @@ const ChordDiagramsPage = () => {
           <ChordDiagramSearchBar onSearch={handleSearch} />
         </div>
         {/* Search Results */}
-        {searchResults ? (
-          <div className="max-w-4xl mx-auto mb-8 px-6 scrollable-content">
+        {isSearchCleared ? null : searchResults.length > 0 ? (
+          <div className="max-w-4xl mx-auto mb-8 px-6 ">
             <div className="flex justify-center">
               <div className="w-full max-w-xs">
                 <ChordDiagram chordData={searchResults[0]} />

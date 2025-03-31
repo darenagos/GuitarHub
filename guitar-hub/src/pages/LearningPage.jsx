@@ -79,6 +79,19 @@ const LearningPage = () => {
         .single();
 
       if (error) {
+        if (error.code === "23505") {
+          // PostgreSQL unique constraint violation
+          alert("This song is already in your list!");
+          setSongToLearn(""); // Clear form inputs
+          setArtistOfSongToLearn("");
+        } else {
+          alert(`Error adding song: ${error.message}`);
+        }
+      } else {
+        alert("Song added successfully!");
+      }
+
+      if (error) {
         console.log("Error adding song: ", error);
       } else {
         fetchSongs(); // Refetch songs only if insertion was successful
