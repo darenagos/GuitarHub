@@ -10,8 +10,7 @@ import SongSearchSection from "../components/MySongsComponents/SongSearchSection
 const MySongsPage = () => {
   const { session } = UserAuth(); // Get session from AuthContext
   const userId = session?.user?.id; // Get user ID
-  const [selectedSongId, setSelectedSongId] = useState(null);
-  const [chords, setChords] = useState([]);
+
   const [userSongs, setUserSongs] = useState([]);
   const [loading, setLoading] = useState(true); // Track loading state
 
@@ -51,7 +50,8 @@ const MySongsPage = () => {
     const { data, error } = await supabase
       .from("usersChordProgressions")
       .select("*")
-      .eq("user_id", userId); // Fetch only songs belonging to the logged-in user
+      .eq("user_id", userId)
+      .order("created_at", { ascending: true }); // Fetch only songs belonging to the logged-in user
 
     if (error) {
       console.error("Error fetching user songs:", error);

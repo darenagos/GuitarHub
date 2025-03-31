@@ -14,7 +14,8 @@ const useFetchSongs = (userId) => {
       const { data, error } = await supabase
         .from("songs")
         .select("*")
-        .eq("user_id", userId);
+        .eq("user_id", userId)
+        .order("created_at", { ascending: true });
 
       if (error) {
         setError(error);

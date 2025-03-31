@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 
 const pageVariants = {
   initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { duration: 0.2 } },
-  exit: { opacity: 0, transition: { duration: 0.2 } },
+  animate: { opacity: 1, transition: { duration: 0.25 } },
+  exit: { opacity: 0, transition: { duration: 0.25 } },
 };
 
 const FadePageWrapper = ({ children }) => {
