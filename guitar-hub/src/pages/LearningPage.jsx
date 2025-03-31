@@ -19,7 +19,8 @@ const LearningPage = () => {
   const { session } = UserAuth(); // Get session from AuthContext
 
   const { songs, loading, error, fetchSongs } = useFetchSongs(
-    session?.user?.id
+    session?.user?.id,
+    console.log("here")
   );
 
   // Missing State Variables for Song Search

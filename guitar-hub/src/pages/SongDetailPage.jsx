@@ -57,7 +57,7 @@ const SongDetailPage = () => {
             className="hover:text-gray-700 transition-all ease-in-out text-gray-500 "
           >
             {" "}
-            &lt; Back
+            &lt; Back to learning
           </Link>
         </div>
 
