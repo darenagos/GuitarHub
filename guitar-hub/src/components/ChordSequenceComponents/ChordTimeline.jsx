@@ -20,7 +20,7 @@ const ChordTimeline = ({ chords, currentSecond }) => {
         return (
           <div
             key={rowIndex}
-            className="relative flex items-center"
+            className="relative flex items-center border max-w-5xl"
             style={{
               height: "100px",
               width: "clamp(80vw, 80vh, 80vw)",
