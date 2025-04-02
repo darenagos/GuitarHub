@@ -1,15 +1,18 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import FadePageWrapper from "../components/HOC/FadePageWrapper";
-import useFetchSong from "../hooks/useFetchSong";
 import { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
+import FadePageWrapper from "../components/HOC/FadePageWrapper";
+import useFetchSong from "../hooks/useFetchSong";
 import ChordSequenceDisplay from "../components/ChordSequenceComponents/ChordSequenceDisplay";
 import ChordTimeline from "../components/ChordSequenceComponents/ChordTimeline";
+
+const API_KEY = "05955013"; // Replace with your actual client ID
 
 const SongDetailPage = () => {
   const { id } = useParams();
   const { song, loading: songLoading, error: songError } = useFetchSong(id);
   const [status, setStatus] = useState(song?.status || "want_to_learn");
+  const [audioUrl, setAudioUrl] = useState(null);
 
   const navigate = useNavigate();
 
@@ -17,15 +20,37 @@ const SongDetailPage = () => {
     if (song) setStatus(song.status);
   }, [song]);
 
-  // Function to handle status change and update it in the database
-  const handleStatusChange = async (newStatus) => {
-    setStatus(newStatus); // Update local state
+  // Fetch track audio from Jamendo API
+  useEffect(() => {
+    if (song?.artist) {
+      fetchAudio(song.artist);
+    }
+  }, [song]);
 
-    // Update the status in Supabase
+  const fetchAudio = async (artistName) => {
+    try {
+      const response = await fetch(
+        `https://api.jamendo.com/v3.0/albums/tracks/?client_id=${API_KEY}&format=jsonpretty&limit=1&artist_name=${encodeURIComponent(
+          artistName
+        )}`
+      );
+      const data = await response.json();
+
+      if (data.results.length > 0 && data.results[0].tracks.length > 0) {
+        setAudioUrl(data.results[0].tracks[0].audio);
+      }
+    } catch (error) {
+      console.error("Error fetching audio:", error);
+    }
+  };
+
+  const handleStatusChange = async (newStatus) => {
+    setStatus(newStatus);
+
     const { error } = await supabase
       .from("songs")
-      .update({ status: newStatus }) // Set the new status
-      .eq("id", id); // Find the specific song by ID
+      .update({ status: newStatus })
+      .eq("id", id);
 
     if (error) {
       console.error("Error updating status:", error);
@@ -40,23 +65,22 @@ const SongDetailPage = () => {
       console.error("Error deleting song:", error);
       alert("Failed to delete song");
     } else {
-      alert("Song deleted succesfully.");
+      alert("Song deleted successfully.");
       navigate("/learning");
     }
   };
 
-  if (songLoading) return;
+  if (songLoading) return <p>Loading...</p>;
   if (songError) return <p>Error loading song: {songError.message}</p>;
 
   return (
     <FadePageWrapper>
-      <div className=" px-8 pt-10 mt-[10vh] h-[90vh] scrollable-content">
+      <div className="px-8 pt-10 mt-[10vh] h-[90vh] scrollable-content">
         <div className="max-w-4xl mx-auto text-left">
           <Link
             to="/Learning"
             className="hover:text-gray-700 transition-all ease-in-out text-gray-500 "
           >
-            {" "}
             &lt; Back to learning
           </Link>
         </div>
@@ -73,8 +97,8 @@ const SongDetailPage = () => {
             <strong>Artist:</strong> {song.artist}
           </p>
 
+          {/* Status Update */}
           <p className="text-xl text-gray-800 mb-2">Status:</p>
-
           <div className="space-y-4 mb-6">
             <label className="flex items-center text-lg text-gray-700">
               <input
@@ -107,6 +131,7 @@ const SongDetailPage = () => {
             </label>
           </div>
 
+          {/* Chord Display */}
           {song.chord_sequence?.length > 0 ? (
             <>
               <div className="mt-8">
@@ -124,8 +149,9 @@ const SongDetailPage = () => {
             </p>
           )}
         </div>
+
         <button
-          onClick={() => handleDelete()}
+          onClick={handleDelete}
           className="w-full text-xl py-10 rounded-md hover:scale-105 transition-all duration-300"
         >
           Delete Song

@@ -89,13 +89,13 @@ const Notes = () => {
         ) : error ? (
           <p>Error: {error.message}</p>
         ) : (
-          <div className="mt-6 p-4 border rounded-md shadow-md">
+          <div className="mt-6 p-4 border rounded-md shadow-md break-words">
             {isEditing ? (
               <>
                 <textarea
                   value={updatedNote}
                   onChange={(e) => setUpdatedNote(e.target.value)}
-                  className="w-full p-4 border rounded-md"
+                  className="w-full p-4 border rounded-md "
                 />
                 <button
                   onClick={handleUpdateNote}

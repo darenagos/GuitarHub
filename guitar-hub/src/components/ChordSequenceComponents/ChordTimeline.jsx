@@ -1,79 +1,80 @@
 import React from "react";
 
 const ChordTimeline = ({ chords }) => {
-  // Calculate the total duration from the chords
   const totalDuration = Math.max(...chords.map((chord) => chord.end));
-
-  // Ensure totalDuration is valid and not zero
   if (!totalDuration || totalDuration <= 0) {
     console.error("Invalid total duration.");
-    return null; // Early return if totalDuration is invalid
+    return null;
   }
 
-  const scale = 50;
-  const timelineWidth = totalDuration * scale; // Width of the entire timeline in pixels
-  // const scale = timelineWidth / totalDuration; // Scale factor based on total duration
+  const scale = 51.45;
+  const interval = 20;
+  const rows = Math.ceil(totalDuration / interval);
 
   return (
-    <div
-      style={{
-        position: "relative",
-        width: `${timelineWidth}px`,
-        height: "80px",
-        backgroundColor: "#f4f4f4",
-        borderRadius: "10px",
-        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-        margin: "auto",
-        padding: "10px 0",
-      }}
-    >
-      {/* Timeline Markings */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: "10px",
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          fontSize: "12px",
-        }}
-      >
-        {[...Array(6)].map((_, i) => {
-          const timeLabel = ((i * totalDuration) / 5).toFixed(0); // Mark every 20% of the timeline
-          return <span key={i}>{timeLabel}s</span>;
-        })}
-      </div>
-
-      {/* Chords on Timeline */}
-      {chords.map((chord, index) => {
-        const startPos = chord.start * scale; // Calculate position based on start time
-        const width = (chord.end - chord.start) * scale; // Calculate width based on duration
-
-        // Ensure width and startPos are valid
-        if (isNaN(startPos) || isNaN(width)) {
-          console.error("Invalid chord data:", chord);
-          return null; // Skip rendering this chord if invalid
-        }
+    <div className="flex flex-col items-center" style={{ margin: "auto" }}>
+      {[...Array(rows)].map((_, rowIndex) => {
+        const rowStart = rowIndex * interval;
+        const rowEnd = (rowIndex + 1) * interval;
 
         return (
           <div
-            key={index}
+            key={rowIndex}
+            className="relative flex items-center"
             style={{
-              position: "absolute",
-              left: `${startPos}px`,
-              width: `${width}px`,
-              top: "20px",
-              height: "30px",
-              backgroundColor: "#fff",
-              border: "1px solid #ddd",
-              borderRadius: "5px",
-              fontWeight: "bold",
-              textAlign: "center",
-              lineHeight: "30px",
-              whiteSpace: "nowrap",
+              height: "100px",
+              width: "80vh",
+              backgroundColor: "#f4f4f4",
+              borderRadius: "10px",
+              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+              marginBottom: "10px",
+              position: "relative",
+              overflow: "hidden", // Prevent overflow
             }}
           >
-            {chord.label}
+            {/* Time Labels */}
+            <div
+              className="absolute bottom-2 w-full flex justify-between text-xs"
+              style={{ fontSize: "12px" }}
+            >
+              {[...Array(6)].map((_, i) => {
+                const timeLabel = (i * (interval / 5) + rowStart).toFixed(2);
+                return <span key={i}>{timeLabel}s</span>;
+              })}
+            </div>
+
+            {/* Chords Render */}
+            {chords
+              .filter((chord) => chord.end > rowStart && chord.start < rowEnd)
+              .map((chord, index) => {
+                const visibleStart = Math.max(chord.start, rowStart);
+                const visibleEnd = Math.min(chord.end, rowEnd);
+                const left = (visibleStart - rowStart) * scale;
+                const width = Math.max((visibleEnd - visibleStart) * scale, 1); // Ensure min width
+
+                return (
+                  <div
+                    key={`${rowIndex}-${index}`}
+                    style={{
+                      position: "absolute",
+                      left: `${left}px`,
+                      width: `${width}px`,
+                      top: "20px",
+                      height: "30px",
+                      backgroundColor: "#fff",
+                      border: "1px solid #ddd",
+                      borderRadius: "5px",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      lineHeight: "30px",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden", // Ensure no text overflow
+                    }}
+                  >
+                    {chord.label}
+                  </div>
+                );
+              })}
           </div>
         );
       })}

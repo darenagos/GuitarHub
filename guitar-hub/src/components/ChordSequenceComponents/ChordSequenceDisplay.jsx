@@ -1,19 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 
 const ChordSequenceDisplay = ({ chords }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
   return (
-    <div>
-      <h2>Chord Sequence</h2>
-      {chords ? (
-        <ul>
-          {chords.map((chord, index) => (
-            <li key={index}>
-              {chord.label} (Start: {chord.start}s, End: {chord.end}s)
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>Loading chords...</p>
+    <div className="w-full mx-auto p-4 ">
+      <button
+        onClick={() => setIsVisible(!isVisible)}
+        className="px-4 py-2 bg-white-500 font-semibold rounded-md shadow-md hover:bg-beige focus:outline-none"
+      >
+        {isVisible ? "Hide Chord Sequence <" : "Show Chord Sequence >"}
+      </button>
+
+      {isVisible && (
+        <div className="mt-4 bg-white shadow-md rounded-lg p-4">
+          <h2 className="text-xl font-semibold text-gray-800 mb-3">
+            Chord Sequence
+          </h2>
+          {chords && chords.length > 0 ? (
+            <ul className="divide-y divide-gray-300">
+              {chords.map((chord, index) => (
+                <li
+                  key={index}
+                  className="p-2 flex justify-between items-center bg-gray-50 hover:bg-white rounded-md"
+                >
+                  <span className="font-medium text-gray-700">
+                    {chord.label}
+                  </span>
+                  <span className="text-sm text-gray-500">
+                    {chord.start}s - {chord.end}s
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-600">Loading chords...</p>
+          )}
+        </div>
       )}
     </div>
   );
