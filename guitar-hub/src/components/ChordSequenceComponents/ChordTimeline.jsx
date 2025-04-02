@@ -1,6 +1,6 @@
 import React from "react";
 
-const ChordTimeline = ({ chords }) => {
+const ChordTimeline = ({ chords, currentSecond }) => {
   const totalDuration = Math.max(...chords.map((chord) => chord.end));
   if (!totalDuration || totalDuration <= 0) {
     console.error("Invalid total duration.");
@@ -42,6 +42,20 @@ const ChordTimeline = ({ chords }) => {
                 return <span key={i}>{timeLabel}s</span>;
               })}
             </div>
+
+            {/* Current Second Indicator */}
+            {currentSecond >= rowStart && currentSecond < rowEnd && (
+              <div
+                style={{
+                  position: "absolute",
+                  left: `${(currentSecond - rowStart) * scale}px`, // Position based on current second
+                  top: "0",
+                  height: "100%",
+                  width: "2px",
+                  backgroundColor: "red", // Highlight color
+                }}
+              />
+            )}
 
             {/* Chords Render */}
             {chords

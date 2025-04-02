@@ -13,6 +13,7 @@ const SongDetailPage = () => {
   const { song, loading: songLoading, error: songError } = useFetchSong(id);
   const [status, setStatus] = useState(song?.status || "want_to_learn");
   const [audioUrl, setAudioUrl] = useState(null);
+  const [currentSecond, setCurrentSecond] = useState(0);
 
   const navigate = useNavigate();
 
@@ -46,6 +47,9 @@ const SongDetailPage = () => {
     } catch (error) {
       console.error("Error fetching audio:", error);
     }
+  };
+  const handleTimeUpdate = (e) => {
+    setCurrentSecond(Math.floor(e.target.currentTime)); // Update current second
   };
 
   const handleStatusChange = async (newStatus) => {
@@ -141,7 +145,11 @@ const SongDetailPage = () => {
                 Preview Track
               </h2>
 
-              <audio controls className="w-full">
+              <audio
+                controls
+                className="w-full"
+                onTimeUpdate={handleTimeUpdate}
+              >
                 <source src={audioUrl} type="audio/mp3" />
                 Your browser does not support the audio element.
               </audio>
@@ -156,7 +164,10 @@ const SongDetailPage = () => {
               <h2 className="text-2xl font-semibold text-center text-gray-800 mt-6">
                 Chord Timeline
               </h2>
-              <ChordTimeline chords={song.chord_sequence} />
+              <ChordTimeline
+                chords={song.chord_sequence}
+                currentSecond={currentSecond}
+              />
             </>
           ) : (
             <p className="mt-4 text-lg text-gray-600 text-center">
