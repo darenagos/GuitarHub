@@ -6,7 +6,7 @@ import useFetchSong from "../hooks/useFetchSong";
 import ChordSequenceDisplay from "../components/ChordSequenceComponents/ChordSequenceDisplay";
 import ChordTimeline from "../components/ChordSequenceComponents/ChordTimeline";
 
-const API_KEY = "05955013"; // Replace with your actual client ID
+const JAMENDO_CLIENT_ID = "your_client_id"; // Replace with your actual client ID
 
 const SongDetailPage = () => {
   const { id } = useParams();
@@ -30,7 +30,7 @@ const SongDetailPage = () => {
   const fetchAudio = async (artistName) => {
     try {
       const response = await fetch(
-        `https://api.jamendo.com/v3.0/albums/tracks/?client_id=${API_KEY}&format=jsonpretty&limit=1&artist_name=${encodeURIComponent(
+        `https://api.jamendo.com/v3.0/albums/tracks/?client_id=${JAMENDO_CLIENT_ID}&format=jsonpretty&limit=1&artist_name=${encodeURIComponent(
           artistName
         )}`
       );
@@ -134,6 +134,18 @@ const SongDetailPage = () => {
           {/* Chord Display */}
           {song.chord_sequence?.length > 0 ? (
             <>
+              {/* Audio Player */}
+              {audioUrl && (
+                <div className="mt-8 text-center">
+                  <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+                    Preview Track
+                  </h2>
+                  <audio controls className="w-full">
+                    <source src={audioUrl} type="audio/mp3" />
+                    Your browser does not support the audio element.
+                  </audio>
+                </div>
+              )}
               <div className="mt-8">
                 <ChordSequenceDisplay chords={song.chord_sequence} />
               </div>
