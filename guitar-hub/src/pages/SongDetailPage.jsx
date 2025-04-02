@@ -19,35 +19,44 @@ const SongDetailPage = () => {
 
   useEffect(() => {
     if (song) setStatus(song.status);
+    console.log("Fetched song data:", song); // Log the song data
   }, [song]);
 
   // Fetch track audio from Jamendo API
   useEffect(() => {
     if (song?.artist) {
-      fetchAudio(song.artist);
+      console.log("song jamendo id:", song.jamendo_id);
+      fetchAudio(song.jamendo_id);
     }
   }, [song]);
 
-  const fetchAudio = async (artistName) => {
+  useEffect(() => {
+    if (song && song.chord_sequence) {
+      console.log("Chord sequence for the song:", song.chord_sequence);
+    }
+  }, [song]);
+  const fetchAudio = async (trackId) => {
     try {
       const response = await fetch(
-        `https://api.jamendo.com/v3.0/albums/tracks/?client_id=${API_KEY}&format=jsonpretty&limit=1&artist_name=${encodeURIComponent(
-          artistName
-        )}`
+        `https://api.jamendo.com/v3.0/tracks/?client_id=${API_KEY}&format=jsonpretty&limit=1&id=${trackId}`
       );
+      console.log("response", response);
       const data = await response.json();
 
-      console.log("data", data); // Log the response data
+      if (data.results && data.results.length > 0) {
+        const track = data.results[0]; // Track details
+        const audioUrl = track.audio; // Access the audio URL
 
-      if (data.results.length > 0 && data.results[0].tracks.length > 0) {
-        const audio = data.results[0].tracks[0].audio;
-        console.log("Audio URL:", audio); // Log the audio URL
-        setAudioUrl(audio);
+        console.log("Audio URL:", audioUrl); // Log the audio URL
+        setAudioUrl(audioUrl); // You can use the URL to play the track
+      } else {
+        console.error("Track not found for the provided track ID.");
       }
     } catch (error) {
       console.error("Error fetching audio:", error);
     }
   };
+
   const handleTimeUpdate = (e) => {
     setCurrentSecond(Math.floor(e.target.currentTime)); // Update current second
   };
@@ -139,7 +148,7 @@ const SongDetailPage = () => {
           {/* Chord Display */}
 
           {/* Audio Player */}
-          {audioUrl && (
+          {audioUrl && song.chord_sequence?.length > 0 && (
             <div className="mt-8 text-center">
               <h2 className="text-2xl font-semibold text-gray-800 mb-2">
                 Preview Track

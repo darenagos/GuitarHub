@@ -19,8 +19,7 @@ const LearningPage = () => {
   const { session } = UserAuth(); // Get session from AuthContext
 
   const { songs, loading, error, fetchSongs } = useFetchSongs(
-    session?.user?.id,
-    console.log("here")
+    session?.user?.id
   );
 
   // Missing State Variables for Song Search
@@ -44,6 +43,7 @@ const LearningPage = () => {
     try {
       const searchResponse = await fetch(searchUrl);
       const searchData = await searchResponse.json();
+      console.log("Search data:", searchData);
 
       if (searchData.results.length === 0) {
         console.log("No song found on Jamendo");

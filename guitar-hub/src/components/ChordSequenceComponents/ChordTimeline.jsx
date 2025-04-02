@@ -23,7 +23,7 @@ const ChordTimeline = ({ chords, currentSecond }) => {
             className="relative flex items-center"
             style={{
               height: "100px",
-              width: "80vh",
+              width: "clamp(80vw, 80vh, 80vw)",
               backgroundColor: "#f4f4f4",
               borderRadius: "10px",
               boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
@@ -94,6 +94,8 @@ const ChordTimeline = ({ chords, currentSecond }) => {
       })}
     </div>
   );
+  // dasdsadsadsadas
+  //sdsasad
 };
 
 export default ChordTimeline;

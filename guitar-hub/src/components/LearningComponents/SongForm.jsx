@@ -21,7 +21,7 @@ const SongForm = ({
     }
     try {
       const response = await fetch(
-        `https://api.jamendo.com/v3.0/tracks/?client_id=${API_KEY}&format=json&limit=20&name=${encodeURIComponent(
+        `https://api.jamendo.com/v3.0/tracks/?client_id=${API_KEY}&format=json&limit=50&name=${encodeURIComponent(
           query
         )}`
       );
