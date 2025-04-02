@@ -6,7 +6,7 @@ import useFetchSong from "../hooks/useFetchSong";
 import ChordSequenceDisplay from "../components/ChordSequenceComponents/ChordSequenceDisplay";
 import ChordTimeline from "../components/ChordSequenceComponents/ChordTimeline";
 
-const JAMENDO_CLIENT_ID = "your_client_id"; // Replace with your actual client ID
+const API_KEY = "05955013";
 
 const SongDetailPage = () => {
   const { id } = useParams();
@@ -30,14 +30,18 @@ const SongDetailPage = () => {
   const fetchAudio = async (artistName) => {
     try {
       const response = await fetch(
-        `https://api.jamendo.com/v3.0/albums/tracks/?client_id=${JAMENDO_CLIENT_ID}&format=jsonpretty&limit=1&artist_name=${encodeURIComponent(
+        `https://api.jamendo.com/v3.0/albums/tracks/?client_id=${API_KEY}&format=jsonpretty&limit=1&artist_name=${encodeURIComponent(
           artistName
         )}`
       );
       const data = await response.json();
 
+      console.log("data", data); // Log the response data
+
       if (data.results.length > 0 && data.results[0].tracks.length > 0) {
-        setAudioUrl(data.results[0].tracks[0].audio);
+        const audio = data.results[0].tracks[0].audio;
+        console.log("Audio URL:", audio); // Log the audio URL
+        setAudioUrl(audio);
       }
     } catch (error) {
       console.error("Error fetching audio:", error);
@@ -89,14 +93,12 @@ const SongDetailPage = () => {
           <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">
             Song Details
           </h2>
-
           <p className="text-xl text-gray-700 mb-4">
             <strong>Song Name:</strong> {song.name}
           </p>
           <p className="text-xl text-gray-700 mb-6">
             <strong>Artist:</strong> {song.artist}
           </p>
-
           {/* Status Update */}
           <p className="text-xl text-gray-800 mb-2">Status:</p>
           <div className="space-y-4 mb-6">
@@ -130,22 +132,23 @@ const SongDetailPage = () => {
               Learnt
             </label>
           </div>
-
           {/* Chord Display */}
+
+          {/* Audio Player */}
+          {audioUrl && (
+            <div className="mt-8 text-center">
+              <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+                Preview Track
+              </h2>
+
+              <audio controls className="w-full">
+                <source src={audioUrl} type="audio/mp3" />
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          )}
           {song.chord_sequence?.length > 0 ? (
             <>
-              {/* Audio Player */}
-              {audioUrl && (
-                <div className="mt-8 text-center">
-                  <h2 className="text-2xl font-semibold text-gray-800 mb-2">
-                    Preview Track
-                  </h2>
-                  <audio controls className="w-full">
-                    <source src={audioUrl} type="audio/mp3" />
-                    Your browser does not support the audio element.
-                  </audio>
-                </div>
-              )}
               <div className="mt-8">
                 <ChordSequenceDisplay chords={song.chord_sequence} />
               </div>
