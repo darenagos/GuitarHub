@@ -18,7 +18,7 @@ const LearningPage = () => {
   const [songToLearn, setSongToLearn] = useState("");
   const [artistOfSongToLearn, setArtistOfSongToLearn] = useState("");
   const [status, setStatus] = useState("want_to_learn");
-  const { session } = UserAuth(); // Get session from AuthContext
+  const { session } = UserAuth();
 
   const { songs, loading, error, fetchSongs } = useFetchSongs(
     session?.user?.id

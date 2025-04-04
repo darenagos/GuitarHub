@@ -44,7 +44,7 @@ const MySongsPage = () => {
             {!loading ? (
               <UserCustomSongList userSongs={userSongs} />
             ) : (
-              <p className="text-center text-gray-600">Loading songs...</p>
+              <p className="text-center text-gray-600"></p>
             )}
           </div>
         </div>

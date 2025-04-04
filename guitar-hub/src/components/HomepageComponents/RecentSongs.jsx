@@ -6,8 +6,11 @@ import FadePageWrapper from "../HOC/FadePageWrapper";
 import SongStats from "./SongStats";
 import RecentSongsList from "./RecentSongsList";
 import RecentChordProgressionsList from "./RecentChordProgressionsList";
+import { fetchTopThreeMostRecentSongs } from "../../services/songService";
+import { fetchTopThreeMostRecentChordProgressions } from "../../services/songService";
 
 const RecentSongs = () => {
+  const { userId } = UserAuth();
   const { session } = UserAuth();
   const [songs, setSongs] = useState([]);
   const [chordProgressions, setChordProgressions] = useState([]);
@@ -22,14 +25,11 @@ const RecentSongs = () => {
   useEffect(() => {
     const fetchSongsAndChordProgressions = async () => {
       setLoading(true);
+
       try {
-        // Fetch the top 5 most recent songs from the songs table
-        const { data: songData, error: songError } = await supabase
-          .from("songs")
-          .select("*")
-          .eq("user_id", session?.user?.id)
-          .order("created_at", { ascending: false })
-          .limit(5); // Fetch only the 5 most recent songs
+        // Fetch the top 3 most recent songs from the songs table
+        const { data: songData, error: songError } =
+          await fetchTopThreeMostRecentSongs(session?.user.id);
 
         if (songError) {
           throw new Error(songError.message);
@@ -37,12 +37,7 @@ const RecentSongs = () => {
 
         // Fetch the top 3 most recent chord progressions from usersChordProgressions table
         const { data: progressionData, error: progressionError } =
-          await supabase
-            .from("usersChordProgressions")
-            .select("*")
-            .eq("user_id", session?.user?.id)
-            .order("created_at", { ascending: false })
-            .limit(3); // Fetch only the 3 most recent chord progressions
+          await fetchTopThreeMostRecentChordProgressions(session?.user.id);
 
         if (progressionError) {
           throw new Error(progressionError.message);
@@ -79,10 +74,10 @@ const RecentSongs = () => {
 
   return (
     <FadePageWrapper>
-      <div className="flex flex-col max-w-6xl mx-auto mb-8 px-6">
+      <div className="flex flex-col max-w-6xl  mx-auto  mb-8 px-6">
         <h2 className="text-l pt-10 font-semibold mb-4">Your Dashboard</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
           {/* Display Song Stats */}
           <SongStats statusCounts={statusCounts} />
 

@@ -120,3 +120,29 @@ export const updateSong = async (id, songName, chordSequence) => {
     .eq("id", id);
   return { error };
 };
+
+export const fetchTopThreeMostRecentSongs = async (userId) => {
+  if (!userId) return { error: "User not authenticated" };
+
+  const { data, error } = await supabase
+    .from("songs")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(3);
+
+  return { data, error };
+};
+
+export const fetchTopThreeMostRecentChordProgressions = async (userId) => {
+  if (!userId) return { error: "User not authenticated" };
+
+  const { data, error } = await supabase
+    .from("usersChordProgressions")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(3);
+
+  return { data, error };
+};
