@@ -20,7 +20,7 @@ const ChordTimeline = ({ chords, currentSecond }) => {
         return (
           <div
             key={rowIndex}
-            className="relative flex items-center border max-w-5xl"
+            className="relative flex items-center max-w-5xl"
             style={{
               height: "100px",
               width: "clamp(80vw, 80vh, 80vw)",
@@ -52,7 +52,8 @@ const ChordTimeline = ({ chords, currentSecond }) => {
                   top: "0",
                   height: "100%",
                   width: "2px",
-                  backgroundColor: "red", // Highlight color
+                  backgroundColor: "rgba(255, 0, 0, 0.39)", // Faded red
+                  boxShadow: "0 0 20px 20px rgba(255, 0, 0, 0.4)", // Stronger glow effect
                 }}
               />
             )}
