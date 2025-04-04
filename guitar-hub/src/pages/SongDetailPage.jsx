@@ -37,9 +37,11 @@ const SongDetailPage = () => {
 
         <div className="max-w-4xl mx-auto">
           <SongDetails song={song} id={id} />
+
           {audioUrl && song.chord_sequence?.length > 0 && (
             <AudioPlayer audioUrl={audioUrl} onTimeUpdate={handleTimeUpdate} />
           )}
+
           <ChordDisplaySection
             chordSequence={song.chord_sequence}
             currentSecond={currentSecond}

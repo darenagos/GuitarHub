@@ -1,9 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { supabase } from "../../../supabaseClient";
+import { useNavigate } from "react-router";
 
 const SongDetails = ({ song, id }) => {
   const [status, setStatus] = useState(song?.status || "want_to_learn");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (song) setStatus(song.status);

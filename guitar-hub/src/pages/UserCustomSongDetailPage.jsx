@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { supabase } from "../supabaseClient";
 import { findChordsFromJSON } from "../utils/chordUtils";
 import FadePageWrapper from "../components/HOC/FadePageWrapper";
-
 import UserCustomSongHeader from "../components/MySongsComponents/UserCustomSongHeader";
 import UserCustomChordSequence from "../components/MySongsComponents/UserCustomChordSequence";
 import UserCustomSongEditForm from "../components/MySongsComponents/UserCustomSongEditForm";
+import {
+  fetchUserSongById,
+  updateSong,
+  deleteSong,
+} from "../services/songService";
+
+import { UserAuth } from "../context/AuthContext"; // Import UserAuth
 
 const UserCustomSongDetailPage = () => {
   const { id } = useParams();
+  const { userId } = UserAuth();
+  const { session } = UserAuth(); // Assuming 'session' is part of the context
+
   const [song, setSong] = useState(null);
   const [loading, setLoading] = useState(true);
   const [chordDiagrams, setChordDiagrams] = useState([]);
@@ -21,12 +29,7 @@ const UserCustomSongDetailPage = () => {
   useEffect(() => {
     const fetchSong = async () => {
       try {
-        const { data, error } = await supabase
-          .from("usersChordProgressions")
-          .select("*")
-          .eq("id", id)
-          .single();
-
+        const { data, error } = await fetchUserSongById(session?.user.id, id); // Ensure userId is passed
         if (error) throw error;
 
         setSong(data);
@@ -44,11 +47,11 @@ const UserCustomSongDetailPage = () => {
       } catch (error) {
         console.error("Error fetching song:", error);
       } finally {
-        setLoading(false); // Set loading to false once the data is fetched
+        setLoading(false);
       }
     };
     fetchSong();
-  }, [id]);
+  }, [id, userId]); // Ensure to include userId as a dependency if needed
 
   useEffect(() => {
     if (!song || !song.chord_sequence) return;
@@ -67,11 +70,7 @@ const UserCustomSongDetailPage = () => {
   }, [song]);
 
   const handleDeleteSong = async () => {
-    const { error } = await supabase
-      .from("usersChordProgressions")
-      .delete()
-      .eq("id", id);
-
+    const { error } = await deleteSong(id);
     if (error) {
       console.error("Error deleting song:", error);
       alert("Failed to delete song");
@@ -88,14 +87,7 @@ const UserCustomSongDetailPage = () => {
       editedChordSequence.split(",").map((chord) => chord.trim())
     );
 
-    const { error } = await supabase
-      .from("usersChordProgressions")
-      .update({
-        song_name: editedSongName,
-        chord_sequence: formattedChords,
-      })
-      .eq("id", id);
-
+    const { error } = await updateSong(id, editedSongName, formattedChords);
     if (error) {
       console.error("Error updating song:", error);
       alert("Failed to update song.");
@@ -114,14 +106,12 @@ const UserCustomSongDetailPage = () => {
     setIsEditing(true);
   };
 
-  // Early return while loading data
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen"></div>
     );
   }
 
-  // If no song found, show error message
   if (!song) {
     return (
       <div className="text-center">

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import FadePageWrapper from "../components/HOC/FadePageWrapper";
-import { supabase } from "../supabaseClient";
-
 import { UserAuth } from "../context/AuthContext"; // Import UserAuth
 import AddCustomSongForm from "../components/MySongsComponents/AddCustomSongForm";
 import UserCustomSongList from "../components/MySongsComponents/UserCustomSongList";
+import { fetchUserSongs } from "../services/songService"; // Import fetchUserSongs
 
 const MySongsPage = () => {
   const { session } = UserAuth(); // Get session from AuthContext
@@ -15,44 +14,37 @@ const MySongsPage = () => {
 
   useEffect(() => {
     if (!userId) return;
-    fetchUserSongs(); // Fetch once on load
+
+    setLoading(true);
+    fetchUserSongs(userId).then(({ data, error }) => {
+      if (error) {
+        console.error("Error fetching user songs:", error);
+      } else {
+        console.log("Fetched user songs:", data);
+        setUserSongs(data);
+      }
+      setLoading(false);
+    });
   }, [userId]);
-
-  const fetchUserSongs = async () => {
-    if (!userId) {
-      console.log("User ID is not available");
-      return;
-    }
-
-    const { data, error } = await supabase
-      .from("usersChordProgressions")
-      .select("*")
-      .eq("user_id", userId)
-      .order("created_at", { ascending: true }); // Fetch only songs belonging to the logged-in user
-
-    if (error) {
-      console.error("Error fetching user songs:", error);
-    } else {
-      console.log("Fetched user songs:", data); // Log fetched data
-      setUserSongs(data); // Set the user songs state
-    }
-
-    setLoading(false); // Set loading to false after data fetch
-  };
 
   return (
     <div className="scrollable-content mt-[10vh] h-[90vh]">
       <FadePageWrapper>
         <div className="h-screen flex flex-col">
           {/* Form for adding custom songs */}
-          <AddCustomSongForm userId={userId} fetchUserSongs={fetchUserSongs} />
+          <AddCustomSongForm
+            userId={userId}
+            fetchUserSongs={() =>
+              fetchUserSongs(userId).then(({ data }) => setUserSongs(data))
+            }
+          />
 
           {/* Display list of user-created songs */}
           <div className="song-list-container">
             {!loading ? (
               <UserCustomSongList userSongs={userSongs} />
             ) : (
-              <p className="text-center text-gray-600"></p>
+              <p className="text-center text-gray-600">Loading songs...</p>
             )}
           </div>
         </div>
