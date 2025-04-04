@@ -3,7 +3,7 @@ import ChordSequenceDisplay from "../../ChordSequenceComponents/ChordSequenceDis
 import ChordTimeline from "../../ChordSequenceComponents/ChordTimeline";
 
 const ChordDisplaySection = ({ chordSequence, currentSecond }) => (
-  <div>
+  <div className="pb-20">
     {chordSequence?.length > 0 ? (
       <>
         <div className="mt-8">

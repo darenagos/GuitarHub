@@ -23,6 +23,19 @@ const SongDetails = ({ song, id }) => {
       alert("Failed to update status. Please try again.");
     }
   };
+
+  const handleDelete = async () => {
+    const { error } = await supabase.from("songs").delete().eq("id", id);
+
+    if (error) {
+      console.error("Error deleting song:", error);
+      alert("Failed to delete song");
+    } else {
+      alert("Song deleted successfully.");
+      navigate("/learning");
+    }
+  };
+
   return (
     <div>
       <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">
@@ -66,6 +79,12 @@ const SongDetails = ({ song, id }) => {
           />
           Learnt
         </label>
+        <button
+          onClick={handleDelete}
+          className=" py-5 rounded-md hover:scale-110 transition-all duration-300s"
+        >
+          Delete Song
+        </button>
       </div>
     </div>
   );
