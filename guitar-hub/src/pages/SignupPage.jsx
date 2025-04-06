@@ -4,7 +4,7 @@ import { UserAuth } from "../context/AuthContext";
 
 const SignupPage = () => {
   const [email, setEmail] = useState("");
-  const [password, setPasswprd] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState("");
 
@@ -41,13 +41,17 @@ const SignupPage = () => {
         </p>
 
         <div className="space-y-6">
+          <label htmlFor="email">Email</label>
           <input
+            id="email"
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             type="email"
             className="w-full p-3 border-b-3 border-black bg-transparent focus:outline-none focus:border-gray-600"
           />
+          <label htmlFor="password">Password</label>
           <input
+            id="password"
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             type="password"

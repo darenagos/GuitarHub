@@ -4,7 +4,7 @@ import { UserAuth } from "../context/AuthContext";
 
 const SigninPage = () => {
   const [email, setEmail] = useState("");
-  const [password, setPasswprd] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState("");
 
@@ -30,7 +30,11 @@ const SigninPage = () => {
 
   return (
     <div className="flex justify-center items-center ">
-      <form onSubmit={handleSignIn} className="w-full max-w-md text-gray-800">
+      <form
+        role="form"
+        onSubmit={handleSignIn}
+        className="w-full max-w-md text-gray-800"
+      >
         <h2 className="text-3xl text-center mb-6">Sign in</h2>
         <p className="text-center mb-4 text-sm text-gray-600">
           Don't have an account?{" "}
@@ -39,14 +43,18 @@ const SigninPage = () => {
           </Link>
         </p>
         <div className="space-y-6">
+          <label htmlFor="email">Email</label>
           <input
+            id="email"
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             type="email"
             className="w-full p-3 border-b-3 border-black bg-transparent focus:outline-none focus:border-gray-600"
           />
+          <label htmlFor="password">Password</label>
           <input
-            onChange={(e) => setPasswprd(e.target.value)}
+            id="password"
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             type="password"
             className="w-full p-3 border-b-3 border-black bg-transparent focus:outline-none focus:border-gray-600"

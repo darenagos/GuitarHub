@@ -112,7 +112,10 @@ const UserCustomSongDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen"></div>
+      <div
+        data-testid="loading"
+        className="flex justify-center items-center min-h-screen"
+      ></div>
     );
   }
 
