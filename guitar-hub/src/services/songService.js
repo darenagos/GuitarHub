@@ -83,6 +83,12 @@ export const fetchUserSongById = async (userId, songId) => {
   return { data };
 };
 
+export const deleteSong = async (id) => {
+  const { error } = await supabase.from("songs").delete().eq("id", id);
+
+  return { error };
+};
+
 export const addCustomSong = async (userId, songName, chordSequence) => {
   if (!userId) return { error: "User not authenticated" };
   const chordArray = chordSequence.split(",").map((chord) => chord.trim());
@@ -99,7 +105,7 @@ export const addCustomSong = async (userId, songName, chordSequence) => {
   return { data, error };
 };
 
-export const deleteSong = async (id) => {
+export const deleteCustomSong = async (id) => {
   const { error } = await supabase
     .from("usersChordProgressions")
     .delete()
@@ -107,7 +113,7 @@ export const deleteSong = async (id) => {
   return { error };
 };
 
-export const updateSong = async (id, songName, chordSequence) => {
+export const updateCustomSong = async (id, songName, chordSequence) => {
   const formattedChords = JSON.stringify(
     chordSequence.split(",").map((chord) => chord.trim())
   );
@@ -119,6 +125,15 @@ export const updateSong = async (id, songName, chordSequence) => {
     })
     .eq("id", id);
   return { error };
+};
+
+export const updateStatus = async (id, newStatus) => {
+  const { error } = await supabase
+    .from("songs")
+    .update({ status: newStatus })
+    .eq("id", id);
+
+  return { error, newStatus };
 };
 
 export const fetchTopThreeMostRecentSongs = async (userId) => {

@@ -7,8 +7,8 @@ import UserCustomChordSequence from "../components/MySongsComponents/UserCustomC
 import UserCustomSongEditForm from "../components/MySongsComponents/UserCustomSongEditForm";
 import {
   fetchUserSongById,
-  updateSong,
-  deleteSong,
+  updateCustomSong,
+  deleteCustomSong,
 } from "../services/songService";
 
 import { UserAuth } from "../context/AuthContext"; // Import UserAuth
@@ -70,7 +70,7 @@ const UserCustomSongDetailPage = () => {
   }, [song]);
 
   const handleDeleteSong = async () => {
-    const { error } = await deleteSong(id);
+    const { error } = await deleteCustomSong(id);
     if (error) {
       console.error("Error deleting song:", error);
       alert("Failed to delete song");
@@ -87,7 +87,11 @@ const UserCustomSongDetailPage = () => {
       editedChordSequence.split(",").map((chord) => chord.trim())
     );
 
-    const { error } = await updateSong(id, editedSongName, formattedChords);
+    const { error } = await updateCustomSong(
+      id,
+      editedSongName,
+      formattedChords
+    );
     if (error) {
       console.error("Error updating song:", error);
       alert("Failed to update song.");

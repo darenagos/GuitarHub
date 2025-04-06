@@ -7,9 +7,8 @@ const RecentSongsList = ({ songs, loading, error }) => {
     <FadePageWrapper>
       <div className="p-6 border rounded-md shadow-md h-full">
         <h3 className="text-xl font-semibold mb-4">Top 3 Most Recent Songs</h3>
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
+
+        {error ? (
           <p>Error fetching songs: {error.message}</p>
         ) : songs.length > 0 ? (
           songs.slice(0, 3).map((song) => (

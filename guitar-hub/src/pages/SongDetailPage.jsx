@@ -39,7 +39,11 @@ const SongDetailPage = () => {
           <SongDetails song={song} id={id} />
 
           {audioUrl && song.chord_sequence?.length > 0 && (
-            <AudioPlayer audioUrl={audioUrl} onTimeUpdate={handleTimeUpdate} />
+            <AudioPlayer
+              audioUrl={audioUrl}
+              onTimeUpdate={handleTimeUpdate}
+              preload="auto"
+            />
           )}
 
           <ChordDisplaySection

@@ -22,44 +22,66 @@ const RecentSongs = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Load cached data immediately if available
   useEffect(() => {
-    const fetchSongsAndChordProgressions = async () => {
-      setLoading(true);
+    const cachedSongs = sessionStorage.getItem("recentSongs");
+    const cachedChords = sessionStorage.getItem("recentChordProgressions");
 
+    if (cachedSongs) setSongs(JSON.parse(cachedSongs));
+    if (cachedChords) setChordProgressions(JSON.parse(cachedChords));
+
+    // Count status from cached songs
+    if (cachedSongs) {
+      const parsedSongs = JSON.parse(cachedSongs);
+      const counts = {
+        want_to_learn: 0,
+        currently_learning: 0,
+        learnt: 0,
+      };
+      parsedSongs.forEach((song) => {
+        if (song.status === "want_to_learn") counts.want_to_learn++;
+        if (song.status === "currently_learning") counts.currently_learning++;
+        if (song.status === "learnt") counts.learnt++;
+      });
+      setStatusCounts(counts);
+    }
+
+    setLoading(!cachedSongs || !cachedChords); // Show loader only if cache is empty
+  }, [userId]);
+
+  // Fetch fresh data in the background
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        // Fetch the top 3 most recent songs from the songs table
         const { data: songData, error: songError } =
-          await fetchTopThreeMostRecentSongs(session?.user.id);
-
-        if (songError) {
-          throw new Error(songError.message);
-        }
-
-        // Fetch the top 3 most recent chord progressions from usersChordProgressions table
+          await fetchTopThreeMostRecentSongs(userId);
         const { data: progressionData, error: progressionError } =
-          await fetchTopThreeMostRecentChordProgressions(session?.user.id);
+          await fetchTopThreeMostRecentChordProgressions(userId);
 
-        if (progressionError) {
-          throw new Error(progressionError.message);
-        }
+        if (songError) throw new Error(songError.message);
+        if (progressionError) throw new Error(progressionError.message);
 
-        // Count the number of songs in each status
-        const statusCounts = {
+        // Save and set data
+        setSongs(songData);
+        sessionStorage.setItem("recentSongs", JSON.stringify(songData));
+
+        setChordProgressions(progressionData);
+        sessionStorage.setItem(
+          "recentChordProgressions",
+          JSON.stringify(progressionData)
+        );
+
+        const counts = {
           want_to_learn: 0,
           currently_learning: 0,
           learnt: 0,
         };
-
         songData.forEach((song) => {
-          if (song.status === "want_to_learn") statusCounts.want_to_learn++;
-          if (song.status === "currently_learning")
-            statusCounts.currently_learning++;
-          if (song.status === "learnt") statusCounts.learnt++;
+          if (song.status === "want_to_learn") counts.want_to_learn++;
+          if (song.status === "currently_learning") counts.currently_learning++;
+          if (song.status === "learnt") counts.learnt++;
         });
-
-        setSongs(songData);
-        setChordProgressions(progressionData);
-        setStatusCounts(statusCounts);
+        setStatusCounts(counts);
       } catch (err) {
         setError(err);
       } finally {
@@ -67,10 +89,8 @@ const RecentSongs = () => {
       }
     };
 
-    if (session?.user?.id) {
-      fetchSongsAndChordProgressions();
-    }
-  }, [session?.user?.id]);
+    if (userId) fetchData();
+  }, [userId]);
 
   return (
     <FadePageWrapper>

@@ -2,6 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { supabase } from "../../../supabaseClient";
 import { useNavigate } from "react-router";
+import { updateStatus } from "../../../services/songService";
+import { deleteSong } from "../../../services/songService";
 
 const SongDetails = ({ song, id }) => {
   const [status, setStatus] = useState(song?.status || "want_to_learn");
@@ -15,10 +17,7 @@ const SongDetails = ({ song, id }) => {
   const handleStatusChange = async (newStatus) => {
     setStatus(newStatus);
 
-    const { error } = await supabase
-      .from("songs")
-      .update({ status: newStatus })
-      .eq("id", id);
+    const { error } = await updateStatus(id, newStatus);
 
     if (error) {
       console.error("Error updating status:", error);
@@ -27,7 +26,7 @@ const SongDetails = ({ song, id }) => {
   };
 
   const handleDelete = async () => {
-    const { error } = await supabase.from("songs").delete().eq("id", id);
+    const { error } = await deleteSong(id);
 
     if (error) {
       console.error("Error deleting song:", error);
