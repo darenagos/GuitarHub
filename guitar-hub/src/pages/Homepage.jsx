@@ -17,7 +17,7 @@ const Homepage = () => {
     session?.user?.id
   );
 
-  console.log(session);
+  // console.log(session);
 
   const handleSignOut = async (e) => {
     e.preventDefault();

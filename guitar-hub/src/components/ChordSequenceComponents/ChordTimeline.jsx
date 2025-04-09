@@ -24,9 +24,9 @@ const ChordTimeline = ({ chords, currentSecond }) => {
             style={{
               height: "100px",
               width: "clamp(80vw, 80vh, 80vw)",
-              backgroundColor: "#f4f4f4",
+              backgroundColor: "#f6f6f6",
               borderRadius: "10px",
-              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
               marginBottom: "10px",
               position: "relative",
               overflow: "hidden", // Prevent overflow
@@ -38,7 +38,7 @@ const ChordTimeline = ({ chords, currentSecond }) => {
               style={{ fontSize: "12px" }}
             >
               {[...Array(6)].map((_, i) => {
-                const timeLabel = (i * (interval / 5) + rowStart).toFixed(2);
+                const timeLabel = (i * (interval / 5) + rowStart).toFixed(0);
                 return <span key={i}>{timeLabel}s</span>;
               })}
             </div>
@@ -52,8 +52,8 @@ const ChordTimeline = ({ chords, currentSecond }) => {
                   top: "0",
                   height: "100%",
                   width: "2px",
-                  backgroundColor: "rgba(255, 0, 0, 0.39)", // Faded red
-                  boxShadow: "0 0 20px 20px rgba(255, 0, 0, 0.4)", // Stronger glow effect
+                  backgroundColor: "#e3d8b3", // Faded red
+                  boxShadow: "0 0 20px 20px #e3d8b3", // Stronger glow effect
                 }}
               />
             )}

@@ -10,7 +10,6 @@ import { fetchTopThreeMostRecentSongs } from "../../services/songService";
 import { fetchTopThreeMostRecentChordProgressions } from "../../services/songService";
 
 const RecentSongs = () => {
-  const { userId } = UserAuth();
   const { session } = UserAuth();
   const [songs, setSongs] = useState([]);
   const [chordProgressions, setChordProgressions] = useState([]);
@@ -47,16 +46,17 @@ const RecentSongs = () => {
     }
 
     setLoading(!cachedSongs || !cachedChords); // Show loader only if cache is empty
-  }, [userId]);
+  }, [session?.user?.id]);
 
   // Fetch fresh data in the background
   useEffect(() => {
+    // console.log("User ID:", session?.user.id);
     const fetchData = async () => {
       try {
         const { data: songData, error: songError } =
-          await fetchTopThreeMostRecentSongs(userId);
+          await fetchTopThreeMostRecentSongs(session?.user.id);
         const { data: progressionData, error: progressionError } =
-          await fetchTopThreeMostRecentChordProgressions(userId);
+          await fetchTopThreeMostRecentChordProgressions(session?.user.id);
 
         if (songError) throw new Error(songError.message);
         if (progressionError) throw new Error(progressionError.message);
@@ -89,8 +89,8 @@ const RecentSongs = () => {
       }
     };
 
-    if (userId) fetchData();
-  }, [userId]);
+    if (session?.user?.id) fetchData();
+  }, [session?.user?.id]);
 
   return (
     <FadePageWrapper>

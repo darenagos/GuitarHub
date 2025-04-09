@@ -7,7 +7,7 @@ const ChordSequenceDisplay = ({ chords }) => {
     <div className="w-full mx-auto p-4 ">
       <button
         onClick={() => setIsVisible(!isVisible)}
-        className="px-4 py-2 bg-white-500 font-semibold rounded-md shadow-md hover:bg-beige focus:outline-none"
+        className="px-4 py-2 bg-white-500 font-semibold rounded-md shadow-md hover:bg-beige focus:outline-none hover:scale-105 transition cursor-pointer"
       >
         {isVisible ? "Hide Chord Sequence <" : "Show Chord Sequence >"}
       </button>
@@ -28,7 +28,7 @@ const ChordSequenceDisplay = ({ chords }) => {
                     {chord.label}
                   </span>
                   <span className="text-sm text-gray-500">
-                    {chord.start}s - {chord.end}s
+                    {chord.start.toFixed(1)}s - {chord.end.toFixed(1)}s
                   </span>
                 </li>
               ))}
