@@ -18,7 +18,7 @@ const RecentChordProgressionsList = ({ chordProgressions }) => {
               <h4 className="text-lg font-semibold ">
                 Chord Progression for {progression.song_name}
               </h4>
-              <p>
+              <p className="text-gray-500">
                 Created At: {new Date(progression.created_at).toLocaleString()}
               </p>
               <Link

@@ -161,3 +161,14 @@ export const fetchTopThreeMostRecentChordProgressions = async (userId) => {
 
   return { data, error };
 };
+
+export const fetchLearningSongs = async (userId) => {
+  if (!userId) return { error: "User not authenticated" };
+
+  const { data, error } = await supabase
+    .from("songs")
+    .select("*")
+    .eq("user_id", userId);
+
+  return { data, error };
+};

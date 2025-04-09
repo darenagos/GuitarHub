@@ -17,9 +17,14 @@ const RecentSongsList = ({ songs, loading, error }) => {
               className="mb-4 p-4 border rounded-md shadow-md break-words"
             >
               <h4 className="text-lg font-semibold">{song.name}</h4>
-              <p>By {song.artist}</p>
-              <p>Status: {song.status}</p>
-              <Link to={`/songs/${song.id}`} className="hover:underline">
+              <p className="">By {song.artist}</p>
+              <p className="text-gray-500">
+                Status: {song.status.replace(/_/g, " ").toUpperCase()}
+              </p>
+              <Link
+                to={`/songs/${song.id}`}
+                className="hover:underline drop-shadow-[0_2px_2px_rgba(0,0,0,0.1)]"
+              >
                 View Song
               </Link>
             </div>
