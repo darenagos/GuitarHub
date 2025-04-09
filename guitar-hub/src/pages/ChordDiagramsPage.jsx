@@ -35,9 +35,7 @@ const ChordDiagramsPage = () => {
           <ChordDiagramSearchBar onSearch={handleSearch} />
         </div>
         {/* Search Results */}
-        {isSearchCleared ? (
-          null && hasPressedSubmit == false
-        ) : searchResults.length > 0 ? (
+        {!hasPressedSubmit ? null : searchResults.length > 0 ? (
           <div className="max-w-4xl mx-auto mb-8 px-6 ">
             <div className="flex justify-center">
               <div className="w-full max-w-xs">

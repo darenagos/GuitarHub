@@ -1,0 +1,10 @@
+/* Container to hold everything */
+.background {
+  
+    background-image: url("../../assets/botanical-2.jpg"); /* Path to your image */
+    /* background-attachment: fixed; */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+  }
