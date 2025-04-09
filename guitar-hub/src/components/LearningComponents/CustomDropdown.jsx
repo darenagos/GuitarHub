@@ -16,7 +16,7 @@ const CustomDropdown = ({ options, selectedValue, onChange }) => {
         onClick={() => setIsOpen(!isOpen)}
       >
         {selectedValue
-          ? selectedValue.replace("_", " ").toUpperCase()
+          ? selectedValue.replace(/_/g, " ").toUpperCase()
           : "Select an option"}
         <span
           className={`transform transition-transform ${

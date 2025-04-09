@@ -55,7 +55,7 @@ const SongDetails = ({ song, id }) => {
         <strong>Artist:</strong> {song.artist}
       </p>
       {/* Status Update */}
-      <p className="text-l text-gray-800 mb-2">Status tracker</p>
+      <p className="text-l text-gray-800 mb-2">Change status:</p>
       <div className="space-y-4 mb-6">
         <div className="p-2 bg-white rounded-lg shadow-xs">
           <div className="flex justify-between items-center mb-2">
@@ -63,7 +63,7 @@ const SongDetails = ({ song, id }) => {
               <div
                 key={s}
                 onClick={() => handleStatusChange(s)}
-                className={`cursor-pointer text-sm font-medium transition-colors duration-300 ${
+                className={`cursor-pointer p-2 bg-gray-100 text-sm font-medium drop-shadow-[0_2px_2px_rgba(0,0,0,0.1)]  hover:scale-105 transition-all ease-in-out ${
                   status === s || statuses.indexOf(status) > index
                     ? "text-gray-700"
                     : "text-gray-400"

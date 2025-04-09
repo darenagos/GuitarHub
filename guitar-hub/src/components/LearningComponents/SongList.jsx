@@ -66,8 +66,8 @@ const SongList = ({ wantToLearnList }) => {
 
             return (
               <div className="flex flex-col items-center" key={status}>
-                <h3 className="text-3xl text-center py-3 text-gray-800 flex items-center gap-2">
-                  {status.replace("_", " ").toUpperCase()}
+                <h3 className="text-3xl text-center py-3 text-gray-800 flex items-center gap-2 h-20">
+                  {status.replace(/_/g, " ").toUpperCase()}
                   <button
                     className="ml-3 text-sm cursor-pointer  hover:scale-110 ease-in-out rounded transition flex items-center"
                     onClick={() => handleSortClick(status)}

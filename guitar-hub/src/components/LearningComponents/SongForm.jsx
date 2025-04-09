@@ -93,10 +93,10 @@ const SongForm = ({
         {/* Button Below Grid (Centered) */}
         <button
           onClick={addSongToWantToLearn}
-          className="col-span-3 mt-4 p-3 w-fulls bg-[#F5F0E1] text-gray-800 font-medium 
-        hover:bg-[#e3d8b3] transition-all duration-300 ease-in-out"
+          className="col-span-3 mt-4 p-3 w-full bg-[#F5F0E1] text-gray-800 font-medium 
+        hover:bg-[#e3d8b3] transition-all duration-300 ease-in-out cursor-pointer"
         >
-          Add Song to {status.replace("_", " ").toUpperCase()}
+          Add Song to {status.replace(/_/g, " ").toUpperCase()}
         </button>
       </div>
     </div>
