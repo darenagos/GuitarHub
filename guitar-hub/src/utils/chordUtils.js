@@ -1,5 +1,35 @@
 import chordDB from "@tombatossals/chords-db/lib/guitar.json";
 
+// export const findChord = (chordName, suffix) => {
+//   // Clean input for chord name and suffix
+//   const formattedChordName = chordName
+//     .trim()
+//     .replace(/♯/g, "#")
+//     .replace(/#/g, "sharp")
+//     .toLowerCase()
+//     .replace(/^([a-z])/, (match) => match.toUpperCase()); // Capitalize first letter
+
+//   const formattedSuffix = suffix.trim().toLowerCase();
+
+//   // Check if chord exists in the database
+//   console.log(`Looking for chord: ${formattedChordName} ${formattedSuffix}`);
+//   if (!chordDB.chords.hasOwnProperty(formattedChordName)) {
+//     console.log(`Chord ${formattedChordName} not found in database`);
+//     return null;
+//   }
+
+//   const chord = chordDB.chords[formattedChordName];
+
+//   // Filter positions by suffix
+//   const filteredChords = chord.filter((entry) =>
+//     entry.suffix.toLowerCase().includes(formattedSuffix)
+//   );
+
+//   return filteredChords.length > 0
+//     ? filteredChords
+//     : { key: chordName, suffix, positions: [] };
+// };
+
 export const findChord = (chordName, suffix) => {
   // Clean input for chord name and suffix
   const formattedChordName = chordName
@@ -20,7 +50,26 @@ export const findChord = (chordName, suffix) => {
 
   const chord = chordDB.chords[formattedChordName];
 
-  // Filter positions by suffix
+  // Special case handling for specific chord types that need exact matching
+  if (
+    formattedSuffix === "7" ||
+    formattedSuffix === "m7" ||
+    formattedSuffix === "dim7"
+  ) {
+    // Use exact matching for these specific suffixes
+    const exactMatches = chord.filter(
+      (entry) => entry.suffix.toLowerCase() === formattedSuffix
+    );
+
+    if (exactMatches.length > 0) {
+      console.log(
+        `Found exact match for ${formattedChordName} ${formattedSuffix}`
+      );
+      return exactMatches;
+    }
+  }
+
+  // For other suffixes, continue with the includes approach
   const filteredChords = chord.filter((entry) =>
     entry.suffix.toLowerCase().includes(formattedSuffix)
   );
