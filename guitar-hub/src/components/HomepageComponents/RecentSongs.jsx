@@ -106,7 +106,7 @@ const RecentSongs = () => {
   return (
     <FadePageWrapper>
       <div className="flex flex-col max-w-6xl mx-auto mb-8 px-6">
-        <h2 className="text-l pt-10 font-semibold mb-4">Your Dashboard</h2>
+        <h2 className="text-l pt-10 font-semibold mb-4">My Dashboard</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Display Song Stats */}

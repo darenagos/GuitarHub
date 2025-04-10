@@ -7,6 +7,7 @@ const Notes = () => {
   const { session } = UserAuth(); // Get the current user session
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState(false); // Separate state for update operations
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [updatedNote, setUpdatedNote] = useState("");
@@ -59,10 +60,10 @@ const Notes = () => {
     if (!note) return;
 
     try {
-      setLoading(true);
+      setUpdating(true); // Use updating state instead of loading
       const { error } = await supabase
         .from("userNotes")
-        .update({ notes: updatedNote }) // Fixed column name
+        .update({ notes: updatedNote })
         .eq("id", note.id);
 
       if (error) {
@@ -74,52 +75,72 @@ const Notes = () => {
     } catch (err) {
       setError(err);
     } finally {
-      setLoading(false);
+      setUpdating(false); // Reset updating state instead of loading
     }
+  };
+
+  // Content to render
+  const renderContent = () => {
+    if (loading) {
+      return <p className="min-h-[100px]"></p>;
+    }
+
+    if (error) {
+      return <p className="text-red-500">Error: {error.message}</p>;
+    }
+
+    return (
+      <div className="mt-6 p-4 border rounded-md shadow-md break-words min-h-[150px]">
+        {isEditing ? (
+          <>
+            <textarea
+              value={updatedNote}
+              onChange={(e) => setUpdatedNote(e.target.value)}
+              className="w-full p-4 border rounded-md min-h-[100px]"
+              disabled={updating} // Disable during update
+            />
+            <div className="flex justify-between mt-2">
+              <button
+                onClick={handleUpdateNote}
+                disabled={updating} // Disable during update
+                className={`${
+                  updating ? "bg-gray-400" : "bg-[#e3d8b3] hover:bg-[#d1c89f]"
+                } text-white p-2 rounded-md transition-colors`}
+              >
+                {updating ? "Saving..." : "Update Note"}
+              </button>
+              <button
+                onClick={() => setIsEditing(false)}
+                disabled={updating}
+                className="bg-gray-200 text-gray-700 p-2 rounded-md hover:bg-gray-300 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <p className="whitespace-pre-wrap min-h-[100px]">{note?.notes}</p>
+            <button
+              onClick={() => {
+                setIsEditing(true);
+                setUpdatedNote(note.notes);
+              }}
+              className="bg-[#e3d8b3] text-white p-2 rounded-md mt-2 hover:bg-[#d1c89f] transition-colors"
+            >
+              Edit
+            </button>
+          </>
+        )}
+      </div>
+    );
   };
 
   return (
     <FadePageWrapper>
       <div className="max-w-4xl mx-auto mb-8 px-6">
         <h2 className="text-l font-semibold mb-4">Your Note</h2>
-
-        {/* Display Note */}
-        {loading ? (
-          <p></p>
-        ) : error ? (
-          <p>Error: {error.message}</p>
-        ) : (
-          <div className="mt-6 p-4 border rounded-md shadow-md break-words">
-            {isEditing ? (
-              <>
-                <textarea
-                  value={updatedNote}
-                  onChange={(e) => setUpdatedNote(e.target.value)}
-                  className="w-full p-4 border rounded-md "
-                />
-                <button
-                  onClick={handleUpdateNote}
-                  className="bg-green-500 text-white p-2 rounded-md mt-2"
-                >
-                  Update Note
-                </button>
-              </>
-            ) : (
-              <>
-                <p>{note?.notes}</p> {/* Fixed display field */}
-                <button
-                  onClick={() => {
-                    setIsEditing(true);
-                    setUpdatedNote(note.notes);
-                  }}
-                  className="bg-blue-500 text-white p-2 rounded-md mt-2"
-                >
-                  Edit
-                </button>
-              </>
-            )}
-          </div>
-        )}
+        {renderContent()}
       </div>
     </FadePageWrapper>
   );

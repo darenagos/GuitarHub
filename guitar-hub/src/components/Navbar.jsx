@@ -2,10 +2,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import "../index.css";
+import dgChordLogo from "../assets/dgChordLogo.png"; // Import the logo
 
 const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 bg-[#FAF9F6] shadow-2xs w-full z-50 h-1/10 flex justify-center items-center">
+      <div className=" absolute left-5 flex items-center justify-start space-x-2">
+        <img
+          src={dgChordLogo}
+          alt="DG Chord Logo"
+          className="h-8 sm:h-17 mr-2"
+        />
+        <span className="text-2xl font-semibold">GuitarHub</span>
+      </div>
       <div className="flex justify-center space-x-6">
         <Link to="/homepage" className="text-black hover:text-gray-600">
           Homepage

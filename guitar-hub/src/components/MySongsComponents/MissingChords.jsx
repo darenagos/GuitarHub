@@ -1,10 +1,6 @@
 import React from "react";
 
-const MissingChords = ({ song, chordDiagrams }) => {
-  const missingChords = song.chord_sequence
-    .split(",")
-    .filter((_, index) => !chordDiagrams[index]);
-
+const MissingChords = ({ missingChords }) => {
   return missingChords.length > 0 ? (
     <div>
       <p>Chords not found:</p>
