@@ -4,12 +4,14 @@ import { UserAuth } from "../context/AuthContext";
 import FadePageWrapper from "../components/HOC/FadePageWrapper";
 
 import dgChordLogo from "../assets/dgChordLogo.png";
+import LoadingScreen from "./LoadingScreen";
 
 const SigninPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState("");
+  const [showLoadingScreen, setShowLoadingScreen] = useState(false);
 
   const { session, signInUser } = UserAuth();
   const navigate = useNavigate();
@@ -22,7 +24,8 @@ const SigninPage = () => {
       const result = await signInUser(email, password);
 
       if (result.success) {
-        navigate("/homepage");
+        // navigate("/homepage");
+        setShowLoadingScreen(true);
       }
     } catch (err) {
       setError("an error occured");
@@ -30,6 +33,14 @@ const SigninPage = () => {
       setLoading(false);
     }
   };
+
+  const handleLoadingScreen = () => {
+    navigate("/homepage");
+  };
+
+  if (showLoadingScreen) {
+    return <LoadingScreen onComplete={handleLoadingScreen} />;
+  }
 
   return (
     <FadePageWrapper>
