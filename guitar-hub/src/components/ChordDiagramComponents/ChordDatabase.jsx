@@ -81,7 +81,7 @@ const ChordDatabase = () => {
           {/* Chords List and Diagrams (Scrollable) */}
           <div className="chords-list  overflow-y-auto px-4">
             {filteredChords.length === 0 ? (
-              <p>No chords found</p>
+              <p>Select Chord</p>
             ) : (
               <div className="grid grid-cols-4 gap-4">
                 {filteredChords.map((chord, index) => (
