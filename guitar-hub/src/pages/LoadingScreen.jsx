@@ -45,7 +45,7 @@ const LoadingScreen = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 bg-white flex flex-col items-center justify-center">
+    <div className="fixed inset-0 bg-white flex flex-col items-center justify-center z-[9999]">
       <div
         className="flex flex-col items-center justify-center"
         style={{

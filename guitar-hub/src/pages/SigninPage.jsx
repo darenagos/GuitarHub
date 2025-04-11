@@ -24,8 +24,8 @@ const SigninPage = () => {
       const result = await signInUser(email, password);
 
       if (result.success) {
-        // navigate("/homepage");
-        setShowLoadingScreen(true);
+        navigate("/homepage");
+        // setShowLoadingScreen(true);
       }
     } catch (err) {
       setError("an error occured");
@@ -34,13 +34,13 @@ const SigninPage = () => {
     }
   };
 
-  const handleLoadingScreen = () => {
-    navigate("/homepage");
-  };
+  // const handleLoadingScreen = () => {
+  //   navigate("/homepage");
+  // };
 
-  if (showLoadingScreen) {
-    return <LoadingScreen onComplete={handleLoadingScreen} />;
-  }
+  // if (showLoadingScreen) {
+  //   return <LoadingScreen onComplete={handleLoadingScreen} />;
+  // }
 
   return (
     <FadePageWrapper>
