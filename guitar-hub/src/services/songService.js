@@ -114,14 +114,11 @@ export const deleteCustomSong = async (id) => {
 };
 
 export const updateCustomSong = async (id, songName, chordSequence) => {
-  const formattedChords = JSON.stringify(
-    chordSequence.split(",").map((chord) => chord.trim())
-  );
   const { error } = await supabase
     .from("usersChordProgressions")
     .update({
       song_name: songName,
-      chord_sequence: formattedChords,
+      chord_sequence: chordSequence,
     })
     .eq("id", id);
   return { error };
