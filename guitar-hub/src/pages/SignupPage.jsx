@@ -160,26 +160,7 @@ const SignupPage = () => {
     const errorCode = error?.code || error?.message || "unknown";
     console.error("Signup error:", errorCode);
 
-    // Map common error codes to user-friendly messages
-    switch (errorCode) {
-      case "auth/email-already-in-use":
-        setError("An account with this email already exists");
-        break;
-      case "auth/invalid-email":
-        setError("Please enter a valid email address");
-        break;
-      case "auth/weak-password":
-        setError("Password is too weak. Use at least 6 characters");
-        break;
-      case "auth/network-request-failed":
-        setError("Network error. Please check your internet connection");
-        break;
-      case "auth/too-many-requests":
-        setError("Too many attempts. Please try again later");
-        break;
-      default:
-        setError(`Signup failed: ${errorCode}`);
-    }
+    setError(`Signup failed: ${errorCode}`);
   };
 
   // const handleLoadingScreen = () => {

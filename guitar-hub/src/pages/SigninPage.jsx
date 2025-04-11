@@ -19,18 +19,47 @@ const SigninPage = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
+    setError(""); // Clear previous errors
+
+    // Validate inputs
+    if (!email.trim()) {
+      setError("Email is required");
+      return;
+    }
+
+    if (!password.trim()) {
+      setError("Password is required");
+      return;
+    }
+
     setLoading(true);
     try {
       const result = await signInUser(email, password);
 
-      if (result.success) {
+      if (result?.success) {
         navigate("/homepage");
         // setShowLoadingScreen(true);
+      } else if (result?.error) {
+        handleSigninError(result.error);
       }
     } catch (err) {
-      setError("an error occured");
+      handleSigninError(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Helper function to provide specific error messages for SignIn
+  const handleSigninError = (error) => {
+    const errorCode = error?.code || error?.message || "unknown";
+    console.error("Signin error:", errorCode);
+
+    if (errorCode.includes("user_not_found")) {
+      setError("User does not exist. Please check your email or sign up.");
+    } else if (errorCode.includes("wrong_password")) {
+      setError("Incorrect password. Please try again.");
+    } else {
+      setError(`Sign in failed: ${errorCode}`);
     }
   };
 
@@ -93,7 +122,11 @@ const SigninPage = () => {
             >
               Sign in
             </button>
-            {error && <p>{error}</p>}
+            {error && (
+              <p className="text-red-500 text-center mt-4 p-3 bg-red-50 rounded-md">
+                {error}
+              </p>
+            )}
           </div>
         </form>
       </div>

@@ -20,7 +20,7 @@ const UserCustomChordSequence = ({ song, chordDiagrams }) => {
       <div className="mt-6">
         {song.chord_sequence ? (
           <div>
-            <p>{song.chord_sequence}</p>
+            <p className="pl-10">{song.chord_sequence}</p>
 
             <div className="flex flex-wrap justify-center space-x-4 gap-4 mt-6">
               {chordDiagrams.length > 0 ? (

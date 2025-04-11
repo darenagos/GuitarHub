@@ -15,10 +15,12 @@ const Notes = () => {
   // Fetch the single note when component mounts or user session changes
   useEffect(() => {
     const fetchNote = async () => {
+      console.log("Fetching note...");
       if (!session?.user?.id) return;
 
       setLoading(true);
       try {
+        // Fetch the note if it exists for the user
         const { data, error } = await supabase
           .from("userNotes")
           .select("*")
@@ -27,8 +29,10 @@ const Notes = () => {
 
         if (error && error.code !== "PGRST116") {
           throw new Error(error.message);
+          console.error("Error fetching note:", error.message);
         }
 
+        console.log("Fetched note:", data);
         if (!data) {
           // No note exists, create a new default one
           const { data: newNote, error: insertError } = await supabase
@@ -38,11 +42,29 @@ const Notes = () => {
             .single();
 
           if (insertError) {
-            throw new Error(insertError.message);
-          }
+            // Prevent duplicate insertion error by checking for existing note
+            if (insertError.code === "23505") {
+              console.log("Note already exists for this user.");
+              // Optionally fetch the existing note again
+              const { data: existingNote, error: fetchError } = await supabase
+                .from("userNotes")
+                .select("*")
+                .eq("user_id", session.user.id)
+                .single();
 
-          setNote(newNote);
+              if (fetchError) {
+                throw new Error(fetchError.message);
+              }
+
+              setNote(existingNote); // Use the existing note
+            } else {
+              throw new Error(insertError.message);
+            }
+          } else {
+            setNote(newNote);
+          }
         } else {
+          // If note exists, use the existing one
           setNote(data);
         }
       } catch (err) {
@@ -86,6 +108,7 @@ const Notes = () => {
     }
 
     if (error) {
+      console.error("Error:", error.message);
       return <p className="text-red-500">Error: {error.message}</p>;
     }
 
