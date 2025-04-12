@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "../../supabaseClient";
 import { UserAuth } from "../../context/AuthContext";
 import FadePageWrapper from "../HOC/FadePageWrapper";
+import noteIcon from "../../assets/note-icon.png";
+import myCreationsIcon from "../../assets/my-creations-icon.jpg";
 
 const Notes = () => {
   const { session } = UserAuth(); // Get the current user session
@@ -113,13 +115,13 @@ const Notes = () => {
     }
 
     return (
-      <div className="mt-6 p-4 border rounded-md shadow-md break-words min-h-[150px]">
+      <div className="bg-white mt-6 p-4 rounded-md shadow-md break-words min-h-[150px]">
         {isEditing ? (
           <>
             <textarea
               value={updatedNote}
               onChange={(e) => setUpdatedNote(e.target.value)}
-              className="w-full p-4 border rounded-md min-h-[100px]"
+              className="w-full p-4  rounded-md min-h-[100px]"
               disabled={updating} // Disable during update
             />
             <div className="flex justify-between mt-2">
@@ -127,15 +129,17 @@ const Notes = () => {
                 onClick={handleUpdateNote}
                 disabled={updating} // Disable during update
                 className={`${
-                  updating ? "bg-gray-400" : "bg-[#e3d8b3] hover:bg-[#d1c89f]"
-                } text-white p-2 rounded-md transition-colors`}
+                  updating
+                    ? "bg-gray-400"
+                    : "bg-white shadow p-2 rounded-md transition-shadow ease-in-out duration-300 hover:shadow-[0_0_10px_4px_rgba(255,220,2,0.6)]"
+                }  p-2 rounded-md transition-colors`}
               >
                 {updating ? "Saving..." : "Update Note"}
               </button>
               <button
                 onClick={() => setIsEditing(false)}
                 disabled={updating}
-                className="bg-gray-200 text-gray-700 p-2 rounded-md hover:bg-gray-300 transition-colors"
+                className="bg-white shadow p-2 rounded-md transition-shadow ease-in-out duration-300 hover:shadow-[0_0_10px_4px_rgba(255,220,2,0.6)]"
               >
                 Cancel
               </button>
@@ -144,14 +148,16 @@ const Notes = () => {
         ) : (
           <>
             <p className="whitespace-pre-wrap min-h-[100px]">{note?.notes}</p>
+
             <button
               onClick={() => {
                 setIsEditing(true);
                 setUpdatedNote(note.notes);
               }}
-              className="bg-[#e3d8b3] text-white p-2 rounded-md mt-2 hover:bg-[#d1c89f] transition-colors"
+              className="bg-white flex p-2 rounded-md shadow mt-2 hover:scale-110 transition ease-in-out"
             >
               Edit
+              <img src={myCreationsIcon} className="h-7 w-7" />
             </button>
           </>
         )}
@@ -162,7 +168,10 @@ const Notes = () => {
   return (
     <FadePageWrapper>
       <div className="max-w-4xl mx-auto mb-8 px-6">
-        <h2 className="text-l font-semibold mb-4">Your Note</h2>
+        <div className="flex items-center">
+          <h2 className="text-l font-semibold">My Note</h2>
+          <img src={noteIcon} className="h-8 w-auto ml-4 " alt="note icon" />
+        </div>
         {renderContent()}
       </div>
     </FadePageWrapper>

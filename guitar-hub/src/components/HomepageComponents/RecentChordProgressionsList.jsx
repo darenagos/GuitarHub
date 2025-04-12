@@ -1,37 +1,49 @@
 import React from "react";
 import { Link } from "react-router";
 import FadePageWrapper from "../HOC/FadePageWrapper";
+import myCreationsIcon from "../../assets/my-creations-icon.jpg";
 
 const RecentChordProgressionsList = ({ chordProgressions }) => {
   return (
     <FadePageWrapper>
-      <div className="border rounded-md shadow-md h-full">
-        <h3 className="text-xl font-semibold border-b p-3">
-          Recent Chord Progressions
-        </h3>
-        {chordProgressions.length > 0 ? (
-          chordProgressions.map((progression) => (
-            <div
-              key={progression.id}
-              className="mb-4 p-4 border rounded-md shadow-md break-words"
-            >
-              <h4 className="text-lg font-semibold ">
-                Chord Progression for {progression.song_name}
-              </h4>
-              <p className="text-gray-500">
-                Created At: {new Date(progression.created_at).toLocaleString()}
-              </p>
-              <Link
-                to={`/user-songs/${progression.id}`}
-                className="hover:underline"
+      <div className="bg-white rounded-md shadow-md h-full">
+        <div className="flex items-center border-b-2 border-gray-100 p-3 justify-between">
+          <h3 className="text-xl font-semibold ">My Creations</h3>
+          <img src={myCreationsIcon} className="h-8 w-8" />
+        </div>
+        <div className="p-4">
+          {chordProgressions.length > 0 ? (
+            chordProgressions.map((progression, index) => (
+              <div
+                key={progression.id}
+                className="mb-4 p-4 break-words border-2 border-gray-100 rounded-lg"
               >
-                View Chord Progression
-              </Link>
-            </div>
-          ))
-        ) : (
-          <p>No recent chord progressions found.</p>
-        )}
+                <h4 className="text-lg font-semibold ">
+                  {progression.song_name}
+                </h4>
+                <p className="text-sm text-gray-500 mt-2 mb-2">
+                  Created At:{" "}
+                  {new Date(progression.created_at).toLocaleString()}
+                </p>
+
+                <Link
+                  to={`/user-songs/${progression.id}`}
+                  className="flex justify-center rounded-lg shadow p-2 hover:scale-105 transition ease-in-out drop-shadow-[0_2px_2px_rgba(0,0,0,0.1)]"
+                >
+                  View Chord Progression
+                </Link>
+
+                {/* <img
+                  src={borderImages[index % borderImages.length]} // Cycle through last 3 border images
+                  alt="border"
+                  className="opacity-70 mt-2"
+                /> */}
+              </div>
+            ))
+          ) : (
+            <p>No recent chord progressions found.</p>
+          )}
+        </div>
       </div>
     </FadePageWrapper>
   );

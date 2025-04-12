@@ -12,6 +12,8 @@ import LoadingScreen from "./LoadingScreen";
 
 import "../assets/styles/background.css";
 
+import welcomeSmileIcon from "../assets/welcome-smile.png";
+
 const Homepage = () => {
   const { session, signOut } = UserAuth();
   const navigate = useNavigate();
@@ -49,7 +51,8 @@ const Homepage = () => {
       <FadePageWrapper>
         <div className=" flex flex-col py-5 mt-[10vh] h-[90vh] scrollable-content background-container ">
           <h2 className="flex justify-center items-center mt-8">
-            Welcome, {session?.user?.email} ☺
+            Welcome, {session?.user?.email}
+            <img src={welcomeSmileIcon} className=" ml-3 mr-10 h-8 w-8" />
             <button
               onClick={handleSignOut}
               className="pl-5  flex justify-censter items-center  text-gray-800 
