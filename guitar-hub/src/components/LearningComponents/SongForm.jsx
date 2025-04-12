@@ -93,7 +93,7 @@ const SongForm = ({
         {/* Button Below Grid (Centered) */}
         <button
           onClick={addSongToWantToLearn}
-          className={`col-span-3 ml-60 mr-60 mb-2 p-3 rounded-full shadow-md font-medium transition-all duration-300 ease-in-out cursor-pointer 
+          className={`col-span-3 ml-60 mr-60 mb-2 p-3 rounded-full border-2 border-gray-100  font-medium transition-all duration-300 ease-in-out cursor-pointer 
     ${
       status === "want_to_learn"
         ? "text-[#A7C85F] hover:shadow-[0_0_10px_4px_rgba(197,217,122,1)]"
