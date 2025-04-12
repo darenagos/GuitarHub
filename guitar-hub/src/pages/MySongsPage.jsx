@@ -30,7 +30,12 @@ const MySongsPage = () => {
   return (
     <div className="scrollable-content mt-[10vh] h-[90vh]">
       <FadePageWrapper>
-        <div className="h-screen flex flex-col">
+        <div className="h-screen flex flex-col pt-10">
+          <div>
+            <h1 className="text-3xl font-semibold text-center mb-6">
+              My Songs
+            </h1>
+          </div>
           {/* Form for adding custom songs */}
           <AddCustomSongForm
             userId={userId}

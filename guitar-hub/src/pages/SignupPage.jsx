@@ -209,7 +209,7 @@ const SignupPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-[#F5F0E1] text-gray-800 
+              className="w-full rounded-lg py-3 bg-[#F5F0E1] text-gray-800 
               transition-all duration-300 ease-in-out 
               hover:bg-white hover:scale-105 
               focus:outline-none focus:ring-[#e3d8b3] 

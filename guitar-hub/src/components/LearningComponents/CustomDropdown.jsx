@@ -8,11 +8,24 @@ const CustomDropdown = ({ options, selectedValue, onChange }) => {
     setIsOpen(false);
   };
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "want_to_learn":
+        return "text-[#A7C85F] hover:scale-105"; // Green for "Want to Learn"
+      case "learning":
+        return "text-[#1abc9c] hover:scale-105"; // Blue for "Currently Learning"
+      case "mastered":
+        return "text-yellow-500 hover:scale-105"; // Yellow for "Learnt"
+      default:
+        return "text-gray-500 hover:scale-105"; // Default gray
+    }
+  };
+
   return (
     <div className="relative w-64">
       {/* Dropdown Button */}
       <button
-        className="w-full px-4 py-3 border-b-2 border-gray-500 text-gray-700 flex justify-between items-center focus:outline-none"
+        className="w-full px-4 py-3 border-b-2 border-gray-100 text-gray-700 flex justify-between items-center focus:outline-none"
         onClick={() => setIsOpen(!isOpen)}
       >
         {selectedValue
@@ -33,7 +46,9 @@ const CustomDropdown = ({ options, selectedValue, onChange }) => {
           {options.map((option) => (
             <li
               key={option.value}
-              className="px-4 py-2 hover:bg-[#e3d8b7] cursor-pointer transition-all ease-in-out"
+              className={`px-4 py-2 cursor-pointer transition-all ease-in-out ${getStatusColor(
+                option.value
+              )}`}
               onClick={() => handleSelect(option.value)}
             >
               {option.label}

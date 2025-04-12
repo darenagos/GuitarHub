@@ -19,6 +19,10 @@ const LearningPage = () => {
   const [artistOfSongToLearn, setArtistOfSongToLearn] = useState("");
   const [status, setStatus] = useState("want_to_learn");
   const { session } = UserAuth();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [formError, setFormError] = useState("");
+  const [loadingMessage, setLoadingMessage] = useState("");
 
   const { songs, loading, error, fetchSongs } = useFetchSongs(
     session?.user?.id
@@ -28,25 +32,66 @@ const LearningPage = () => {
   const [selectedSongId, setSelectedSongId] = useState(null);
   const [chords, setChords] = useState([]);
 
+  // Auto-clear messages after 5 seconds
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => setSuccessMessage(""), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage]);
+
+  useEffect(() => {
+    if (formError) {
+      const timer = setTimeout(() => setFormError(""), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [formError]);
+
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => setErrorMessage(""), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage]);
+
+  useEffect(() => {
+    if (loadingMessage) {
+      const timer = setTimeout(() => setLoadingMessage(""), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [loadingMessage]);
+
   const addSongToWantToLearn = async () => {
-    if (!session?.user?.id) {
-      console.error("User ID not found!");
+    if (!session?.user?.id) return;
+
+    // Input validation
+    if (!songToLearn.trim() || !artistOfSongToLearn.trim() || !status.trim()) {
+      setFormError("Please fill out all the fields before adding a song.");
       return;
     }
 
+    // Reset messages
+    setFormError("");
+    setSuccessMessage("");
+    setErrorMessage("");
+    setLoadingMessage("Adding song...");
+
     try {
-      const newSong = await addSongToLearn(
+      await addSongToLearn(
         songToLearn,
         artistOfSongToLearn,
         status,
         session.user.id
       );
-      alert("Song added successfully!");
-      fetchSongs(); // Refetch songs after successful insertion
+
+      setLoadingMessage("");
+      setSuccessMessage("Song added successfully!");
+      fetchSongs();
       setSongToLearn("");
       setArtistOfSongToLearn("");
     } catch (error) {
-      alert(`Error adding song: ${error.message}`);
+      setLoadingMessage("");
+      setFormError("Something went wrong while adding the song.");
     }
   };
 
@@ -54,7 +99,9 @@ const LearningPage = () => {
     <FadePageWrapper>
       <div className="flex flex-col max-h-screen ">
         <div className="scrollable-content pt-10 mt-[10vh] h-[90vh]s">
-          <h1 className="flex justify-center items-center">My Learning</h1>
+          <h1 className="text-3xl font-semibold text-center mb-6">
+            My Learning
+          </h1>
           <SongForm
             addSongToWantToLearn={addSongToWantToLearn}
             songToLearn={songToLearn}
@@ -64,6 +111,31 @@ const LearningPage = () => {
             status={status}
             setStatus={setStatus}
           />
+          <div className="flex justify-center">
+            {loadingMessage && (
+              <p className="text-blue-500 text-center mt-4 p-3 bg-blue-50 rounded-md">
+                {loadingMessage}
+              </p>
+            )}
+
+            {formError && (
+              <p className="text-red-500 text-center mt-4 p-3 bg-red-50 ">
+                {formError}
+              </p>
+            )}
+
+            {errorMessage && (
+              <p className="text-red-500 text-center mt-4 p-3 bg-red-50 ">
+                {errorMessage}
+              </p>
+            )}
+
+            {successMessage && (
+              <p className="text-green-600 text-center mt-4 p-3 bg-green-50 rounded-md">
+                {successMessage}
+              </p>
+            )}
+          </div>
 
           <FadePageWrapper>
             {/* Display List of Songs */}

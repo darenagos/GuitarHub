@@ -42,9 +42,6 @@ const AddCustomSongForm = ({ userId, fetchUserSongs }) => {
   return (
     <div className="flex justify-center items-center pt-10">
       <div className="w-full max-w-xl">
-        <div>
-          <h1 className="text-3xl font-semibold text-center mb-6">My Songs</h1>
-        </div>
         <div className="space-y-4">
           {/* Form for adding custom songs */}
           <div>

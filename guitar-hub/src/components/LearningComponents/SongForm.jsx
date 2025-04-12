@@ -46,17 +46,17 @@ const SongForm = ({
 
   return (
     <div className="flex justify-center items-center pt-10">
-      <div className="grid grid-cols-3 gap-4  mx-auto">
+      <div className=" bg-white p-3 rounded shadow grid grid-cols-3 gap-4  mx-auto">
         {/* First Column - Song Name Input */}
         <input
           type="text"
           placeholder="Name of song: "
           value={songToLearn}
           onChange={handleInputChange}
-          className="p-2 border-b-2 border-gray-500 outline-none w-full"
+          className="p-2 border-b-2 border-gray-100 outline-none w-full"
         />
         {suggestions.length > 0 && (
-          <ul className="col-span-3 border border-gray-300 mt-2 max-h-40 overflow-auto">
+          <ul className="col-span-3 border border-gray-100 mt-2 max-h-40 overflow-auto">
             {suggestions.map((song) => (
               <li
                 key={song.id}
@@ -75,7 +75,7 @@ const SongForm = ({
           placeholder="Name of artist: "
           value={artistOfSongToLearn}
           onChange={(e) => setArtistOfSongToLearn(e.target.value)}
-          className="p-2 border-b-2 border-gray-500 outline-none w-full"
+          className="p-2 border-b-2 border-gray-100 outline-none w-full"
         />
 
         {/* Third Column - Custom Dropdown */}
@@ -93,8 +93,16 @@ const SongForm = ({
         {/* Button Below Grid (Centered) */}
         <button
           onClick={addSongToWantToLearn}
-          className="col-span-3 mt-4 p-3 w-full bg-[#F5F0E1] text-gray-800 font-medium 
-        hover:bg-[#e3d8b3] transition-all duration-300 ease-in-out cursor-pointer"
+          className={`col-span-3 ml-60 mr-60 mb-2 p-3 rounded-full shadow-md font-medium transition-all duration-300 ease-in-out cursor-pointer 
+    ${
+      status === "want_to_learn"
+        ? "text-[#A7C85F] hover:shadow-[0_0_10px_4px_rgba(197,217,122,1)]"
+        : status === "learning"
+        ? "text-[#1abc9c] hover:shadow-[0_0_10px_4px_rgba(118,215,196,0.8)]"
+        : status === "mastered"
+        ? "text-yellow-500 hover:shadow-[0_0_10px_4px_rgba(255,220,2,0.6)]"
+        : "text-gray-500 hover:shadow-[0_0_10px_4px_rgba(156,163,175,0.8)]"
+    }`}
         >
           Add Song to {status.replace(/_/g, " ").toUpperCase()}
         </button>
