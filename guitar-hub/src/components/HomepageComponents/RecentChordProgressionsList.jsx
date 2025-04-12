@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router";
 import FadePageWrapper from "../HOC/FadePageWrapper";
-import myCreationsIcon from "../../assets/my-creations-icon.jpg";
+import myCreationsIcon from "../../assets/icons/my-creations-icon.jpg";
 
 const RecentChordProgressionsList = ({ chordProgressions }) => {
   return (

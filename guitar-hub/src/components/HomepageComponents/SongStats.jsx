@@ -1,9 +1,9 @@
 import React from "react";
 import FadePageWrapper from "../HOC/FadePageWrapper";
-import borderTwo from "../../assets/border-two.png";
-import borderThree from "../../assets/border-three.png";
-import borderFour from "../../assets/border-four.png";
-import progressIcon from "../../assets/progress-icon.jpg";
+import borderTwo from "../../assets/borderStyles/border-two.png";
+import borderThree from "../../assets/borderStyles/border-three.png";
+import borderFour from "../../assets/borderStyles/border-four.png";
+import progressIcon from "../../assets/icons/progress-icon.jpg";
 
 const borderImages = [borderTwo, borderThree, borderFour];
 
@@ -13,7 +13,7 @@ const SongStats = ({ statusCounts }) => {
       <div className="bg-white rounded-md shadow-md h-full">
         <div className="flex items-center border-b-2 border-gray-100 p-3 justify-between">
           <h3 className="text-xl font-semibold ">Song Progress Summary</h3>
-          <img src={progressIcon} className=" h-8 w-8" />
+          <img src={progressIcon} className="ml-5 h-8 w-8" />
         </div>
 
         <div className="p-4 flex flex-col items-center gap-6">

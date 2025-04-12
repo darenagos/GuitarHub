@@ -2,7 +2,7 @@ import { useState } from "react";
 import SongItem from "./SongItem";
 import FadePageWrapper from "../HOC/FadePageWrapper";
 
-import searchIcon from "../../assets/search-interface-symbol.png";
+import searchIcon from "../../assets/icons/search-interface-symbol.png";
 
 const SongList = ({ wantToLearnList }) => {
   const [sortOrder, setSortOrder] = useState({

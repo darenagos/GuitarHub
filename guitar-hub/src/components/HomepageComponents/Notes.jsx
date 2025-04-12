@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "../../supabaseClient";
 import { UserAuth } from "../../context/AuthContext";
 import FadePageWrapper from "../HOC/FadePageWrapper";
-import noteIcon from "../../assets/note-icon.png";
-import myCreationsIcon from "../../assets/my-creations-icon.jpg";
+import noteIcon from "../../assets/icons/note-icon.png";
+import myCreationsIcon from "../../assets/icons/my-creations-icon.jpg";
 
 const Notes = () => {
   const { session } = UserAuth(); // Get the current user session

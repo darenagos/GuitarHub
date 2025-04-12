@@ -10,7 +10,7 @@ import {
 } from "../../services/songService";
 import { fetchTopThreeMostRecentChordProgressions } from "../../services/songService";
 
-import star from "../../assets/star.png";
+import star from "../../assets/icons/star.png";
 
 const RecentSongs = () => {
   const { session } = UserAuth();

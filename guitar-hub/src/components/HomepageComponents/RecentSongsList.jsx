@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router";
 import FadePageWrapper from "../HOC/FadePageWrapper";
-import learningIcon from "../../assets/learning-icon.jpg";
+import learningIcon from "../../assets/icons/learning-icon.jpg";
 
 const RecentSongsList = ({ songs, loading, error }) => {
   return (

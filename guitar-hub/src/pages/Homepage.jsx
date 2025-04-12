@@ -12,7 +12,7 @@ import LoadingScreen from "./LoadingScreen";
 
 import "../assets/styles/background.css";
 
-import welcomeSmileIcon from "../assets/welcome-smile.png";
+import welcomeSmileIcon from "../assets/icons/welcome-smile.png";
 
 const Homepage = () => {
   const { session, signOut } = UserAuth();
