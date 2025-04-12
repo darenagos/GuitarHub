@@ -82,8 +82,8 @@ const SongForm = ({
         <CustomDropdown
           options={[
             { label: "Want to Learn", value: "want_to_learn" },
-            { label: "Currently Learning", value: "currently_learning" },
-            { label: "Learnt", value: "learnt" },
+            { label: "Learning", value: "learning" },
+            { label: "Mastered", value: "mastered" },
           ]}
           selectedValue={status}
           onChange={setStatus}

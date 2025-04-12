@@ -5,8 +5,8 @@ import FadePageWrapper from "../HOC/FadePageWrapper";
 const RecentSongsList = ({ songs, loading, error }) => {
   return (
     <FadePageWrapper>
-      <div className="p-6 border rounded-md shadow-md h-full">
-        <h3 className="text-xl font-semibold mb-4">Top 3 Most Recent Songs</h3>
+      <div className="border rounded-md shadow-md h-full">
+        <h3 className="text-xl font-semibold border-b p-3  ">Recent Songs</h3>
 
         {error ? (
           <p>Error fetching songs: {error.message}</p>

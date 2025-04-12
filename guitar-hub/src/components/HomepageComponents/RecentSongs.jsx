@@ -17,8 +17,8 @@ const RecentSongs = () => {
   const [chordProgressions, setChordProgressions] = useState([]);
   const [statusCounts, setStatusCounts] = useState({
     want_to_learn: 0,
-    currently_learning: 0,
-    learnt: 0,
+    learning: 0,
+    mastered: 0,
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,13 +36,13 @@ const RecentSongs = () => {
       const parsedSongs = JSON.parse(cachedSongs);
       const counts = {
         want_to_learn: 0,
-        currently_learning: 0,
-        learnt: 0,
+        learning: 0,
+        mastered: 0,
       };
       parsedSongs.forEach((song) => {
         if (song.status === "want_to_learn") counts.want_to_learn++;
-        if (song.status === "currently_learning") counts.currently_learning++;
-        if (song.status === "learnt") counts.learnt++;
+        if (song.status === "learning") counts.learning++;
+        if (song.status === "mastered") counts.mastered++;
       });
       setStatusCounts(counts);
     }
@@ -50,7 +50,6 @@ const RecentSongs = () => {
     setLoading(!cachedSongs || !cachedChords); // Show loader only if cache is empty
   }, [session?.user?.id]);
 
-  // Fetch fresh data in the background
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -70,10 +69,9 @@ const RecentSongs = () => {
         if (songError) throw new Error(songError.message);
         if (progressionError) throw new Error(progressionError.message);
 
-        // Set the fetched data to state
-        setSongs(allSongData); // All songs data (learning)
-        setRecentSongs(songData); // Top 3 recent songs
-        setChordProgressions(progressionData); // Top 3 recent chord progressions
+        setSongs(allSongData);
+        setRecentSongs(songData);
+        setChordProgressions(progressionData);
 
         sessionStorage.setItem("recentSongs", JSON.stringify(songData));
         sessionStorage.setItem(
@@ -84,13 +82,13 @@ const RecentSongs = () => {
         // Count statuses
         const counts = {
           want_to_learn: 0,
-          currently_learning: 0,
-          learnt: 0,
+          learning: 0,
+          mastered: 0,
         };
         allSongData.forEach((song) => {
           if (song.status === "want_to_learn") counts.want_to_learn++;
-          if (song.status === "currently_learning") counts.currently_learning++;
-          if (song.status === "learnt") counts.learnt++;
+          if (song.status === "learning") counts.learning++;
+          if (song.status === "mastered") counts.mastered++;
         });
         setStatusCounts(counts);
       } catch (err) {
@@ -111,14 +109,12 @@ const RecentSongs = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Display Song Stats */}
           <SongStats statusCounts={statusCounts} />
-
           {/* Display Top 3 Most Recent Songs */}
           <RecentSongsList
             songs={recentSongs}
             loading={loading}
             error={error}
           />
-
           {/* Display Top 3 Most Recent Chord Progressions */}
           <RecentChordProgressionsList chordProgressions={chordProgressions} />
         </div>

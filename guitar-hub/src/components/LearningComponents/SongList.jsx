@@ -7,20 +7,20 @@ import searchIcon from "../../assets/search-interface-symbol.png";
 const SongList = ({ wantToLearnList }) => {
   const [sortOrder, setSortOrder] = useState({
     want_to_learn: "desc",
-    currently_learning: "desc",
-    learnt: "desc",
+    learning: "desc",
+    mastered: "desc",
   });
 
   const [searchTerms, setSearchTerms] = useState({
     want_to_learn: "",
-    currently_learning: "",
-    learnt: "",
+    learning: "",
+    mastered: "",
   });
 
   const groupedSongs = {
     want_to_learn: [],
-    currently_learning: [],
-    learnt: [],
+    learning: [],
+    mastered: [],
   };
 
   wantToLearnList.forEach((song) => {

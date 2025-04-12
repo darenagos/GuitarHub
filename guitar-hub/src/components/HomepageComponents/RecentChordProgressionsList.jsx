@@ -5,9 +5,9 @@ import FadePageWrapper from "../HOC/FadePageWrapper";
 const RecentChordProgressionsList = ({ chordProgressions }) => {
   return (
     <FadePageWrapper>
-      <div className="p-6 border rounded-md shadow-md">
-        <h3 className="text-xl font-semibold mb-4">
-          Top 3 Most Recent Chord Progressions
+      <div className="border rounded-md shadow-md h-full">
+        <h3 className="text-xl font-semibold border-b p-3">
+          Recent Chord Progressions
         </h3>
         {chordProgressions.length > 0 ? (
           chordProgressions.map((progression) => (
