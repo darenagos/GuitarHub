@@ -9,7 +9,7 @@ const ChordDisplaySection = ({ chordSequence, currentSecond }) => (
         <div className="mt-8">
           <ChordSequenceDisplay chords={chordSequence} />
         </div>
-        <h2 className="text-2xl font-semibold text-center text-gray-800 mt-6">
+        <h2 className="text-2xl font-semibold text-center text-gray-800 mt-8 mb-4">
           Chord Timeline
         </h2>
         <ChordTimeline chords={chordSequence} currentSecond={currentSecond} />

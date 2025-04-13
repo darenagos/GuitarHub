@@ -4,8 +4,8 @@ import FadePageWrapper from "../../HOC/FadePageWrapper";
 const AudioPlayer = ({ audioUrl, onTimeUpdate, preload = "auto" }) => {
   return (
     <FadePageWrapper>
-      <div className="mt-8 text-center p-2 mt-10 bg-white rounded-lg shadow-xs ">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+      <div className="mt-8 text-center p-2 mt-10  rounded-lg  ">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-5">
           Preview Track
         </h2>
 

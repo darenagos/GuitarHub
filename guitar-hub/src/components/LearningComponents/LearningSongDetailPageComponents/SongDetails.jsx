@@ -66,7 +66,9 @@ const SongDetails = ({ song, id }) => {
         <strong>Artist:</strong> {song.artist}
       </p>
       {/* Status Update */}
-      <p className="text-l text-gray-800 mb-2">Progress</p>
+      <p className="flex justify-center text-m text-gray-500 mb-6">
+        Learning Progress
+      </p>
       <div className="space-y-4 mb-6">
         <div className="p-2 rounded-lg  ">
           <div className="flex justify-between items-center mb-2">
@@ -104,9 +106,15 @@ const SongDetails = ({ song, id }) => {
                 }}
                 className={`relative overflow-hidden flex justify-center items-center cursor-pointer p-2 w-40 h-40 bg-white rounded-full text-sm font-medium drop-shadow-[0_2px_2px_rgba(0,0,0,0.1)]  hover:scale-105 transition-all ease-in-out ${
                   status === s || statuses.indexOf(status) > index
-                    ? "text-gray-700"
+                    ? "text-gray-700  "
                     : "text-gray-400"
                 }`}
+                style={{
+                  boxShadow:
+                    status === s || statuses.indexOf(status) > index
+                      ? "0 0 10px rgba(255,220,2, 0.7)" // Apply glow if condition is true
+                      : "none", // No shadow if condition is false
+                }}
               >
                 <div className="flex flex-col items-center justify-center space-y-2 z-10">
                   <img
@@ -120,10 +128,10 @@ const SongDetails = ({ song, id }) => {
             ))}
           </div>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-start">
           <button
             onClick={handleDelete}
-            className=" py-5 rounded-md hover:scale-110 transition-all duration-300s cursor-pointer"
+            className=" p-2  bg-white  border-2 border-transparent hover:border-red-200 hover:scale-102 transition-all  cursor-pointer"
           >
             Delete Song
           </button>

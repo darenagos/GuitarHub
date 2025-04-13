@@ -45,7 +45,7 @@
     position: absolute;
     width: 150px;
     height: 150px;
-    background: radial-gradient(circle, rgba(48, 127, 255, 0.3) 40%, transparent 70%);
+    background: radial-gradient(circle, rgba(156,208,220) 40%, transparent 70%);
     border-radius: 50%;
     transform: scale(0);
     animation: softRipple 1.7s ease-out forwards;
