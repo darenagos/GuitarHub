@@ -36,9 +36,7 @@ const SongStats = ({ statusCounts }) => {
             <span className="text-4xl font-extrabold text-orange-400 drop-shadow-[0_0_6px_rgba(255,165,0,0.8)]">
               {statusCounts.learning}
             </span>
-            <span className="text-xs text-gray-500 text-center">
-              Currently Learning
-            </span>
+            <span className="text-xs text-gray-500 text-center">Learning</span>
 
             <img
               src={borderImages[1]}

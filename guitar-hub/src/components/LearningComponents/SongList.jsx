@@ -6,7 +6,7 @@ import searchIcon from "../../assets/icons/search-interface-symbol.png";
 
 import wantToLearnIcon from "../../assets/icons/want-to-learn-icon.png";
 import learningIcon from "../../assets/icons/currently-learning-icon.png";
-import masteredIcon from "../../assets/icons/mastered-icon.png";
+import masteredIcon from "../../assets/icons/mastered-icon-apple.png";
 
 const SongList = ({ wantToLearnList }) => {
   const [sortOrder, setSortOrder] = useState({
