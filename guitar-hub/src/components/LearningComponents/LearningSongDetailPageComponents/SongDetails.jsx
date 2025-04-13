@@ -112,7 +112,7 @@ const SongDetails = ({ song, id }) => {
                 style={{
                   boxShadow:
                     status === s || statuses.indexOf(status) > index
-                      ? "0 0 10px rgba(255,220,2, 0.7)" // Apply glow if condition is true
+                      ? "0 0 10px rgba(	255, 220, 0)" // Apply glow if condition is true
                       : "none", // No shadow if condition is false
                 }}
               >

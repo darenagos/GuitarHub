@@ -40,70 +40,75 @@ const ChordDatabase = () => {
   });
 
   return (
-    <div className="chord-database-page flex justify-center items-center">
-      <div className="container">
-        {/* Key Selection Tabs */}
-        <div className="tabs">
-          {Object.keys(chordDB.chords).map((key) => (
-            <button
-              key={key}
-              onClick={() => handleKeyClick(key)}
-              className={`py-2 px-4 text-lg font-medium rounded-md ${
-                selectedKey === key
-                  ? "bg-[#F5F0E1] text-gray-800"
-                  : "bg-transparent text-gray-600 hover:bg-[#e3d8b3]"
-              }`}
-            >
-              {key}
-            </button>
-          ))}
-        </div>
-
-        {/* Main content area */}
-        <div className="main-content gap-6">
-          {/* Suffix Filter Sidebar */}
-          <div className="filter-sidebar mb-10 rounded">
-            {suffixes.map((suffix) => (
+    <div>
+      <div className="pl-20 flex justify-start">
+        <p className="text-gray-800">Select a Chord and a Suffix </p>
+      </div>
+      <div className="chord-database-page flex justify-center items-center">
+        <div className="container">
+          {/* Key Selection Tabs */}
+          <div className="tabs rounded">
+            {Object.keys(chordDB.chords).map((key) => (
               <button
-                key={suffix}
-                onClick={() => handleSuffixClick(suffix)}
-                className={`py-2 px-4 text-lg font-medium rounded-md ${
-                  selectedSuffix === suffix
-                    ? "bg-[#F5F0E1] text-gray-800"
-                    : "bg-transparent text-gray-600 hover:bg-[#e3d8b3]"
+                key={key}
+                onClick={() => handleKeyClick(key)}
+                className={`py-2 px-4 text-lg font-medium rounded-md transition-all duration-300 ease-in-out ${
+                  selectedKey === key
+                    ? "text-[#9cd0cd] "
+                    : "bg-transparent text-gray-600 "
                 }`}
               >
-                {suffix}
+                {key}
               </button>
             ))}
           </div>
 
-          {/* Chords List and Diagrams (Scrollable) */}
-          <div className="chords-list  overflow-y-auto px-4">
-            {filteredChords.length === 0 ? (
-              <p>Select Chord</p>
-            ) : (
-              <div className="grid grid-cols-4 gap-4">
-                {filteredChords.map((chord, index) => (
-                  <div key={index}>
-                    <h3 className="text-center">
-                      {chord.key} {chord.suffix}
-                    </h3>
-                    <div className="chord flex justify-center items-center">
-                      {/* Render Chord Diagram */}
-                      <div className="w-2xs">
-                        <Chord
-                          chord={chord.positions[0]} // Render the first position of the chord
-                          instrument={instrument}
-                          lite={false}
-                          className="chord-diagram"
-                        />
+          {/* Main content area */}
+          <div className="main-content gap-6">
+            {/* Suffix Filter Sidebar */}
+            <div className="filter-sidebar mb-10 rounded">
+              {suffixes.map((suffix) => (
+                <button
+                  key={suffix}
+                  onClick={() => handleSuffixClick(suffix)}
+                  className={`py-2 px-4 text-lg font-medium rounded-md transition-all duration-300 ease-in-out ${
+                    selectedSuffix === suffix
+                      ? "text-[#9cd0cd] transition-all duration-300 ease-in-out"
+                      : "bg-transparent text-gray-600 "
+                  }`}
+                >
+                  {suffix}
+                </button>
+              ))}
+            </div>
+
+            {/* Chords List and Diagrams (Scrollable) */}
+            <div className="chords-list  overflow-y-auto px-4">
+              {filteredChords.length === 0 ? (
+                <p className="text-gray-400">No Chord selected</p>
+              ) : (
+                <div className="grid grid-cols-4 gap-4">
+                  {filteredChords.map((chord, index) => (
+                    <div key={index}>
+                      <h3 className="text-center">
+                        {chord.key} {chord.suffix}
+                      </h3>
+                      <div className="chord flex justify-center items-center">
+                        {/* Render Chord Diagram */}
+                        <div className="w-2xs">
+                          <Chord
+                            chord={chord.positions[0]} // Render the first position of the chord
+                            instrument={instrument}
+                            lite={false}
+                            className="chord-diagram"
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            )}
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

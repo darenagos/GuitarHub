@@ -31,7 +31,7 @@ const ChordDiagramsPage = () => {
   return (
     <FadePageWrapper>
       <div className=" flex flex-col scrollable-content mt-[10vh] h-[90vh] pt-10 ">
-        <div className="mx-auto px-6">
+        <div className="px-6">
           <ChordDiagramSearchBar onSearch={handleSearch} />
         </div>
         {/* Search Results */}
@@ -44,7 +44,7 @@ const ChordDiagramsPage = () => {
             </div>
           </div>
         ) : (
-          <div className="max-w-4xl mx-auto mb-8 px-6 text-center">
+          <div className="max-w-4xl mt-5 mx-auto mb-8 px-6 text-center">
             <p className="text-lg text-gray-600">
               No chords found matching your search criteria.
             </p>
