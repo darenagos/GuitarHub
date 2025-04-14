@@ -7,7 +7,7 @@ import { UserAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router";
 import RecentSongs from "../components/HomepageComponents/RecentSongs";
 import useFetchSongs from "../hooks/useFetchSongs";
-import Notes from "../components/HomepageComponents/notes";
+import Notes from "../components/HomepageComponents/Notes";
 import LoadingScreen from "./LoadingScreen";
 
 import "../assets/styles/background.css";
