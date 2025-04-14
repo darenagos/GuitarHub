@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import FadePageWrapper from "../components/HOC/FadePageWrapper";
-import { supabase } from "../supabaseClient";
 import { UserAuth } from "../context/AuthContext"; // Import UserAuth
 
 import SongForm from "../components/LearningComponents/SongForm";
@@ -11,8 +10,6 @@ import { addSongToLearn } from "../services/songService";
 // Custom hook to handle fetching logic
 import useFetchSongs from "../hooks/useFetchSongs";
 import SongSearchSection from "../components/MySongsComponents/SongSearchSection";
-
-const API_KEY = "05955013";
 
 const LearningPage = () => {
   const [songToLearn, setSongToLearn] = useState("");
