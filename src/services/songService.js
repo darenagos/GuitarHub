@@ -24,7 +24,7 @@ export const addSongToLearn = async (
 
     const songResult = searchData.results[0];
     const jamendoId = songResult.id;
-    const chordApiUrl = `http://audio-analysis.eecs.qmul.ac.uk/function/analysis/audiocommons/jamendo-tracks:${jamendoId}?descriptors=chords`;
+    const chordApiUrl = `https://audio-analysis.eecs.qmul.ac.uk/function/analysis/audiocommons/jamendo-tracks:${jamendoId}?descriptors=chords`;
     const chordResponse = await fetch(chordApiUrl);
     const chordData = await chordResponse.json();
     const chordSequence = chordData.chords.chordSequence;
