@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "../../../supabaseClient";
 import { useNavigate } from "react-router";
 import { updateStatus, deleteSong } from "../../../services/songService";
-import "./songDetails.css";
+import "./SongDetails.css";
 
 import wantToLearnIcon from "../../../assets/icons/want-to-learn-icon.png";
 import learningIcon from "../../../assets/icons/currently-learning-icon.png";
