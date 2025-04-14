@@ -169,3 +169,34 @@ export const fetchLearningSongs = async (userId) => {
 
   return { data, error };
 };
+
+// notes database operations
+export const fetchNote = async (userId) => {
+  if (!userId) return { error: "User not authenticated" };
+  const { data, error } = await supabase
+    .from("userNotes")
+    .select("*")
+    .eq("user_id", userId)
+    .single();
+
+  return { data, error };
+};
+
+export const addDefaultNote = async (userId) => {
+  const { data: newNote, error: insertError } = await supabase
+    .from("userNotes")
+    .insert([{ user_id: userId, notes: "Your note here..." }])
+    .select()
+    .single();
+
+  return { newNote, insertError };
+};
+
+export const updateNote = async (noteId, updatedNote) => {
+  const { error } = await supabase
+    .from("userNotes")
+    .update({ notes: updatedNote })
+    .eq("id", noteId);
+
+  return { error };
+};

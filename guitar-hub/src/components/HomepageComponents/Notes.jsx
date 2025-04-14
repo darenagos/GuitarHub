@@ -4,30 +4,31 @@ import { UserAuth } from "../../context/AuthContext";
 import FadePageWrapper from "../HOC/FadePageWrapper";
 import noteIcon from "../../assets/icons/note-icon.png";
 import myCreationsIcon from "../../assets/icons/my-creations-icon.jpg";
+import {
+  addDefaultNote,
+  fetchNote,
+  updateNote,
+} from "../../services/songService";
 
 const Notes = () => {
-  const { session } = UserAuth(); // Get the current user session
+  const { session } = UserAuth();
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [updating, setUpdating] = useState(false); // Separate state for update operations
+  const [updating, setUpdating] = useState(false);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [updatedNote, setUpdatedNote] = useState("");
 
   // Fetch the single note when component mounts or user session changes
   useEffect(() => {
-    const fetchNote = async () => {
+    const handleFetchNote = async () => {
       console.log("Fetching note...");
       if (!session?.user?.id) return;
 
       setLoading(true);
       try {
         // Fetch the note if it exists for the user
-        const { data, error } = await supabase
-          .from("userNotes")
-          .select("*")
-          .eq("user_id", session.user.id)
-          .single(); // Fetch only one note
+        const { data, error } = await fetchNote(session.user.id);
 
         if (error && error.code !== "PGRST116") {
           throw new Error(error.message);
@@ -37,22 +38,18 @@ const Notes = () => {
         console.log("Fetched note:", data);
         if (!data) {
           // No note exists, create a new default one
-          const { data: newNote, error: insertError } = await supabase
-            .from("userNotes")
-            .insert([{ user_id: session.user.id, notes: "Your note here..." }])
-            .select()
-            .single();
+          const { data: newNote, error: insertError } = await addDefaultNote(
+            session.user.id
+          );
 
           if (insertError) {
             // Prevent duplicate insertion error by checking for existing note
             if (insertError.code === "23505") {
               console.log("Note already exists for this user.");
               // Optionally fetch the existing note again
-              const { data: existingNote, error: fetchError } = await supabase
-                .from("userNotes")
-                .select("*")
-                .eq("user_id", session.user.id)
-                .single();
+              const { data: existingNote, error: fetchError } = await fetchNote(
+                session.user.id
+              );
 
               if (fetchError) {
                 throw new Error(fetchError.message);
@@ -76,7 +73,7 @@ const Notes = () => {
       }
     };
 
-    fetchNote();
+    handleFetchNote();
   }, [session?.user?.id]);
 
   // Handle updating the note
@@ -85,10 +82,7 @@ const Notes = () => {
 
     try {
       setUpdating(true); // Use updating state instead of loading
-      const { error } = await supabase
-        .from("userNotes")
-        .update({ notes: updatedNote })
-        .eq("id", note.id);
+      const { error } = await updateNote(note.id, updatedNote);
 
       if (error) {
         throw new Error(error.message);
