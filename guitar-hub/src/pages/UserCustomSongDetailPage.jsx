@@ -55,7 +55,7 @@ const UserCustomSongDetailPage = () => {
       }
     };
     fetchSong();
-  }, [id, userId]);
+  }, [id, session?.user?.id]);
 
   useEffect(() => {
     if (!song || !song.chord_sequence) return;

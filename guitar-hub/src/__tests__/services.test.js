@@ -318,19 +318,24 @@ describe("Song Service", () => {
         error: null,
       });
 
-      const result = await updateCustomSong(1, "Updated Song", "D, E, F");
+      // Use a JSON string for chord_sequence as that's what your component passes
+      const jsonChordSequence = JSON.stringify(["D", "E", "F"]);
+      const result = await updateCustomSong(
+        1,
+        "Updated Song",
+        jsonChordSequence
+      );
 
       const { supabase } = await import("../supabaseClient");
       expect(supabase.from).toHaveBeenCalledWith("usersChordProgressions");
       expect(mockSupabaseFrom.update).toHaveBeenCalledWith({
         song_name: "Updated Song",
-        chord_sequence: JSON.stringify(["D", "E", "F"]),
+        chord_sequence: jsonChordSequence,
       });
       expect(mockSupabaseFrom.eq).toHaveBeenCalledWith("id", 1);
       expect(result).toEqual({ error: null });
     });
   });
-
   describe("updateStatus", () => {
     test("should update song status successfully", async () => {
       mockSupabaseFrom.eq.mockResolvedValueOnce({
