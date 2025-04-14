@@ -26,13 +26,13 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      { path: "GuitarHub/homepage", element: <Homepage /> },
-      { path: "GuitarHub/learning", element: <LearningPage /> },
-      { path: "GuitarHub/chord-diagrams", element: <ChordDiagramsPage /> },
-      { path: "GuitarHub/my-songs", element: <MySongsPage /> },
-      { path: "GuitarHub/songs/:id", element: <SongDetailPage /> },
+      { path: "/GuitarHub/homepage", element: <Homepage /> },
+      { path: "/GuitarHub/learning", element: <LearningPage /> },
+      { path: "/GuitarHub/chord-diagrams", element: <ChordDiagramsPage /> },
+      { path: "/GuitarHub/my-songs", element: <MySongsPage /> },
+      { path: "/GuitarHub/songs/:id", element: <SongDetailPage /> },
       {
-        path: "GuitarHub/user-songs/:id",
+        path: "/GuitarHub/user-songs/:id",
         element: <UserCustomSongDetailPage />,
       },
     ],
