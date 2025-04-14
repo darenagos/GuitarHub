@@ -10,4 +10,5 @@ export default defineConfig({
     globals: true,
     setupFiles: ["./src/__tests__/setupTests.js"],
   },
+  base: "/GuirtarHub",
 });
