@@ -20,21 +20,6 @@ body {
   height: 100%;
 }
 
-/* Tabs for selecting chords at the top */
-.tabs {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-  background-color: #ffffff;
-  padding: 5px;
-}
-
-.tabs button {
-  padding: 10px 20px;
-  margin: 0 5px;
-  cursor: pointer;
-  
-}
 
 /* Main content layout */
 .main-content {

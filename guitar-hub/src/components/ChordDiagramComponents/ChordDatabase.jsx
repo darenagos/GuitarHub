@@ -47,12 +47,12 @@ const ChordDatabase = () => {
       <div className="chord-database-page flex justify-center items-center">
         <div className="container">
           {/* Key Selection Tabs */}
-          <div className="tabs rounded">
+          <div className="tabs rounded bg-white p-2 mb-4 flex justify-center items-center gap-10">
             {Object.keys(chordDB.chords).map((key) => (
               <button
                 key={key}
                 onClick={() => handleKeyClick(key)}
-                className={`py-2 px-4 text-lg font-medium rounded-md transition-all duration-300 ease-in-out ${
+                className={`py-2 px-4 text-lg font-medium  rounded-md transition-all duration-300 ease-in-out ${
                   selectedKey === key
                     ? "text-[#9cd0cd] "
                     : "bg-transparent text-gray-600 "
