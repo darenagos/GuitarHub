@@ -97,7 +97,7 @@ const LearningPage = () => {
       <div className="flex flex-col max-h-screen ">
         <div className="scrollable-content pt-10 mt-[10vh] h-[90vh]s">
           <h1 className="text-3xl font-semibold text-center mb-6">
-            My Learning 111
+            My Learning
           </h1>
           <SongForm
             addSongToWantToLearn={addSongToWantToLearn}
