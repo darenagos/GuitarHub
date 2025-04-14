@@ -43,7 +43,6 @@ const SongDetails = ({ song, id }) => {
       console.error("Error updating status:", error);
       setError("Failed to update status. Please try again.");
     } else {
-      setMessage("Status updated successfully!");
     }
   };
 
