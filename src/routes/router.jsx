@@ -14,7 +14,7 @@ import PrivateRoute from "../components/HOC/PrivateRoute.jsx";
 import UserCustomSongDetailPage from "../pages/UserCustomSongDetailPage.jsx";
 
 export const router = createBrowserRouter([
-  { path: "/GuitarHub", element: <App /> },
+  { path: "/", element: <App /> },
   { path: "/signup", element: <SignupPage /> },
   { path: "/signin", element: <SigninPage /> },
 
