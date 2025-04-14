@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { supabase } from "../../supabaseClient";
+import { addCustomSong } from "../../services/songService";
 import border1 from "../../assets/borderStyles/border-one.png"; // Import the border image
 import border2 from "../../assets/borderStyles/border-five.png"; // Import the border image
 import musicIcon from "../../assets/icons/music-icon.png"; // Import the music note icon
@@ -11,31 +12,18 @@ const AddCustomSongForm = ({ userId, fetchUserSongs }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const addCustomSong = async () => {
-    if (!userId) {
-      console.error("User not authenticated");
-      return;
-    }
-
+  const handleAddSong = async () => {
     if (!songName || !chordSequence) {
       setErrorMessage("Please enter a song name and chord sequence");
       setTimeout(() => setErrorMessage(""), 5000); // Clear after 3 seconds
       return;
     }
 
-    // Convert chordSequence to a JSON array format
-    const chordArray = chordSequence.split(",").map((chord) => chord.trim());
-
-    const { data, error } = await supabase
-      .from("usersChordProgressions")
-      .insert([
-        {
-          user_id: userId, // Ensure user_id is included
-          song_name: songName,
-          chord_sequence: JSON.stringify(chordArray), // Insert as JSON array
-        },
-      ])
-      .single(); // Use .single() to get the inserted row directly
+    const { data, error } = await addCustomSong(
+      userId,
+      songName,
+      chordSequence
+    );
 
     if (error) {
       console.error("Error adding song:", error);
@@ -99,7 +87,7 @@ const AddCustomSongForm = ({ userId, fetchUserSongs }) => {
             />
             <div className="flex justify-center">
               <button
-                onClick={addCustomSong}
+                onClick={handleAddSong}
                 className="mt-1 p-3 text-orange-400 shadow  hover:text-[#9cd0cd] rounded-full hover:scale-105 transition-all duration-300 ease-in-out"
               >
                 Add My Song
