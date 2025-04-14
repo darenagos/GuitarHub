@@ -1,9 +1,7 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "../../../supabaseClient";
 import { useNavigate } from "react-router";
-import { updateStatus } from "../../../services/songService";
-import { deleteSong } from "../../../services/songService";
+import { updateStatus, deleteSong } from "../../../services/songService";
 import "./songDetails.css";
 
 import wantToLearnIcon from "../../../assets/icons/want-to-learn-icon.png";
@@ -12,7 +10,10 @@ import masteredIcon from "../../../assets/icons/mastered-icon-apple.png";
 
 const SongDetails = ({ song, id }) => {
   const [status, setStatus] = useState(song?.status || "want_to_learn");
+  const [message, setMessage] = useState(null);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+
   const statuses = ["want_to_learn", "learning", "mastered"];
   const statusLabels = {
     want_to_learn: "Want to Learn",
@@ -28,29 +29,38 @@ const SongDetails = ({ song, id }) => {
 
   useEffect(() => {
     if (song) setStatus(song.status);
-    console.log("Fetched song data:", song); // Log the song data
+    console.log("Fetched song data:", song);
   }, [song]);
 
   const handleStatusChange = async (newStatus) => {
     setStatus(newStatus);
+    setMessage(null);
+    setError(null);
 
     const { error } = await updateStatus(id, newStatus);
 
     if (error) {
       console.error("Error updating status:", error);
-      alert("Failed to update status. Please try again.");
+      setError("Failed to update status. Please try again.");
+    } else {
+      setMessage("Status updated successfully!");
     }
   };
 
   const handleDelete = async () => {
+    setMessage(null);
+    setError(null);
+
     const { error } = await deleteSong(id);
 
     if (error) {
       console.error("Error deleting song:", error);
-      alert("Failed to delete song");
+      setError("Failed to delete song.");
     } else {
-      alert("Song deleted successfully.");
-      navigate("/learning");
+      setMessage("Deleting song...");
+      setTimeout(() => {
+        navigate("/learning");
+      }, 2300);
     }
   };
 
@@ -59,18 +69,24 @@ const SongDetails = ({ song, id }) => {
       <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">
         Song Details
       </h2>
-      <p className="text-xl  mb-4">
+
+      {error && (
+        <p className="text-red-600 bg-red-100 px-4 py-2 rounded-md mb-4 text-center">
+          {error}
+        </p>
+      )}
+      <p className="text-xl mb-4">
         <strong>Song Name:</strong> {song.name}
       </p>
-      <p className="text-xl  mb-6">
+      <p className="text-xl mb-6">
         <strong>Artist:</strong> {song.artist}
       </p>
-      {/* Status Update */}
+
       <p className="flex justify-center text-m text-gray-500 mb-6">
         Learning Progress
       </p>
       <div className="space-y-4 mb-6">
-        <div className="p-2 rounded-lg  ">
+        <div className="p-2 rounded-lg">
           <div className="flex justify-between items-center mb-2">
             {statuses.map((s, index) => (
               <div
@@ -78,7 +94,6 @@ const SongDetails = ({ song, id }) => {
                 onClick={(e) => {
                   handleStatusChange(s);
 
-                  // Create ripple effect
                   const ripple = document.createElement("span");
                   const button = e.currentTarget;
                   const rect = button.getBoundingClientRect();
@@ -95,25 +110,23 @@ const SongDetails = ({ song, id }) => {
                     ripple.remove();
                   }, 1300);
 
-                  // Add scale animation to the image
                   const img = e.currentTarget.querySelector("img");
                   img.classList.add("scale-animation");
 
-                  // Remove the scale class after animation completes to reset it
                   setTimeout(() => {
                     img.classList.remove("scale-animation");
-                  }, 900); // The same duration as your animation
+                  }, 900);
                 }}
-                className={`relative overflow-hidden flex justify-center items-center cursor-pointer p-2 w-40 h-40 bg-white rounded-full text-sm font-medium drop-shadow-[0_2px_2px_rgba(0,0,0,0.1)]  hover:scale-105 transition-all ease-in-out ${
+                className={`relative overflow-hidden flex justify-center items-center cursor-pointer p-2 w-40 h-40 bg-white rounded-full text-sm font-medium drop-shadow-[0_2px_2px_rgba(0,0,0,0.1)] hover:scale-105 transition-all ease-in-out ${
                   status === s || statuses.indexOf(status) > index
-                    ? "text-gray-700  "
+                    ? "text-gray-700"
                     : "text-gray-400"
                 }`}
                 style={{
                   boxShadow:
                     status === s || statuses.indexOf(status) > index
-                      ? "0 0 10px rgba(	255, 220, 0)" // Apply glow if condition is true
-                      : "none", // No shadow if condition is false
+                      ? "0 0 10px rgba(255, 220, 0)"
+                      : "none",
                 }}
               >
                 <div className="flex flex-col items-center justify-center space-y-2 z-10">
@@ -131,11 +144,16 @@ const SongDetails = ({ song, id }) => {
         <div className="flex justify-start">
           <button
             onClick={handleDelete}
-            className=" p-2  bg-white  border-2 border-transparent hover:border-red-200 hover:scale-102 transition-all  cursor-pointer"
+            className="p-2 bg-white border-2 border-transparent hover:border-red-200 hover:scale-102 transition-all cursor-pointer"
           >
             Delete Song
           </button>
         </div>
+        {message && (
+          <p className="text-green-600 text-center mt-4 p-3 bg-green-50 rounded-md">
+            {message}
+          </p>
+        )}
       </div>
     </div>
   );
