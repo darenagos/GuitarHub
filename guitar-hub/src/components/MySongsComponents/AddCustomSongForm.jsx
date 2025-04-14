@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { supabase } from "../../supabaseClient";
 import border1 from "../../assets/borderStyles/border-one.png"; // Import the border image
 import border2 from "../../assets/borderStyles/border-five.png"; // Import the border image
@@ -8,6 +9,7 @@ const AddCustomSongForm = ({ userId, fetchUserSongs }) => {
   const [songName, setSongName] = useState("");
   const [chordSequence, setChordSequence] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const addCustomSong = async () => {
     if (!userId) {
@@ -41,11 +43,20 @@ const AddCustomSongForm = ({ userId, fetchUserSongs }) => {
       setTimeout(() => setErrorMessage(""), 5000);
     } else {
       // Re-fetch the user songs after adding a new song
+      setSuccessMessage("Song added successfully!");
       fetchUserSongs(); // Re-fetch to ensure the song is updated in the list
       setSongName("");
       setChordSequence("");
     }
   };
+
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => setSuccessMessage(""), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage]);
+
   return (
     <div className="flex justify-center items-center pt-3">
       <div className="w-full max-w-xl">
@@ -95,6 +106,11 @@ const AddCustomSongForm = ({ userId, fetchUserSongs }) => {
               </button>
             </div>
           </div>
+          {successMessage && (
+            <p className="text-green-600 text-center mt-4 p-3 bg-green-50 rounded-md">
+              {successMessage}
+            </p>
+          )}
         </div>
       </div>
     </div>
