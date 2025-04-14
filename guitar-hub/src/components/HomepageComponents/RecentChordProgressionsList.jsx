@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router";
 import FadePageWrapper from "../HOC/FadePageWrapper";
-import myCreationsIcon from "../../assets/icons/my-creations-icon.jpg";
+import myCreationsIcon from "../../assets/icons/music-note-icon.png";
 
 const RecentChordProgressionsList = ({ chordProgressions }) => {
   return (
@@ -9,7 +9,7 @@ const RecentChordProgressionsList = ({ chordProgressions }) => {
       <div className="bg-white rounded-md shadow-md h-full">
         <div className="flex items-center border-b-2 border-gray-100 p-3 justify-between">
           <h3 className="text-xl font-semibold ">My Recent Creations</h3>
-          <img src={myCreationsIcon} className="h-8 w-8" />
+          <img src={myCreationsIcon} className="h-8 w-auto" />
         </div>
         <div className="p-4">
           {chordProgressions.length > 0 ? (
