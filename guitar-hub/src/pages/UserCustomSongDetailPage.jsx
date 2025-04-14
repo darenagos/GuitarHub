@@ -10,13 +10,14 @@ import {
   updateCustomSong,
   deleteCustomSong,
 } from "../services/songService";
+import { UserAuth } from "../context/AuthContext";
 
-import { UserAuth } from "../context/AuthContext"; // Import UserAuth
+import editIcon from "../assets/icons/my-creations-icon.jpg";
+import musicIcon from "../assets/icons/music-icon.png";
 
 const UserCustomSongDetailPage = () => {
   const { id } = useParams();
-  const { userId } = UserAuth();
-  const { session } = UserAuth(); // Assuming 'session' is part of the context
+  const { userId, session } = UserAuth();
 
   const [song, setSong] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -24,12 +25,14 @@ const UserCustomSongDetailPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedSongName, setEditedSongName] = useState("");
   const [editedChordSequence, setEditedChordSequence] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSong = async () => {
       try {
-        const { data, error } = await fetchUserSongById(session?.user.id, id); // Ensure userId is passed
+        const { data, error } = await fetchUserSongById(session?.user.id, id);
         if (error) throw error;
 
         setSong(data);
@@ -46,16 +49,16 @@ const UserCustomSongDetailPage = () => {
         }
       } catch (error) {
         console.error("Error fetching song:", error);
+        setErrorMessage("Failed to load song details.");
       } finally {
         setLoading(false);
       }
     };
     fetchSong();
-  }, [id, userId]); // Ensure to include userId as a dependency if needed
+  }, [id, userId]);
 
   useEffect(() => {
     if (!song || !song.chord_sequence) return;
-
     try {
       const chords = JSON.parse(song.chord_sequence);
       if (Array.isArray(chords)) {
@@ -69,14 +72,25 @@ const UserCustomSongDetailPage = () => {
     }
   }, [song]);
 
+  // Auto-clear messages
+  useEffect(() => {
+    if (successMessage || errorMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage("");
+        setErrorMessage("");
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage, errorMessage]);
+
   const handleDeleteSong = async () => {
     const { error } = await deleteCustomSong(id);
     if (error) {
       console.error("Error deleting song:", error);
-      alert("Failed to delete song");
+      setErrorMessage("Failed to delete song.");
     } else {
-      alert("Song deleted successfully.");
-      navigate("/my-songs");
+      setSuccessMessage("Song deleted successfully.");
+      setTimeout(() => navigate("/my-songs"), 1000);
     }
   };
 
@@ -94,9 +108,9 @@ const UserCustomSongDetailPage = () => {
     );
     if (error) {
       console.error("Error updating song:", error);
-      alert("Failed to update song.");
+      setErrorMessage("Failed to update song.");
     } else {
-      alert("Song updated successfully.");
+      setSuccessMessage("Song updated successfully.");
       setSong((prev) => ({
         ...prev,
         song_name: editedSongName,
@@ -139,20 +153,37 @@ const UserCustomSongDetailPage = () => {
             &lt; Back to songs
           </Link>
         </div>
+        <img src={musicIcon} className="h-20 w-auto" />
         <div className="w-full max-w-2xl bg-white p-6 rounded-lg opacity-100 transition-opacity duration-1500 ease-in-out mt-10">
           <UserCustomSongHeader
             songName={song.song_name}
             onDelete={handleDeleteSong}
           />
         </div>
+
+        <div className="flex justify-center mt-4">
+          {errorMessage && (
+            <p className="text-red-500 text-center mt-4 p-3 bg-red-50 rounded-md w-full max-w-lg">
+              {errorMessage}
+            </p>
+          )}
+          {successMessage && (
+            <p className="text-green-600 text-center mt-4 p-3 bg-green-50 rounded-md w-full max-w-lg">
+              {successMessage}
+            </p>
+          )}
+        </div>
+
         <div>
           <button
             onClick={handleEditClick}
-            className="mt-6 text-xl hover:scale-105 transition duration-300"
+            className="flex mt-6 text-xl hover:scale-105 transition duration-300 bg-white rounded p-2 shadow cursor-pointer"
           >
             Edit Song
+            <img src={editIcon} alt="Edit" className="h-8 w-auto ml-1" />
           </button>
         </div>
+
         {isEditing && (
           <UserCustomSongEditForm
             editedSongName={editedSongName}
@@ -163,6 +194,7 @@ const UserCustomSongDetailPage = () => {
             setIsEditing={setIsEditing}
           />
         )}
+
         <UserCustomChordSequence song={song} chordDiagrams={chordDiagrams} />
       </div>
     </FadePageWrapper>

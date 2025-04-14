@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { supabase } from "../../supabaseClient";
+import border1 from "../../assets/borderStyles/border-one.png"; // Import the border image
+import border2 from "../../assets/borderStyles/border-five.png"; // Import the border image
+import musicIcon from "../../assets/icons/music-icon.png"; // Import the music note icon
 
 const AddCustomSongForm = ({ userId, fetchUserSongs }) => {
   const [songName, setSongName] = useState("");
   const [chordSequence, setChordSequence] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const addCustomSong = async () => {
     if (!userId) {
@@ -12,7 +16,8 @@ const AddCustomSongForm = ({ userId, fetchUserSongs }) => {
     }
 
     if (!songName || !chordSequence) {
-      alert("Please enter a song name and chord sequence");
+      setErrorMessage("Please enter a song name and chord sequence");
+      setTimeout(() => setErrorMessage(""), 5000); // Clear after 3 seconds
       return;
     }
 
@@ -32,6 +37,8 @@ const AddCustomSongForm = ({ userId, fetchUserSongs }) => {
 
     if (error) {
       console.error("Error adding song:", error);
+      setErrorMessage("Failed to add song. Please try again.");
+      setTimeout(() => setErrorMessage(""), 5000);
     } else {
       // Re-fetch the user songs after adding a new song
       fetchUserSongs(); // Re-fetch to ensure the song is updated in the list
@@ -40,31 +47,49 @@ const AddCustomSongForm = ({ userId, fetchUserSongs }) => {
     }
   };
   return (
-    <div className="flex justify-center items-center pt-10">
+    <div className="flex justify-center items-center pt-3">
       <div className="w-full max-w-xl">
-        <div className="space-y-4">
+        <div className=" bg-white p-6 rounded-lg shadow-md">
           {/* Form for adding custom songs */}
-          <div>
+          <div className="flex items-center mb-4">
+            <h2 className="text-s mr-2">Add my song </h2>
+            <img src={musicIcon} className="h-10 w-auto" />
+          </div>
+          {errorMessage && (
+            <div className="text-red-500 text-center mt-4 mb-4 p-3 bg-red-50 transition-all duration-300">
+              {errorMessage}
+            </div>
+          )}
+
+          <div className="flex flex-col items-center">
             <input
               type="text"
               placeholder="Song Name"
               value={songName}
               onChange={(e) => setSongName(e.target.value)}
-              className="p-3 w-full border-b-2 border-gray-500 outline-none placeholder-gray-500 text-lg"
+              className="p-3 w-full  outline-none placeholder-gray-500 text-m border-2 border-gray-100 rounded-full"
+            />
+            <img
+              src={border1}
+              className=" w-80 opacity-60 pointer-events-none"
             />
           </div>
-          <div className="space-y-4">
+          <div className=" flex flex-col items-center">
             <input
               type="text"
               placeholder="Chord Sequence (comma-separated)"
               value={chordSequence}
               onChange={(e) => setChordSequence(e.target.value)}
-              className="p-3 w-full border-b-2 border-gray-500 outline-none placeholder-gray-500 text-lg"
+              className="p-3 w-full outline-none placeholder-gray-500 text-m border-2 border-gray-100 rounded-full"
+            />
+            <img
+              src={border2}
+              className=" w-80 opacity-60 pointer-events-none"
             />
             <div className="flex justify-center">
               <button
                 onClick={addCustomSong}
-                className="mt-4 p-3 text-gray-800 hover:scale-105 transition-all duration-300 ease-in-out"
+                className="mt-1 p-3 text-orange-400 shadow  hover:text-[#9cd0cd] rounded-full hover:scale-105 transition-all duration-300 ease-in-out"
               >
                 Add My Song
               </button>

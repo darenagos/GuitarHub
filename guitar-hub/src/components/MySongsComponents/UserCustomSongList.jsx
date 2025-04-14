@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import FadePageWrapper from "../HOC/FadePageWrapper";
 
+import musicNoteIcon from "../../assets/icons/music-note-icon.png"; // Import the music note icon
+import searchIcon from "../../assets/icons/search-interface-symbol.png"; // Import the search icon
+
 const UserCustomSongList = ({ userSongs }) => {
   const [sortOrder, setSortOrder] = useState("desc");
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,23 +26,29 @@ const UserCustomSongList = ({ userSongs }) => {
   });
 
   return (
-    <div className="flex justify-center items-center w-full max-w-full">
-      <div className="p-3">
-        <h2 className="m-5">My Created Songs :</h2>
+    <div className="flex justify-center items-center w-full max-w-full pt-15">
+      <div className="p-6">
+        <div className="p-2 pb-15 flex justify-center items-center ">
+          <h2 className=" text-2xl mr-2">My Created Songs</h2>
+          <img src={musicNoteIcon} className="h-10 w-auto" />
+        </div>
 
         {/* Search Input */}
-        <input
-          type="text"
-          placeholder="Search for a song..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="p-2 mb-3 border border-gray-300 rounded w-full"
-        />
+        <div className="flex items-center mb-3 border-2 border-gray-100 rounded-md px-3 bg-white">
+          <img src={searchIcon} alt="Search" className="h-7 w-auto mr-2" />
+          <input
+            type="text"
+            placeholder="Search for a song..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="p-2 w-full outline-none"
+          />
+        </div>
 
         {/* Sort Button */}
         <button
           onClick={handleSort}
-          className="cursor-pointer px-3 py-1 flex items-center border border-gray-400 rounded"
+          className="cursor-pointer px-3 py-1 flex items-center rounded hover:scale-105 transition-all duration-300 ease-in-out"
         >
           Date added{" "}
           <span
@@ -53,11 +62,16 @@ const UserCustomSongList = ({ userSongs }) => {
 
         <FadePageWrapper>
           {sortedSongs.length > 0 ? (
-            <ul className="grid justify-center">
+            <ul className="grid justify-center bg-white rounded-lg shadow p-3 mt-4">
               {sortedSongs.map((song) => (
                 <div className="p-2 w-xl text-center" key={song.id}>
-                  <li className="border rounded-sm p-2 hover:bg-white transition-all duration-300 ease-in-out">
-                    <Link to={`/user-songs/${song.id}`}>{song.song_name}</Link>
+                  <li className="w-full flex rounded-lg">
+                    <Link
+                      to={`/user-songs/${song.id}`}
+                      className=" w-full p-2 hover:scale-105 drop-shadow-[0_4px_2px_rgba(0,0,0,0.1)] rounded-lg transition-all duration-300 ease-in-out"
+                    >
+                      {song.song_name}{" "}
+                    </Link>
                   </li>
                 </div>
               ))}

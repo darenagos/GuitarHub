@@ -6,7 +6,7 @@ const UserCustomSongHeader = ({ songName, onDelete }) => {
       <h1 className="text-2xl">{songName}</h1>
       <button
         onClick={onDelete}
-        className="text-s mt-3 text-gray-500 hover:scale-105 hover:text-gray-700 transition-all duration-300 "
+        className="text-s mt-3 text-gray-500 border-2 border-transparent  px-3 py-1 hover:scale-105 hover:text-gray-700 hover:border-red-300 transition-all duration-300 cursor-pointer"
       >
         Delete Song
       </button>
