@@ -15,8 +15,8 @@ import UserCustomSongDetailPage from "../pages/UserCustomSongDetailPage.jsx";
 
 export const router = createBrowserRouter([
   { path: "/GuitarHub", element: <App /> },
-  { path: "/GuitarHub/signup", element: <SignupPage /> },
-  { path: "/GuitarHub/signin", element: <SigninPage /> },
+  { path: "/signup", element: <SignupPage /> },
+  { path: "/signin", element: <SigninPage /> },
 
   {
     path: "/",
@@ -26,13 +26,13 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      { path: "/GuitarHub/homepage", element: <Homepage /> },
-      { path: "/GuitarHub/learning", element: <LearningPage /> },
-      { path: "/GuitarHub/chord-diagrams", element: <ChordDiagramsPage /> },
-      { path: "/GuitarHub/my-songs", element: <MySongsPage /> },
-      { path: "/GuitarHub/songs/:id", element: <SongDetailPage /> },
+      { path: "/homepage", element: <Homepage /> },
+      { path: "/learning", element: <LearningPage /> },
+      { path: "/chord-diagrams", element: <ChordDiagramsPage /> },
+      { path: "/my-songs", element: <MySongsPage /> },
+      { path: "/songs/:id", element: <SongDetailPage /> },
       {
-        path: "/GuitarHub/user-songs/:id",
+        path: "/user-songs/:id",
         element: <UserCustomSongDetailPage />,
       },
     ],
