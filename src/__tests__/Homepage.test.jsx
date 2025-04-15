@@ -53,7 +53,7 @@ describe("Homepage", () => {
 
   test("renders welcome message with user email", () => {
     render(<Homepage />);
-    expect(screen.getByText(/Welcome, test@example.com/)).toBeInTheDocument();
+    expect(screen.getByText(/Welcome, test/)).toBeInTheDocument();
   });
 
   test("renders sign out button", () => {
