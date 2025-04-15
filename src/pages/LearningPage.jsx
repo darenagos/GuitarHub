@@ -9,7 +9,6 @@ import { addSongToLearn } from "../services/songService";
 
 // Custom hook to handle fetching logic
 import useFetchSongs from "../hooks/useFetchSongs";
-// import SongSearchSection from "../components/MySongsComponents/SongSearchSection";
 
 const LearningPage = () => {
   // State for user inputs
@@ -29,34 +28,13 @@ const LearningPage = () => {
     session?.user?.id
   );
 
-  // Auto-clear feedback messages after 4 seconds
-  useEffect(() => {
-    if (successMessage) {
-      const timer = setTimeout(() => setSuccessMessage(""), 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [successMessage]);
-
-  useEffect(() => {
-    if (formError) {
-      const timer = setTimeout(() => setFormError(""), 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [formError]);
-
-  useEffect(() => {
-    if (errorMessage) {
-      const timer = setTimeout(() => setErrorMessage(""), 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [errorMessage]);
-
-  useEffect(() => {
-    if (loadingMessage) {
-      const timer = setTimeout(() => setLoadingMessage(""), 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [loadingMessage]);
+  // Clear feedback messages manually after song is added or error occurs
+  const clearMessages = () => {
+    setFormError("");
+    setErrorMessage("");
+    setSuccessMessage("");
+    setLoadingMessage("");
+  };
 
   const addSongToWantToLearn = async () => {
     if (!session?.user?.id) return;
@@ -67,10 +45,8 @@ const LearningPage = () => {
       return;
     }
 
-    // Clear messages
-    setFormError("");
-    setSuccessMessage("");
-    setErrorMessage("");
+    // Clear previous messages
+    clearMessages();
     setLoadingMessage("Adding song...");
 
     try {
@@ -81,17 +57,21 @@ const LearningPage = () => {
         session.user.id
       );
 
-      setLoadingMessage("");
-
+      // Fetch the updated song list
       await fetchSongs();
 
+      // Clear loading message before showing success message
+      setLoadingMessage("");
       setSuccessMessage("Song added successfully!");
-      fetchSongs();
       setSongToLearn("");
       setArtistOfSongToLearn("");
+
+      setTimeout(() => clearMessages(), 4000);
     } catch (error) {
       setLoadingMessage("");
-      setFormError("Something went wrong while adding the song.");
+      setErrorMessage("Something went wrong while adding the song.");
+
+      setTimeout(() => setErrorMessage(""), 4000);
     }
   };
 
@@ -141,14 +121,6 @@ const LearningPage = () => {
             {/* Display List of Songs */}
             <SongList wantToLearnList={songs} />
           </FadePageWrapper>
-
-          {/* Search for a Song
-        <SongSearchSection
-          selectedSongId={selectedSongId}
-          setSelectedSongId={setSelectedSongId}
-          setChords={setChords}
-          chords={chords}
-        /> */}
         </div>
       </div>
     </FadePageWrapper>
