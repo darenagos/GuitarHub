@@ -82,6 +82,9 @@ const LearningPage = () => {
       );
 
       setLoadingMessage("");
+
+      await fetchSongs();
+
       setSuccessMessage("Song added successfully!");
       fetchSongs();
       setSongToLearn("");
