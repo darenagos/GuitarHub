@@ -9,27 +9,27 @@ import { addSongToLearn } from "../services/songService";
 
 // Custom hook to handle fetching logic
 import useFetchSongs from "../hooks/useFetchSongs";
-import SongSearchSection from "../components/MySongsComponents/SongSearchSection";
+// import SongSearchSection from "../components/MySongsComponents/SongSearchSection";
 
 const LearningPage = () => {
+  // State for user inputs
   const [songToLearn, setSongToLearn] = useState("");
   const [artistOfSongToLearn, setArtistOfSongToLearn] = useState("");
   const [status, setStatus] = useState("want_to_learn");
   const { session } = UserAuth();
+
+  // State for UI feedback
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [formError, setFormError] = useState("");
   const [loadingMessage, setLoadingMessage] = useState("");
 
+  // Fetch user's saved songs
   const { songs, loading, error, fetchSongs } = useFetchSongs(
     session?.user?.id
   );
 
-  // Missing State Variables for Song Search
-  const [selectedSongId, setSelectedSongId] = useState(null);
-  const [chords, setChords] = useState([]);
-
-  // Auto-clear messages after 5 seconds
+  // Auto-clear feedback messages after 4 seconds
   useEffect(() => {
     if (successMessage) {
       const timer = setTimeout(() => setSuccessMessage(""), 4000);
@@ -67,7 +67,7 @@ const LearningPage = () => {
       return;
     }
 
-    // Reset messages
+    // Clear messages
     setFormError("");
     setSuccessMessage("");
     setErrorMessage("");

@@ -4,18 +4,15 @@ import { UserAuth } from "../context/AuthContext";
 import FadePageWrapper from "../components/HOC/FadePageWrapper";
 
 import dgChordLogo from "../assets/dgChordLogo.png";
-import LoadingScreen from "./LoadingScreen";
 
 const SigninPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState("");
-  const [showLoadingScreen, setShowLoadingScreen] = useState(false);
 
   const { session, signInUser } = UserAuth();
   const navigate = useNavigate();
-  console.log(session);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -38,7 +35,6 @@ const SigninPage = () => {
 
       if (result?.success) {
         navigate("/homepage");
-        // setShowLoadingScreen(true);
       } else if (result?.error) {
         handleSigninError(result.error);
       }
@@ -49,7 +45,7 @@ const SigninPage = () => {
     }
   };
 
-  // Helper function to provide specific error messages for SignIn
+  // function to provide specific error messages for SignIn
   const handleSigninError = (error) => {
     const errorCode = error?.code || error?.message || "unknown";
     console.error("Signin error:", errorCode);
@@ -62,14 +58,6 @@ const SigninPage = () => {
       setError(`Sign in failed: ${errorCode}`);
     }
   };
-
-  // const handleLoadingScreen = () => {
-  //   navigate("/homepage");
-  // };
-
-  // if (showLoadingScreen) {
-  //   return <LoadingScreen onComplete={handleLoadingScreen} />;
-  // }
 
   return (
     <FadePageWrapper>
@@ -96,6 +84,7 @@ const SigninPage = () => {
             </Link>
           </p>
           <div className="space-y-6">
+            {/* Email input field */}
             <label htmlFor="email">Email</label>
             <input
               id="email"
@@ -104,6 +93,7 @@ const SigninPage = () => {
               type="email"
               className="w-full p-3 border-b-3 border-black bg-transparent focus:outline-none focus:border-gray-600"
             />
+            {/* Password input field */}
             <label htmlFor="password">Password</label>
             <input
               id="password"
@@ -112,6 +102,7 @@ const SigninPage = () => {
               type="password"
               className="w-full p-3 border-b-3 border-black bg-transparent focus:outline-none focus:border-gray-600"
             />
+            {/* Sign-in button */}
             <button
               type="submit"
               disabled={loading}

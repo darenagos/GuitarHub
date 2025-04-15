@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { UserAuth } from "../context/AuthContext";
 import { findChordsFromJSON } from "../utils/chordUtils";
 import FadePageWrapper from "../components/HOC/FadePageWrapper";
 import UserCustomSongHeader from "../components/MySongsComponents/UserCustomSongHeader";
@@ -10,15 +11,21 @@ import {
   updateCustomSong,
   deleteCustomSong,
 } from "../services/songService";
-import { UserAuth } from "../context/AuthContext";
 
 import editIcon from "../assets/icons/my-creations-icon.jpg";
 import musicIcon from "../assets/icons/music-icon.png";
+
+/**
+ * UserCustomSongDetailPage Component
+ * Displays detailed information for a custom user song, including name, chord sequence, and edit/delete functionality.
+ * Allows the user to view, update, or delete their custom song. Includes chord diagram rendering and auto-clear success/error messages.
+ */
 
 const UserCustomSongDetailPage = () => {
   const { id } = useParams();
   const { userId, session } = UserAuth();
 
+  // State variables to hold song data, loading state, chord diagrams, and edit state
   const [song, setSong] = useState(null);
   const [loading, setLoading] = useState(true);
   const [chordDiagrams, setChordDiagrams] = useState([]);
@@ -29,6 +36,7 @@ const UserCustomSongDetailPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
+  // Fetch song details by id from the API when component mounts or user session changes
   useEffect(() => {
     const fetchSong = async () => {
       try {
@@ -57,6 +65,7 @@ const UserCustomSongDetailPage = () => {
     fetchSong();
   }, [id, session?.user?.id]);
 
+  // Update chord diagrams whenever the song data or chord sequence changes
   useEffect(() => {
     if (!song || !song.chord_sequence) return;
     try {
@@ -101,6 +110,7 @@ const UserCustomSongDetailPage = () => {
       editedChordSequence.split(",").map((chord) => chord.trim())
     );
 
+    // Call API to update the song details
     const { error } = await updateCustomSong(
       id,
       editedSongName,
@@ -161,6 +171,7 @@ const UserCustomSongDetailPage = () => {
           />
         </div>
 
+        {/* Display success or error messages */}
         <div className="flex justify-center mt-4">
           {errorMessage && (
             <p className="text-red-500 text-center mt-4 p-3 bg-red-50 rounded-md w-full max-w-lg">

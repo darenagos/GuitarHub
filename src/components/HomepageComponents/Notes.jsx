@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { supabase } from "../../supabaseClient";
 import { UserAuth } from "../../context/AuthContext";
 import FadePageWrapper from "../HOC/FadePageWrapper";
 import noteIcon from "../../assets/icons/note-icon.png";
@@ -9,6 +8,11 @@ import {
   fetchNote,
   updateNote,
 } from "../../services/songService";
+
+/**
+ * Notes component allows a user to view and update a single personal note.
+ * Automatically creates a default note if none exists for the user.
+ */
 
 const Notes = () => {
   const { session } = UserAuth();
@@ -22,7 +26,6 @@ const Notes = () => {
   // Fetch the single note when component mounts or user session changes
   useEffect(() => {
     const handleFetchNote = async () => {
-      console.log("Fetching note...");
       if (!session?.user?.id) return;
 
       setLoading(true);
@@ -32,12 +35,10 @@ const Notes = () => {
 
         if (error && error.code !== "PGRST116") {
           throw new Error(error.message);
-          console.error("Error fetching note:", error.message);
         }
 
-        console.log("Fetched note:", data);
         if (!data) {
-          // No note exists, create a new default one
+          // No existing note, create default one
           const { data: newNote, error: insertError } = await addDefaultNote(
             session.user.id
           );
@@ -45,8 +46,6 @@ const Notes = () => {
           if (insertError) {
             // Prevent duplicate insertion error by checking for existing note
             if (insertError.code === "23505") {
-              console.log("Note already exists for this user.");
-              // Optionally fetch the existing note again
               const { data: existingNote, error: fetchError } = await fetchNote(
                 session.user.id
               );
@@ -55,7 +54,7 @@ const Notes = () => {
                 throw new Error(fetchError.message);
               }
 
-              setNote(existingNote); // Use the existing note
+              setNote(existingNote);
             } else {
               throw new Error(insertError.message);
             }
@@ -63,7 +62,6 @@ const Notes = () => {
             setNote(newNote);
           }
         } else {
-          // If note exists, use the existing one
           setNote(data);
         }
       } catch (err) {
@@ -76,28 +74,32 @@ const Notes = () => {
     handleFetchNote();
   }, [session?.user?.id]);
 
-  // Handle updating the note
+  /**
+   * Update note content in the database and UI
+   */
   const handleUpdateNote = async () => {
     if (!note) return;
 
     try {
-      setUpdating(true); // Use updating state instead of loading
+      setUpdating(true);
       const { error } = await updateNote(note.id, updatedNote);
 
       if (error) {
         throw new Error(error.message);
       }
 
-      setNote((prev) => ({ ...prev, notes: updatedNote })); // Update UI
-      setIsEditing(false); // Exit edit mode
+      setNote((prev) => ({ ...prev, notes: updatedNote }));
+      setIsEditing(false);
     } catch (err) {
       setError(err);
     } finally {
-      setUpdating(false); // Reset updating state instead of loading
+      setUpdating(false);
     }
   };
 
-  // Content to render
+  /**
+   * Renders note display or editing interface depending on `isEditing` state
+   */
   const renderContent = () => {
     if (loading) {
       return <p className="min-h-[100px]"></p>;
@@ -116,12 +118,12 @@ const Notes = () => {
               value={updatedNote}
               onChange={(e) => setUpdatedNote(e.target.value)}
               className="w-full p-4  rounded-md min-h-[100px]"
-              disabled={updating} // Disable during update
+              disabled={updating}
             />
             <div className="flex justify-between mt-2">
               <button
                 onClick={handleUpdateNote}
-                disabled={updating} // Disable during update
+                disabled={updating}
                 className={`${
                   updating
                     ? "bg-gray-400"

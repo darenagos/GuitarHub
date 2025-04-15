@@ -48,14 +48,6 @@ const RecentSongsList = ({ songs, loading, error }) => {
                     View Song
                   </Link>
                 </div>
-                {/* <div>
-                  
-                  <img
-                    src={borderImages[index % borderImages.length]}
-                    alt="border"
-                    className="opacity-70"
-                  />{" "}
-                </div> */}
               </div>
             ))
           ) : (

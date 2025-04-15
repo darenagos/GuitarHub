@@ -32,12 +32,6 @@ const RecentChordProgressionsList = ({ chordProgressions }) => {
                 >
                   View Chord Progression
                 </Link>
-
-                {/* <img
-                  src={borderImages[index % borderImages.length]} // Cycle through last 3 border images
-                  alt="border"
-                  className="opacity-70 mt-2"
-                /> */}
               </div>
             ))
           ) : (

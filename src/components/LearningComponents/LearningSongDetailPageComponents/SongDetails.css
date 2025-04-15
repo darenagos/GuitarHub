@@ -1,3 +1,14 @@
+/**
+ * CSS Animations and Styles
+ * Defines ripple animation effect for interactive elements and a scale-up animation for visual emphasis.
+ * - `softRipple`: Creates a growing ripple effect with fading opacity.
+ * - `scaleUp`: Smoothly scales an element up and down.
+ * - `.ripple`: A circular element with the softRipple animation applied.
+ * - `.scale-animation`: Applies the scaleUp animation to an element.
+ */
+
+
+
 @keyframes softRipple {
     0% {
       transform: scale(0.2);

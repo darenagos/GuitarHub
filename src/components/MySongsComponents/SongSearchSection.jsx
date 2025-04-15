@@ -3,6 +3,11 @@ import SongSearch from "./SongSearchComponents/SongSearch";
 import ChordSequenceDisplay from "../ChordSequenceComponents/ChordSequenceDisplay";
 import ChordTimeline from "../ChordSequenceComponents/ChordTimeline";
 
+/**
+ * SongSearchSection Component
+ * Manages song search, fetches and displays chord sequence and timeline.
+ */
+
 const SongSearchSection = ({
   selectedSongId,
   setSelectedSongId,
@@ -10,7 +15,7 @@ const SongSearchSection = ({
   chords,
 }) => {
   const fetchChords = async (songId) => {
-    const url = `http://audio-analysis.eecs.qmul.ac.uk/function/analysis/audiocommons/jamendo-tracks:${songId}?descriptors=chords`;
+    const url = `https://audio-analysis.eecs.qmul.ac.uk/function/analysis/audiocommons/jamendo-tracks:${songId}?descriptors=chords`;
 
     try {
       const response = await fetch(url);

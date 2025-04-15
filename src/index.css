@@ -5,25 +5,20 @@
 
 /* Global styles */
 body {
- 
   width: 100%;
   font-family: 'Archivo Black', sans-serif; /* Apply Archivo Black font globally */
   overflow: hidden; /* Prevents unwanted scrollbars */
- 
 }
 
 html {
   overflow: hidden; /* Prevents unwanted scrollbars */
   background-color: #FAF9F6;
-  
 }
 
 
 /* Custom scrollbar styles for the content container */
 .scrollable-content {
   overflow-y: scroll; 
- 
-
    
 }
 

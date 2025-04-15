@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 
+/**
+ * ChordSequenceDisplay Component
+ * Displays a toggleable list of chord sequence details, including chord labels and timings.
+ */
+
 const ChordSequenceDisplay = ({ chords }) => {
   const [isVisible, setIsVisible] = useState(false);
 

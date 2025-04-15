@@ -1,6 +1,7 @@
-// src/hooks/useFetchSong.js
 import { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
+
+// useFetchSong Hook: Fetches song data from Supabase for a given song ID, returns song, loading, and error states.
 
 const useFetchSong = (id) => {
   const [song, setSong] = useState(null);

@@ -7,6 +7,11 @@ import { useState } from "react";
 
 import { findChord } from "../utils/chordUtils";
 
+/**
+ * ChordDiagramsPage Component
+ * Handles chord search, displays results in a chord diagram, and shows the full chord database
+ */
+
 const ChordDiagramsPage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [isSearchCleared, setIsSearchCleared] = useState(false);
@@ -17,14 +22,12 @@ const ChordDiagramsPage = () => {
       setSearchResults([]);
       setIsSearchCleared(true);
       setHasPressedSubmit(false);
-      console.log("Search cleared, hiding 'No chords found' message.");
       return;
     }
 
     setHasPressedSubmit(true);
     setIsSearchCleared(false); // Reset cleared flag when searching
     const result = findChord(chordName, suffix) || [];
-    console.log("Chord search result:", result);
     setSearchResults(result.length > 0 ? result : []);
   };
 

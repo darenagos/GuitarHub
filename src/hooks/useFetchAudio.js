@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+// useFetchAudio Hook: Fetches and returns the audio URL for a given track ID from Jamendo API.
+
 const API_KEY = "05955013";
 
 const useFetchAudio = (trackId) => {

@@ -8,6 +8,12 @@ import wantToLearnIcon from "../../../assets/icons/want-to-learn-icon.png";
 import learningIcon from "../../../assets/icons/currently-learning-icon.png";
 import masteredIcon from "../../../assets/icons/mastered-icon-apple.png";
 
+/**
+ * SongDetails Component
+ * Handles the display and management of a song's details, including name, artist, learning progress status, and delete functionality.
+ * Allows the user to update the song's learning status or delete the song from their collection.
+ */
+
 const SongDetails = ({ song, id }) => {
   const [status, setStatus] = useState(song?.status || "want_to_learn");
   const [message, setMessage] = useState(null);
@@ -29,7 +35,6 @@ const SongDetails = ({ song, id }) => {
 
   useEffect(() => {
     if (song) setStatus(song.status);
-    console.log("Fetched song data:", song);
   }, [song]);
 
   const handleStatusChange = async (newStatus) => {
@@ -74,6 +79,8 @@ const SongDetails = ({ song, id }) => {
           {error}
         </p>
       )}
+
+      {/* Display song name and artist */}
       <p className="text-xl mb-4">
         <strong>Song Name:</strong> {song.name}
       </p>
@@ -81,6 +88,7 @@ const SongDetails = ({ song, id }) => {
         <strong>Artist:</strong> {song.artist}
       </p>
 
+      {/* Display learning progress  */}
       <p className="flex justify-center text-m text-gray-500 mb-6">
         Learning Progress
       </p>
@@ -93,6 +101,7 @@ const SongDetails = ({ song, id }) => {
                 onClick={(e) => {
                   handleStatusChange(s);
 
+                  // Create ripple effect on click
                   const ripple = document.createElement("span");
                   const button = e.currentTarget;
                   const rect = button.getBoundingClientRect();
@@ -140,6 +149,8 @@ const SongDetails = ({ song, id }) => {
             ))}
           </div>
         </div>
+
+        {/* Delete button */}
         <div className="flex justify-start">
           <button
             onClick={handleDelete}

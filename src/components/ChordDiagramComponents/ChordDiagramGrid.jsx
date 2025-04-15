@@ -1,5 +1,4 @@
 import React from "react";
-import ChordDiagram from "./ChordDiagram";
 
 const ChordDiagramGrid = ({ chords }) => {
   if (!Array.isArray(chords) || chords.length === 0) {

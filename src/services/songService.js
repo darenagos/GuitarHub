@@ -1,7 +1,18 @@
-// songService.js
-
 const API_KEY = "05955013";
 import { supabase } from "../supabaseClient";
+
+// ==========================
+// Song Management Operations
+// ==========================
+
+/**
+ * Adds a song to the user's learning list, fetching song details from Jamendo API and saving to Supabase.
+ * @param {string} songToLearn - Name of the song to learn.
+ * @param {string} artistOfSongToLearn - Artist of the song.
+ * @param {string} status - Status of the song.
+ * @param {string} userId - ID of the user.
+ * @returns {object} - Data of the added song or error message.
+ */
 
 export const addSongToLearn = async (
   songToLearn,
@@ -54,6 +65,12 @@ export const addSongToLearn = async (
   }
 };
 
+/**
+ * Fetches all songs for a specific user.
+ * @param {string} userId - ID of the user.
+ * @returns {object} - User's songs or error message.
+ */
+
 export const fetchUserSongs = async (userId) => {
   if (!userId) return { error: "User not authenticated" };
   const { data, error } = await supabase
@@ -65,6 +82,13 @@ export const fetchUserSongs = async (userId) => {
   return { data, error };
 };
 
+/**
+ * Fetches a song by its ID for a specific user.
+ * @param {string} userId - ID of the user.
+ * @param {string} songId - ID of the song.
+ * @returns {object} - Song details or error message.
+ */
+
 export const fetchUserSongById = async (userId, songId) => {
   if (!userId) return { error: "User not authenticated" };
 
@@ -73,7 +97,7 @@ export const fetchUserSongById = async (userId, songId) => {
     .select("*")
     .eq("user_id", userId)
     .eq("id", songId)
-    .single(); // We use `.single()` since we're expecting only one song
+    .single();
 
   if (error) {
     console.error("Error fetching song by ID:", error);
@@ -83,11 +107,25 @@ export const fetchUserSongById = async (userId, songId) => {
   return { data };
 };
 
+/**
+ * Deletes a song by ID from the database.
+ * @param {string} id - ID of the song to delete.
+ * @returns {object} - Error message if any.
+ */
+
 export const deleteSong = async (id) => {
   const { error } = await supabase.from("songs").delete().eq("id", id);
 
   return { error };
 };
+
+/**
+ * Adds a custom song with chord sequence for the user.
+ * @param {string} userId - ID of the user.
+ * @param {string} songName - Name of the custom song.
+ * @param {string} chordSequence - Chord sequence for the song.
+ * @returns {object} - Data of the added custom song or error message.
+ */
 
 export const addCustomSong = async (userId, songName, chordSequence) => {
   if (!userId) return { error: "User not authenticated" };
@@ -105,6 +143,12 @@ export const addCustomSong = async (userId, songName, chordSequence) => {
   return { data, error };
 };
 
+/**
+ * Deletes a custom song by ID.
+ * @param {string} id - ID of the custom song to delete.
+ * @returns {object} - Error message if any.
+ */
+
 export const deleteCustomSong = async (id) => {
   const { error } = await supabase
     .from("usersChordProgressions")
@@ -112,6 +156,14 @@ export const deleteCustomSong = async (id) => {
     .eq("id", id);
   return { error };
 };
+
+/**
+ * Updates a custom song's details.
+ * @param {string} id - ID of the song to update.
+ * @param {string} songName - New song name.
+ * @param {string} chordSequence - New chord sequence.
+ * @returns {object} - Error message if any.
+ */
 
 export const updateCustomSong = async (id, songName, chordSequence) => {
   const { error } = await supabase
@@ -124,6 +176,13 @@ export const updateCustomSong = async (id, songName, chordSequence) => {
   return { error };
 };
 
+/**
+ * Updates the status of a song.
+ * @param {string} id - ID of the song to update.
+ * @param {string} newStatus - New status for the song.
+ * @returns {object} - Error message if any and the new status.
+ */
+
 export const updateStatus = async (id, newStatus) => {
   const { error } = await supabase
     .from("songs")
@@ -132,6 +191,16 @@ export const updateStatus = async (id, newStatus) => {
 
   return { error, newStatus };
 };
+
+// ================================
+// Fetching Recent and Learning Songs
+// ================================
+
+/**
+ * Fetches the top 3 most recent songs for a user.
+ * @param {string} userId - ID of the user.
+ * @returns {object} - The top 3 most recent songs or error message.
+ */
 
 export const fetchTopThreeMostRecentSongs = async (userId) => {
   if (!userId) return { error: "User not authenticated" };
@@ -146,6 +215,12 @@ export const fetchTopThreeMostRecentSongs = async (userId) => {
   return { data, error };
 };
 
+/**
+ * Fetches the top 3 most recent custom chord progressions for a user.
+ * @param {string} userId - ID of the user.
+ * @returns {object} - The top 3 most recent custom chord progressions or error message.
+ */
+
 export const fetchTopThreeMostRecentChordProgressions = async (userId) => {
   if (!userId) return { error: "User not authenticated" };
 
@@ -159,6 +234,12 @@ export const fetchTopThreeMostRecentChordProgressions = async (userId) => {
   return { data, error };
 };
 
+/**
+ * Fetches all songs for a user that are in the learning process.
+ * @param {string} userId - ID of the user.
+ * @returns {object} - Learning songs data or error message.
+ */
+
 export const fetchLearningSongs = async (userId) => {
   if (!userId) return { error: "User not authenticated" };
 
@@ -170,7 +251,16 @@ export const fetchLearningSongs = async (userId) => {
   return { data, error };
 };
 
-// notes database operations
+// =========================
+// Notes Database Operations
+// =========================
+
+/**
+ * Fetches notes for a specific user.
+ * @param {string} userId - ID of the user.
+ * @returns {object} - The user's notes or error message.
+ */
+
 export const fetchNote = async (userId) => {
   if (!userId) return { error: "User not authenticated" };
   const { data, error } = await supabase
@@ -182,6 +272,12 @@ export const fetchNote = async (userId) => {
   return { data, error };
 };
 
+/**
+ * Adds a default note for a new user.
+ * @param {string} userId - ID of the user.
+ * @returns {object} - The newly created note or error message.
+ */
+
 export const addDefaultNote = async (userId) => {
   const { data: newNote, error: insertError } = await supabase
     .from("userNotes")
@@ -191,6 +287,13 @@ export const addDefaultNote = async (userId) => {
 
   return { newNote, insertError };
 };
+
+/**
+ * Updates an existing note.
+ * @param {string} noteId - ID of the note to update.
+ * @param {string} updatedNote - The updated note text.
+ * @returns {object} - Error message if any.
+ */
 
 export const updateNote = async (noteId, updatedNote) => {
   const { error } = await supabase

@@ -14,6 +14,7 @@ const UserCustomSongEditForm = ({
         onSubmit={handleUpdateSong}
         className="flex flex-col space-y-4 bg-white p-6 rounded-lg shadow w-full max-w-xl"
       >
+        {/* Name of song */}
         <label className="text-lg">
           Song Name:
           <input
@@ -24,6 +25,7 @@ const UserCustomSongEditForm = ({
           />
         </label>
 
+        {/* sequence of chords */}
         <label className="text-lg">
           Chord Sequence:
           <input
@@ -35,6 +37,7 @@ const UserCustomSongEditForm = ({
           />
         </label>
 
+        {/* submit */}
         <div className="flex space-x-4 justify-center">
           <button
             type="submit"
@@ -42,6 +45,7 @@ const UserCustomSongEditForm = ({
           >
             Save Changes
           </button>
+          {/* cancel */}
           <button
             type="button"
             onClick={() => setIsEditing(false)}

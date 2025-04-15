@@ -13,6 +13,11 @@ import SigninPage from "../pages/SigninPage.jsx";
 import PrivateRoute from "../components/HOC/PrivateRoute.jsx";
 import UserCustomSongDetailPage from "../pages/UserCustomSongDetailPage.jsx";
 
+/**
+ * Router configuration for the application: Sets up routes with public and private access.
+ * Private routes are wrapped with PrivateRoute to ensure only authenticated users can access certain pages.
+ */
+
 export const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/signup", element: <SignupPage /> },

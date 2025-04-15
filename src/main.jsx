@@ -12,6 +12,7 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <>
       <div className=" bg-[#FAF9F6] overflow-hidden  max-h-screen ">
+        {/* wrapper to make authentication data available throughout the app */}
         <AuthContextProvider>
           <RouterProvider router={router} />
         </AuthContextProvider>

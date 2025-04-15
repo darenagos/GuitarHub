@@ -8,6 +8,12 @@ import wantToLearnIcon from "../../assets/icons/want-to-learn-icon.png";
 import learningIcon from "../../assets/icons/currently-learning-icon.png";
 import masteredIcon from "../../assets/icons/mastered-icon-apple.png";
 
+/**
+ * SongList Component
+ * Displays songs grouped by learning status (Want to Learn, Learning, Mastered)
+ * Features sorting (by date added) and searching per category
+ */
+
 const SongList = ({ wantToLearnList }) => {
   const [sortOrder, setSortOrder] = useState({
     want_to_learn: "desc",
@@ -47,7 +53,7 @@ const SongList = ({ wantToLearnList }) => {
     }));
   };
 
-  // Function to return the appropriate icon based on the status
+  // Return the appropriate icon based on the song's status
   const getStatusIcon = (status) => {
     switch (status) {
       case "want_to_learn":
@@ -125,7 +131,7 @@ const SongList = ({ wantToLearnList }) => {
                     backgroundPosition: "left 10px center",
                     backgroundSize: "25px",
                     backgroundRepeat: "no-repeat",
-                    paddingLeft: "35px", // Make space for the icon
+                    paddingLeft: "35px",
                   }}
                   value={searchTerms[status]}
                   onChange={(e) => handleSearchChange(status, e.target.value)}

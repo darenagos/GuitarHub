@@ -1,34 +1,16 @@
 import chordDB from "@tombatossals/chords-db/lib/guitar.json";
 
-// export const findChord = (chordName, suffix) => {
-//   // Clean input for chord name and suffix
-//   const formattedChordName = chordName
-//     .trim()
-//     .replace(/♯/g, "#")
-//     .replace(/#/g, "sharp")
-//     .toLowerCase()
-//     .replace(/^([a-z])/, (match) => match.toUpperCase()); // Capitalize first letter
-
-//   const formattedSuffix = suffix.trim().toLowerCase();
-
-//   // Check if chord exists in the database
-//   console.log(`Looking for chord: ${formattedChordName} ${formattedSuffix}`);
-//   if (!chordDB.chords.hasOwnProperty(formattedChordName)) {
-//     console.log(`Chord ${formattedChordName} not found in database`);
-//     return null;
-//   }
-
-//   const chord = chordDB.chords[formattedChordName];
-
-//   // Filter positions by suffix
-//   const filteredChords = chord.filter((entry) =>
-//     entry.suffix.toLowerCase().includes(formattedSuffix)
-//   );
-
-//   return filteredChords.length > 0
-//     ? filteredChords
-//     : { key: chordName, suffix, positions: [] };
-// };
+/**
+ * Finds a specific chord from the chord database based on the chord name and its suffix.
+ * It formats the chord name and suffix, checks if the chord exists in the database,
+ * and applies specific matching rules for certain chord types.
+ *
+ * @param {string} chordName - The name of the chord (e.g., 'C', 'D', 'A#').
+ * @param {string} suffix - The suffix of the chord (e.g., 'maj7', 'm', 'dim').
+ * @returns {Array|Object|null} - Returns an array of matching chord entries if found,
+ *                                  or a fallback object if no exact matches are found,
+ *                                  or null if the chord is not found in the database.
+ */
 
 export const findChord = (chordName, suffix) => {
   // Clean input for chord name and suffix
@@ -37,14 +19,12 @@ export const findChord = (chordName, suffix) => {
     .replace(/♯/g, "#")
     .replace(/#/g, "sharp")
     .toLowerCase()
-    .replace(/^([a-z])/, (match) => match.toUpperCase()); // Capitalize first letter
+    .replace(/^([a-z])/, (match) => match.toUpperCase());
 
   const formattedSuffix = suffix.trim().toLowerCase();
 
   // Check if chord exists in the database
-  console.log(`Looking for chord: ${formattedChordName} ${formattedSuffix}`);
   if (!chordDB.chords.hasOwnProperty(formattedChordName)) {
-    console.log(`Chord ${formattedChordName} not found in database`);
     return null;
   }
 
@@ -62,9 +42,6 @@ export const findChord = (chordName, suffix) => {
     );
 
     if (exactMatches.length > 0) {
-      console.log(
-        `Found exact match for ${formattedChordName} ${formattedSuffix}`
-      );
       return exactMatches;
     }
   }
@@ -81,7 +58,6 @@ export const findChord = (chordName, suffix) => {
 
 export const findChordsFromJSON = (chordsArray) => {
   if (!Array.isArray(chordsArray)) {
-    console.error("Input must be an array of chord names.");
     return null;
   }
 
@@ -93,9 +69,6 @@ export const findChordsFromJSON = (chordsArray) => {
     const parts = chord.split(" ");
     const chordName = parts[0].toLowerCase(); // First part is always the chord name
     const suffix = parts.slice(1).join(" ") || "major"; // The rest is the suffix, default to "major" if no suffix
-
-    // Log the chord name and suffix for debugging
-    console.log(`Chord name: ${chordName}, Suffix: ${suffix}`);
 
     const chordDiagram = findChord(chordName, suffix);
 

@@ -1,6 +1,6 @@
 import React from "react";
 import ChordDiagram from "../ChordDiagramComponents/ChordDiagram";
-import MissingChords from "./MissingChords";
+// import MissingChords from "./MissingChords";
 
 const UserCustomChordSequence = ({ song, chordDiagrams }) => {
   // Split the chord sequence into an array
@@ -9,11 +9,10 @@ const UserCustomChordSequence = ({ song, chordDiagrams }) => {
     : [];
 
   // Create a new array with only the chords that don't have a corresponding diagram
-  const missingChords = chordSequence.filter(
-    (chord, index) => !chordDiagrams[index]
-  );
+  // const missingChords = chordSequence.filter(
+  //   (chord, index) => !chordDiagrams[index]
+  // );
 
-  console.log("missing chords: ", missingChords);
   return (
     <div className="mt-6">
       <p className="">Chord Sequence:</p>
@@ -21,12 +20,14 @@ const UserCustomChordSequence = ({ song, chordDiagrams }) => {
         {song.chord_sequence ? (
           <div>
             <p className="pl-10 hover:text-orange-300 transition-all ease-in-out">
+              {/* Display the chord sequence in a readable format, separating chords with ' - ' */}
               {Array.isArray(song.chord_sequence)
                 ? song.chord_sequence.join(" - ")
                 : JSON.parse(song.chord_sequence).join(" - ")}
             </p>
 
             <div className="flex flex-wrap justify-center space-x-4 gap-4 mt-6">
+              {/* Check if there are any chord diagrams to display */}
               {chordDiagrams.length > 0 ? (
                 chordDiagrams.map((diagram, index) =>
                   diagram ? (

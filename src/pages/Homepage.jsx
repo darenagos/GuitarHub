@@ -1,7 +1,4 @@
-//rafce - react arrow function component with export
-
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
 import FadePageWrapper from "../components/HOC/FadePageWrapper";
 import { UserAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router";
@@ -17,15 +14,12 @@ import welcomeSmileIcon from "../assets/icons/welcome-smile.png";
 const Homepage = () => {
   const { session, signOut } = UserAuth();
   const navigate = useNavigate();
-  const [showLoadingScreen, setShowLoadingScreen] = useState(() => {
-    // Check if this is the first visit in this session
-    const hasVisitedBefore = localStorage.getItem("hasVisitedHomepage");
-    return !hasVisitedBefore; // Show loading screen only if they haven't visited before
-  });
 
-  const { songs, loading, error, fetchSongs } = useFetchSongs(
-    session?.user?.id
-  );
+  // Show loading screen only if the user hasn't visited the homepage in this session
+  const [showLoadingScreen, setShowLoadingScreen] = useState(() => {
+    const hasVisitedBefore = localStorage.getItem("hasVisitedHomepage");
+    return !hasVisitedBefore;
+  });
 
   const handleSignOut = async (e) => {
     e.preventDefault();
@@ -38,6 +32,7 @@ const Homepage = () => {
     localStorage.removeItem("hasVisitedHomepage");
   };
 
+  // Called when loading screen finishes
   const handleLoadingComplete = () => {
     setShowLoadingScreen(false);
     localStorage.setItem("hasVisitedHomepage", "true");
@@ -51,7 +46,7 @@ const Homepage = () => {
       <FadePageWrapper>
         <div className=" flex flex-col py-5 mt-[10vh] h-[90vh] scrollable-content background-container ">
           <h2 className="flex justify-center items-center mt-8">
-            Welcome, {session?.user?.email}
+            Welcome, {session?.user?.email?.split("@")[0]}
             <img src={welcomeSmileIcon} className=" ml-3 mr-10 h-8 w-8" />
             <button
               onClick={handleSignOut}

@@ -3,6 +3,11 @@ import chordDB from "@tombatossals/chords-db/lib/guitar.json";
 import Chord from "@tombatossals/react-chords/lib/Chord";
 import "../../assets/styles/ChordDatabase.css";
 
+/**
+ * ChordDatabase Component
+ * Allows users to select a key and suffix to filter and view corresponding guitar chord diagrams.
+ */
+
 const instrument = {
   name: "Guitar",
   tunings: {
@@ -82,7 +87,7 @@ const ChordDatabase = () => {
               ))}
             </div>
 
-            {/* Chords List and Diagrams (Scrollable) */}
+            {/* Chords List and Diagrams */}
             <div className="chords-list  overflow-y-auto px-4">
               {filteredChords.length === 0 ? (
                 <p className="text-gray-400">No Chord selected</p>

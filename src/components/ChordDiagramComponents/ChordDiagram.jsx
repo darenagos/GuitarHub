@@ -1,11 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
-
 import Chord from "@tombatossals/react-chords/lib/Chord";
-import chordDB from "@tombatossals/chords-db/lib/guitar.json";
-
-// console.log("Chord log:         " + Chord);
-// console.log("Chord db guitar.json log:          " + chordDB);
 
 const instrument = {
   name: "Guitar",
@@ -20,8 +14,6 @@ const ChordDiagram = ({ chordData }) => {
   if (!chordData || !chordData.positions || chordData.positions.length === 0) {
     return <p>Chord not found </p>;
   }
-
-  console.log("Chord Data:", chordData);
 
   return (
     <div>

@@ -13,9 +13,9 @@ const CustomDropdown = ({ options, selectedValue, onChange }) => {
       case "want_to_learn":
         return "text-[#A7C85F] hover:scale-105"; // Green for "Want to Learn"
       case "learning":
-        return "text-[#1abc9c] hover:scale-105"; // Blue for "Currently Learning"
+        return "text-[#1abc9c] hover:scale-105"; // Blue for "Learning"
       case "mastered":
-        return "text-yellow-500 hover:scale-105"; // Yellow for "Learnt"
+        return "text-yellow-500 hover:scale-105"; // Yellow for "Mastered"
       default:
         return "text-gray-500 hover:scale-105"; // Default gray
     }

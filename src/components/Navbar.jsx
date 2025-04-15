@@ -2,7 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import "../index.css";
-import dgChordLogo from "../assets/dgChordLogo.png"; // Import the logo
+import dgChordLogo from "../assets/dgChordLogo.png";
+
+/**
+ * Navbar Component
+ * A fixed navigation bar that provides links to the main sections of the GuitarHub app.
+ * navigation links for "Homepage", "Learning", "Chord Diagrams", and "My Songs".
+ */
 
 const Navbar = () => {
   return (

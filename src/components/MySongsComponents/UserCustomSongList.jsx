@@ -2,10 +2,17 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import FadePageWrapper from "../HOC/FadePageWrapper";
 
-import musicNoteIcon from "../../assets/icons/music-note-icon.png"; // Import the music note icon
-import searchIcon from "../../assets/icons/search-interface-symbol.png"; // Import the search icon
+import musicNoteIcon from "../../assets/icons/music-note-icon.png";
+import searchIcon from "../../assets/icons/search-interface-symbol.png";
+
+/**
+ * UserCustomSongList Component
+ * Displays a list of the user's custom songs with options to search and sort by date added.
+ * Allows the user to navigate to a song's details by clicking on it.
+ */
 
 const UserCustomSongList = ({ userSongs }) => {
+  // State for sorting and searching
   const [sortOrder, setSortOrder] = useState("desc");
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -33,7 +40,7 @@ const UserCustomSongList = ({ userSongs }) => {
           <img src={musicNoteIcon} className="h-10 w-auto" />
         </div>
 
-        {/* Search Input */}
+        {/* Search Input to filter songs by name */}
         <div className="flex items-center mb-3 border-2 border-gray-100 rounded-md px-3 bg-white">
           <img src={searchIcon} alt="Search" className="h-7 w-auto mr-2" />
           <input
@@ -45,7 +52,7 @@ const UserCustomSongList = ({ userSongs }) => {
           />
         </div>
 
-        {/* Sort Button */}
+        {/* Sort Button to toggle song sorting by date added */}
         <button
           onClick={handleSort}
           className="cursor-pointer px-3 py-1 flex items-center rounded hover:scale-105 transition-all duration-300 ease-in-out"
@@ -60,12 +67,14 @@ const UserCustomSongList = ({ userSongs }) => {
           </span>
         </button>
 
+        {/* Display the sorted songs */}
         <FadePageWrapper>
           {sortedSongs.length > 0 ? (
             <ul className="grid justify-center bg-white rounded-lg shadow p-3 mt-4">
               {sortedSongs.map((song) => (
                 <div className="p-2 w-xl text-center" key={song.id}>
                   <li className="w-full flex rounded-lg">
+                    {/* Link to the song details page */}
                     <Link
                       to={`/user-songs/${song.id}`}
                       className=" w-full p-2 hover:scale-105 drop-shadow-[0_4px_2px_rgba(0,0,0,0.1)] rounded-lg transition-all duration-300 ease-in-out"

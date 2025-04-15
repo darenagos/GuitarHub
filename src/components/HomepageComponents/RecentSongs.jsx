@@ -14,8 +14,8 @@ import star from "../../assets/icons/star.png";
 
 const RecentSongs = () => {
   const { session } = UserAuth();
-  const [songs, setSongs] = useState([]); // For learning songs (all songs)
-  const [recentSongs, setRecentSongs] = useState([]); // For top 3 recent songs
+  const [songs, setSongs] = useState([]);
+  const [recentSongs, setRecentSongs] = useState([]);
   const [chordProgressions, setChordProgressions] = useState([]);
   const [statusCounts, setStatusCounts] = useState({
     want_to_learn: 0,

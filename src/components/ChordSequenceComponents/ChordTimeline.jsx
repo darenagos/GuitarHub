@@ -7,12 +7,14 @@ const ChordTimeline = ({ chords, currentSecond }) => {
     return null;
   }
 
+  // scaling and interval settings
   const scale = 51.45;
   const interval = 20;
   const rows = Math.ceil(totalDuration / interval);
 
   return (
     <div className="flex flex-col items-center" style={{ margin: "auto" }}>
+      {/* Create rows based on total duration and interval */}
       {[...Array(rows)].map((_, rowIndex) => {
         const rowStart = rowIndex * interval;
         const rowEnd = (rowIndex + 1) * interval;
@@ -29,7 +31,7 @@ const ChordTimeline = ({ chords, currentSecond }) => {
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
               marginBottom: "10px",
               position: "relative",
-              overflow: "hidden", // Prevent overflow
+              overflow: "hidden",
             }}
           >
             {/* Time Labels */}
@@ -52,8 +54,8 @@ const ChordTimeline = ({ chords, currentSecond }) => {
                   top: "0",
                   height: "100%",
                   width: "2px",
-                  backgroundColor: "#9cd0cd", // Faded red
-                  boxShadow: "0 0 20px 20px #9cd0cd", // Stronger glow effect
+                  backgroundColor: "#9cd0cd",
+                  boxShadow: "0 0 20px 20px #9cd0cd",
                 }}
               />
             )}
@@ -65,7 +67,7 @@ const ChordTimeline = ({ chords, currentSecond }) => {
                 const visibleStart = Math.max(chord.start, rowStart);
                 const visibleEnd = Math.min(chord.end, rowEnd);
                 const left = (visibleStart - rowStart) * scale;
-                const width = Math.max((visibleEnd - visibleStart) * scale, 1); // Ensure min width
+                const width = Math.max((visibleEnd - visibleStart) * scale, 1);
 
                 return (
                   <div
@@ -83,7 +85,7 @@ const ChordTimeline = ({ chords, currentSecond }) => {
                       textAlign: "center",
                       lineHeight: "30px",
                       whiteSpace: "nowrap",
-                      overflow: "hidden", // Ensure no text overflow
+                      overflow: "hidden",
                     }}
                   >
                     {chord.label}
@@ -95,8 +97,6 @@ const ChordTimeline = ({ chords, currentSecond }) => {
       })}
     </div>
   );
-  // dasdsadsadsadas
-  //sdsasad
 };
 
 export default ChordTimeline;

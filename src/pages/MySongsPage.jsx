@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import FadePageWrapper from "../components/HOC/FadePageWrapper";
-import { UserAuth } from "../context/AuthContext"; // Import UserAuth
+import { UserAuth } from "../context/AuthContext";
 import AddCustomSongForm from "../components/MySongsComponents/AddCustomSongForm";
 import UserCustomSongList from "../components/MySongsComponents/UserCustomSongList";
-import { fetchUserSongs } from "../services/songService"; // Import fetchUserSongs
+import { fetchUserSongs } from "../services/songService";
+
+/**
+ * MySongsPage Component
+ * Displays the user's custom songs, allows adding new songs, and fetches data from the backend.
+ */
 
 const MySongsPage = () => {
   const { session } = UserAuth(); // Get session from AuthContext
@@ -20,7 +25,6 @@ const MySongsPage = () => {
       if (error) {
         console.error("Error fetching user songs:", error);
       } else {
-        console.log("Fetched user songs:", data);
         setUserSongs(data);
       }
       setLoading(false);

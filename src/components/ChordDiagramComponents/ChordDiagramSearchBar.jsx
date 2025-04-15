@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import searchIcon from "../../assets/icons/search-interface-symbol.png";
 import border from "../../assets/borderStyles/border-one.png";

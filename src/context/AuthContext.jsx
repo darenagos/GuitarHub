@@ -2,6 +2,13 @@ import React from "react";
 import { createContext, useEffect, useState, useContext } from "react";
 import { supabase } from "../supabaseClient";
 
+/**
+ * AuthContextProvider Component
+ * Provides authentication-related functions (sign up, sign in, sign out) and manages user session state.
+ * Utilizes Supabase for authentication and tracks session state across the application using React Context.
+ * Exposes authentication methods and session data to child components.
+ */
+
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
@@ -32,7 +39,6 @@ export const AuthContextProvider = ({ children }) => {
         console.error("sign in error occured", error);
         throw new Error(error.message);
       }
-      console.log("sign in success: ", data);
       return { success: true, data };
     } catch (error) {
       console.error("an error occured", error);
