@@ -24,47 +24,52 @@ const Notes = () => {
   const [updatedNote, setUpdatedNote] = useState("");
 
   // Fetch the single note when component mounts or user session changes
+  // ...existing code...
+  // Fetch the single note when component mounts or user session changes
   useEffect(() => {
     const handleFetchNote = async () => {
       if (!session?.user?.id) return;
 
       setLoading(true);
+      setError(null); // Clear any previous errors
+
       try {
         // Fetch the note if it exists for the user
         const { data, error } = await fetchNote(session.user.id);
 
-        if (error && error.code !== "PGRST116") {
-          throw new Error(error.message);
+        // If data exists, set it and return early
+        if (data) {
+          setNote(data);
+          setLoading(false);
+          return;
         }
 
+        // Only attempt to create a note if fetch didn't return data
+        // This helps prevent race conditions
         if (!data) {
-          // No existing note, create default one
-          const { data: newNote, error: insertError } = await addDefaultNote(
-            session.user.id
-          );
+          try {
+            const { data: newNote, error: insertError } = await addDefaultNote(
+              session.user.id
+            );
 
-          if (insertError) {
-            // Prevent duplicate insertion error by checking for existing note
-            if (insertError.code === "23505") {
-              const { data: existingNote, error: fetchError } = await fetchNote(
-                session.user.id
-              );
-
-              if (fetchError) {
-                throw new Error(fetchError.message);
+            if (newNote) {
+              setNote(newNote);
+            } else if (insertError?.code === "23505") {
+              // If we got a duplicate error, try fetching one more time
+              const { data: existingNote } = await fetchNote(session.user.id);
+              if (existingNote) {
+                setNote(existingNote);
               }
-
-              setNote(existingNote);
-            } else {
+            } else if (insertError) {
               throw new Error(insertError.message);
             }
-          } else {
-            setNote(newNote);
+          } catch (insertErr) {
+            console.error("Error creating default note:", insertErr);
+            setError(insertErr);
           }
-        } else {
-          setNote(data);
         }
       } catch (err) {
+        console.error("Error in note handling:", err);
         setError(err);
       } finally {
         setLoading(false);
@@ -117,8 +122,11 @@ const Notes = () => {
             <textarea
               value={updatedNote}
               onChange={(e) => setUpdatedNote(e.target.value)}
-              className="w-full p-4  rounded-md min-h-[100px]"
+              className={`w-full p-4 rounded-md min-h-[100px] ${
+                isEditing ? "border-2 border-gray-200" : ""
+              }`}
               disabled={updating}
+              placeholder="Write your note here..."
             />
             <div className="flex justify-between mt-2">
               <button
@@ -126,7 +134,7 @@ const Notes = () => {
                 disabled={updating}
                 className={`${
                   updating
-                    ? "bg-gray-400"
+                    ? "bg-white"
                     : "bg-white shadow p-2 rounded-md transition-shadow ease-in-out duration-300 hover:shadow-[0_0_10px_4px_rgba(255,220,2,0.6)]"
                 }  p-2 rounded-md transition-colors`}
               >

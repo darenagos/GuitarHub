@@ -279,13 +279,13 @@ export const fetchNote = async (userId) => {
  */
 
 export const addDefaultNote = async (userId) => {
-  const { data: newNote, error: insertError } = await supabase
+  const { data, error } = await supabase
     .from("userNotes")
     .insert([{ user_id: userId, notes: "Your note here..." }])
     .select()
     .single();
 
-  return { newNote, insertError };
+  return { data, error };
 };
 
 /**
