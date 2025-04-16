@@ -56,6 +56,7 @@ const MySongsPage = () => {
               <p className="text-center text-gray-600"></p>
             )}
           </div>
+          <div className="pb-30"></div>
         </div>
       </FadePageWrapper>
     </div>

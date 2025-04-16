@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CustomDropdown from "./CustomDropdown";
+import learningIcon from "../../assets/icons/learning-icon.jpg";
 
 const API_KEY = "05955013";
 
@@ -47,6 +48,11 @@ const SongForm = ({
   return (
     <div className="flex justify-center items-center pt-10">
       <div className=" bg-white p-3 rounded shadow grid grid-cols-3 gap-4  mx-auto">
+        <h1 className="flex items-center justify-center gap-x-2 col-span-3 text-gray-500 text-center border-b-2 border-gray-100 pb-2 mb-4">
+          Add a Song
+          <img src={learningIcon} className="h-7 w-auto" alt="Learning Icon" />
+        </h1>
+
         {/* First Column - Song Name Input */}
         <input
           type="text"

@@ -86,7 +86,7 @@ const UserCustomSongList = ({ userSongs }) => {
               ))}
             </ul>
           ) : (
-            <p className="text-center text-gray-600">No songs found.</p>
+            <p className="text-center text-gray-600 pt-5">No songs found.</p>
           )}
         </FadePageWrapper>
       </div>
