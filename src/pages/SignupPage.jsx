@@ -38,6 +38,7 @@ const SignupPage = () => {
       const result = await signUpNewUser(email, password);
 
       if (result?.success) {
+        localStorage.setItem("justSignedIn", "true");
         navigate("/homepage");
       } else if (result?.error) {
         handleSignupError(result.error);

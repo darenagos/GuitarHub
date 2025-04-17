@@ -34,6 +34,7 @@ const SigninPage = () => {
       const result = await signInUser(email, password);
 
       if (result?.success) {
+        localStorage.setItem("justSignedIn", "true");
         navigate("/homepage");
       } else if (result?.error) {
         handleSigninError(result.error);
