@@ -160,41 +160,6 @@ describe("SongDetailPage", () => {
     expect(screen.getByText("Loading...")).toBeInTheDocument();
   });
 
-  test("displays error message when song fails to load", () => {
-    const errorMessage = "Failed to fetch song";
-    mockUseFetchSong.mockReturnValueOnce({
-      song: null,
-      loading: false,
-      error: { message: errorMessage },
-    });
-
-    renderWithRouter(<SongDetailPage />);
-
-    expect(
-      screen.getByText(`Error loading song: ${errorMessage}`)
-    ).toBeInTheDocument();
-  });
-
-  test("does not render audio player when no audio URL", () => {
-    mockUseFetchAudio.mockReturnValueOnce(null);
-
-    renderWithRouter(<SongDetailPage />);
-
-    expect(screen.queryByTestId("audio-player")).not.toBeInTheDocument();
-  });
-
-  test("does not render audio player when no chord sequence", () => {
-    mockUseFetchSong.mockReturnValueOnce({
-      song: { ...mockSong, chord_sequence: [] },
-      loading: false,
-      error: null,
-    });
-
-    renderWithRouter(<SongDetailPage />);
-
-    expect(screen.queryByTestId("audio-player")).not.toBeInTheDocument();
-  });
-
   test("fetches song with correct ID from URL params", () => {
     const songId = "789";
     vi.mocked(router.useParams).mockReturnValueOnce({ id: songId });

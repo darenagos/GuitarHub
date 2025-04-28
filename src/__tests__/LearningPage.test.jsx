@@ -14,7 +14,6 @@ vi.mock("../context/AuthContext", () => ({
   UserAuth: vi.fn(),
 }));
 
-// Fix this mock - create a mock function that returns the desired values
 const mockUseFetchSongs = vi.fn();
 vi.mock("../hooks/useFetchSongs", () => ({
   default: () => mockUseFetchSongs(),
@@ -50,7 +49,7 @@ vi.mock("../components/LearningComponents/SongForm", () => ({
       >
         <option value="want_to_learn">Want to Learn</option>
         <option value="learning">Learning</option>
-        <option value="learned">Learned</option>
+        <option value="mastered">mastered</option>
       </select>
     </div>
   ),
@@ -67,18 +66,6 @@ vi.mock("../components/LearningComponents/SongList", () => ({
     </div>
   ),
 }));
-
-// Mock setTimeout to avoid waiting in tests
-vi.mock("timers", () => ({
-  setTimeout: (fn) => {
-    fn();
-    return 123;
-  },
-  clearTimeout: vi.fn(),
-}));
-
-// Still mock console.error to avoid cluttering test output
-vi.spyOn(console, "error").mockImplementation(() => {});
 
 describe("LearningPage", () => {
   const mockFetchSongs = vi.fn();

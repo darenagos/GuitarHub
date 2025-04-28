@@ -12,7 +12,7 @@ import { fetchTopThreeMostRecentChordProgressions } from "../../services/songSer
 
 import star from "../../assets/icons/star.png";
 
-const RecentSongs = () => {
+const Dashboard = () => {
   const { session } = UserAuth();
   const [songs, setSongs] = useState([]);
   const [recentSongs, setRecentSongs] = useState([]);
@@ -130,4 +130,4 @@ const RecentSongs = () => {
   );
 };
 
-export default RecentSongs;
+export default Dashboard;

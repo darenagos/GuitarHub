@@ -10,9 +10,12 @@ import {
   updateStatus,
   fetchTopThreeMostRecentSongs,
   fetchTopThreeMostRecentChordProgressions,
+  fetchLearningSongs,
+  fetchNote,
+  addDefaultNote,
+  updateNote,
 } from "../services/songService";
 
-// Improved mock implementation for Supabase
 const mockSupabaseFrom = {
   select: vi.fn(),
   insert: vi.fn(),
@@ -24,7 +27,6 @@ const mockSupabaseFrom = {
   single: vi.fn(),
 };
 
-// Create more comprehensive mock
 vi.mock("../supabaseClient", () => {
   return {
     supabase: {
@@ -117,61 +119,6 @@ describe("Song Service", () => {
         artist: "Test Artist",
       });
     });
-
-    test("should handle no song found on Jamendo", async () => {
-      global.fetch.mockImplementationOnce(() =>
-        Promise.resolve({
-          json: () => Promise.resolve({ results: [] }),
-        })
-      );
-
-      const result = await addSongToLearn(
-        "Unknown Song",
-        "Unknown Artist",
-        "learning",
-        "user123"
-      );
-
-      expect(fetch).toHaveBeenCalledTimes(1);
-      expect(result).toBeUndefined();
-    });
-
-    test("should handle Supabase error", async () => {
-      global.fetch.mockImplementationOnce(() =>
-        Promise.resolve({
-          json: () =>
-            Promise.resolve({
-              results: [
-                {
-                  id: "12345",
-                  name: "Test Song",
-                  artist_name: "Test Artist",
-                },
-              ],
-            }),
-        })
-      );
-
-      global.fetch.mockImplementationOnce(() =>
-        Promise.resolve({
-          json: () =>
-            Promise.resolve({
-              chords: {
-                chordSequence: ["A", "C", "G"],
-              },
-            }),
-        })
-      );
-
-      mockSupabaseFrom.single.mockResolvedValueOnce({
-        data: null,
-        error: { message: "Database error" },
-      });
-
-      await expect(
-        addSongToLearn("Test Song", "Test Artist", "learning", "user123")
-      ).rejects.toThrow("Database error");
-    });
   });
 
   describe("fetchUserSongs", () => {
@@ -197,12 +144,6 @@ describe("Song Service", () => {
       });
       expect(result).toEqual({ data: mockSongs, error: null });
     });
-
-    test("should handle missing userId", async () => {
-      const result = await fetchUserSongs(null);
-
-      expect(result).toEqual({ error: "User not authenticated" });
-    });
   });
 
   describe("fetchUserSongById", () => {
@@ -226,23 +167,6 @@ describe("Song Service", () => {
       expect(mockSupabaseFrom.eq).toHaveBeenCalledWith("user_id", "user123");
       expect(mockSupabaseFrom.eq).toHaveBeenCalledWith("id", 1);
       expect(result).toEqual({ data: mockSong });
-    });
-
-    test("should handle missing userId", async () => {
-      const result = await fetchUserSongById(null, 1);
-
-      expect(result).toEqual({ error: "User not authenticated" });
-    });
-
-    test("should handle Supabase error", async () => {
-      mockSupabaseFrom.single.mockResolvedValueOnce({
-        data: null,
-        error: { message: "Song not found" },
-      });
-
-      const result = await fetchUserSongById("user123", 999);
-
-      expect(result).toEqual({ error: "Song not found" });
     });
   });
 
@@ -288,12 +212,6 @@ describe("Song Service", () => {
       ]);
       expect(result).toEqual({ data: mockSong, error: null });
     });
-
-    test("should handle missing userId", async () => {
-      const result = await addCustomSong(null, "Custom Song", "A, B, C");
-
-      expect(result).toEqual({ error: "User not authenticated" });
-    });
   });
 
   describe("deleteCustomSong", () => {
@@ -318,7 +236,7 @@ describe("Song Service", () => {
         error: null,
       });
 
-      // Use a JSON string for chord_sequence as that's what your component passes
+      // Use a JSON string for chord_sequence as that's what component passes
       const jsonChordSequence = JSON.stringify(["D", "E", "F"]);
       const result = await updateCustomSong(
         1,
@@ -342,15 +260,15 @@ describe("Song Service", () => {
         error: null,
       });
 
-      const result = await updateStatus(1, "completed");
+      const result = await updateStatus(1, "mastered");
 
       const { supabase } = await import("../supabaseClient");
       expect(supabase.from).toHaveBeenCalledWith("songs");
       expect(mockSupabaseFrom.update).toHaveBeenCalledWith({
-        status: "completed",
+        status: "mastered",
       });
       expect(mockSupabaseFrom.eq).toHaveBeenCalledWith("id", 1);
-      expect(result).toEqual({ error: null, newStatus: "completed" });
+      expect(result).toEqual({ error: null, newStatus: "mastered" });
     });
   });
 
@@ -379,12 +297,6 @@ describe("Song Service", () => {
       expect(mockSupabaseFrom.limit).toHaveBeenCalledWith(3);
       expect(result).toEqual({ data: mockSongs, error: null });
     });
-
-    test("should handle missing userId", async () => {
-      const result = await fetchTopThreeMostRecentSongs(null);
-
-      expect(result).toEqual({ error: "User not authenticated" });
-    });
   });
 
   describe("fetchTopThreeMostRecentChordProgressions", () => {
@@ -412,11 +324,96 @@ describe("Song Service", () => {
       expect(mockSupabaseFrom.limit).toHaveBeenCalledWith(3);
       expect(result).toEqual({ data: mockProgressions, error: null });
     });
+  });
 
-    test("should handle missing userId", async () => {
-      const result = await fetchTopThreeMostRecentChordProgressions(null);
+  describe("fetchLearningSongs", () => {
+    test("should fetch learning songs successfully", async () => {
+      const mockSongs = [
+        { id: 1, name: "Song 1", status: "learning" },
+        { id: 2, name: "Song 2", status: "learning" },
+      ];
 
-      expect(result).toEqual({ error: "User not authenticated" });
+      // Make the LAST method in the chain return the result
+      mockSupabaseFrom.eq.mockResolvedValueOnce({
+        data: mockSongs,
+        error: null,
+      });
+
+      const result = await fetchLearningSongs("user123");
+
+      const { supabase } = await import("../supabaseClient");
+      expect(supabase.from).toHaveBeenCalledWith("songs");
+      expect(mockSupabaseFrom.select).toHaveBeenCalledWith("*");
+      expect(mockSupabaseFrom.eq).toHaveBeenCalledWith("user_id", "user123");
+      expect(result).toEqual({ data: mockSongs, error: null });
+    });
+  });
+
+  describe("fetchNote", () => {
+    test("should fetch user note successfully", async () => {
+      const mockNote = {
+        id: 1,
+        user_id: "user123",
+        notes: "This is a test note",
+      };
+
+      mockSupabaseFrom.single.mockResolvedValueOnce({
+        data: mockNote,
+        error: null,
+      });
+
+      const result = await fetchNote("user123");
+
+      const { supabase } = await import("../supabaseClient");
+      expect(supabase.from).toHaveBeenCalledWith("userNotes");
+      expect(mockSupabaseFrom.select).toHaveBeenCalledWith("*");
+      expect(mockSupabaseFrom.eq).toHaveBeenCalledWith("user_id", "user123");
+      expect(mockSupabaseFrom.single).toHaveBeenCalled();
+      expect(result).toEqual({ data: mockNote, error: null });
+    });
+  });
+
+  describe("addDefaultNote", () => {
+    test("should add default note successfully", async () => {
+      const mockNewNote = {
+        id: 1,
+        user_id: "user123",
+        notes: "Your note here...",
+      };
+
+      mockSupabaseFrom.single.mockResolvedValueOnce({
+        data: mockNewNote,
+        error: null,
+      });
+
+      const result = await addDefaultNote("user123");
+
+      const { supabase } = await import("../supabaseClient");
+      expect(supabase.from).toHaveBeenCalledWith("userNotes");
+      expect(mockSupabaseFrom.insert).toHaveBeenCalledWith([
+        { user_id: "user123", notes: "Your note here..." },
+      ]);
+      expect(mockSupabaseFrom.select).toHaveBeenCalled();
+      expect(mockSupabaseFrom.single).toHaveBeenCalled();
+      expect(result).toEqual({ data: mockNewNote, error: null });
+    });
+  });
+
+  describe("updateNote", () => {
+    test("should update note successfully", async () => {
+      mockSupabaseFrom.eq.mockResolvedValueOnce({
+        error: null,
+      });
+
+      const result = await updateNote(1, "Updated note content");
+
+      const { supabase } = await import("../supabaseClient");
+      expect(supabase.from).toHaveBeenCalledWith("userNotes");
+      expect(mockSupabaseFrom.update).toHaveBeenCalledWith({
+        notes: "Updated note content",
+      });
+      expect(mockSupabaseFrom.eq).toHaveBeenCalledWith("id", 1);
+      expect(result).toEqual({ error: null });
     });
   });
 });

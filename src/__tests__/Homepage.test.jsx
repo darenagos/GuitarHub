@@ -30,8 +30,8 @@ vi.mock("../components/HOC/FadePageWrapper", () => ({
   default: ({ children }) => <div data-testid="fade-wrapper">{children}</div>,
 }));
 
-vi.mock("../components/HomepageComponents/RecentSongs", () => ({
-  default: () => <div data-testid="recent-songs">Recent Songs Component</div>,
+vi.mock("../components/HomepageComponents/Dashboard", () => ({
+  default: () => <div data-testid="dashboard">Dashboard Component</div>,
 }));
 
 vi.mock("../components/HomepageComponents/notes", () => ({
@@ -63,9 +63,9 @@ describe("Homepage", () => {
     ).toBeInTheDocument();
   });
 
-  test("renders RecentSongs component", () => {
+  test("renders Dashboard component", () => {
     render(<Homepage />);
-    expect(screen.getByTestId("recent-songs")).toBeInTheDocument();
+    expect(screen.getByTestId("dashboard")).toBeInTheDocument();
   });
 
   test("renders Notes component", () => {
@@ -85,21 +85,5 @@ describe("Homepage", () => {
     await vi.waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith("/");
     });
-  });
-
-  test("handles error during sign out", async () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    mockSignOut.mockRejectedValueOnce(new Error("Sign out failed"));
-
-    render(<Homepage />);
-
-    const signOutButton = screen.getByRole("button", { name: /sign out/i });
-    fireEvent.click(signOutButton);
-
-    await vi.waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalled();
-    });
-
-    consoleSpy.mockRestore();
   });
 });

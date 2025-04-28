@@ -5,12 +5,15 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthContextProvider } from "../context/AuthContext";
 import "@testing-library/jest-dom";
 
+// Declare the mock function
+const signInMock = vi.fn();
+
 // Mock the auth context values
 vi.mock("../context/AuthContext", () => ({
   AuthContextProvider: ({ children }) => children,
   UserAuth: () => ({
     session: null,
-    signIn: vi.fn(),
+    signInUser: signInMock, // use the external mock
   }),
 }));
 
@@ -24,7 +27,6 @@ describe("SigninPage", () => {
       </BrowserRouter>
     );
 
-    // Check if all form elements are present
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
     expect(
@@ -41,7 +43,6 @@ describe("SigninPage", () => {
       </BrowserRouter>
     );
 
-    // Simulate user input
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: "test@example.com" },
     });
@@ -49,7 +50,6 @@ describe("SigninPage", () => {
       target: { value: "password123" },
     });
 
-    // Check if inputs have correct values
     expect(screen.getByLabelText(/email/i)).toHaveValue("test@example.com");
     expect(screen.getByLabelText(/password/i)).toHaveValue("password123");
   });
@@ -63,7 +63,6 @@ describe("SigninPage", () => {
       </BrowserRouter>
     );
 
-    // Fill out the form
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: "test@example.com" },
     });
@@ -71,8 +70,10 @@ describe("SigninPage", () => {
       target: { value: "password123" },
     });
 
-    // Submit the form
     const submitButton = screen.getByRole("button", { name: /sign in/i });
     fireEvent.click(submitButton);
+
+    // Even better: check what arguments were passed
+    expect(signInMock).toHaveBeenCalledWith("test@example.com", "password123");
   });
 });

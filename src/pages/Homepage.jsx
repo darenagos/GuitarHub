@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import FadePageWrapper from "../components/HOC/FadePageWrapper";
 import { UserAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router";
-import RecentSongs from "../components/HomepageComponents/RecentSongs";
+import Dashboard from "../components/HomepageComponents/Dashboard";
 import Notes from "../components/HomepageComponents/Notes";
 import LoadingScreen from "./LoadingScreen";
 
@@ -76,7 +76,7 @@ const Homepage = () => {
           </h2>
 
           <div>
-            <RecentSongs />
+            <Dashboard />
           </div>
 
           {session?.user?.id && <Notes />}
