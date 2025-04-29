@@ -63,6 +63,7 @@ describe("SigninPage", () => {
       </BrowserRouter>
     );
 
+    //Simulate user input
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: "test@example.com" },
     });
@@ -70,10 +71,11 @@ describe("SigninPage", () => {
       target: { value: "password123" },
     });
 
+    // Submit Form
     const submitButton = screen.getByRole("button", { name: /sign in/i });
     fireEvent.click(submitButton);
 
-    // Even better: check what arguments were passed
+    // Verify authentication function was called with correct credentials.
     expect(signInMock).toHaveBeenCalledWith("test@example.com", "password123");
   });
 });
