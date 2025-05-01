@@ -167,6 +167,7 @@ const UserCustomSongDetailPage = () => {
         <div className="w-full max-w-2xl bg-white p-6 rounded-lg opacity-100 transition-opacity duration-1500 ease-in-out mt-10">
           <UserCustomSongHeader
             songName={song.song_name}
+            createdAt={song.created_at}
             onDelete={handleDeleteSong}
           />
         </div>

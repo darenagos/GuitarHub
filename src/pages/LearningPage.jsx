@@ -40,8 +40,15 @@ const LearningPage = () => {
     if (!session?.user?.id) return;
 
     // Input validation
+
     if (!songToLearn.trim() || !artistOfSongToLearn.trim() || !status.trim()) {
       setFormError("Please fill out all the fields before adding a song.");
+
+      // Clear form error after 4 seconds
+      setTimeout(() => {
+        setFormError("");
+      }, 4000);
+
       return;
     }
 
@@ -78,7 +85,7 @@ const LearningPage = () => {
   return (
     <FadePageWrapper>
       <div className="flex flex-col max-h-screen ">
-        <div className="scrollable-content pt-10 mt-[10vh] h-[90vh]s">
+        <div className="scrollable-content pt-10 mt-[10vh] h-[90vh]">
           <h1 className="text-3xl font-semibold text-center mb-6">
             My Learning
           </h1>
@@ -117,10 +124,12 @@ const LearningPage = () => {
             )}
           </div>
 
-          <FadePageWrapper>
-            {/* Display List of Songs */}
-            <SongList wantToLearnList={songs} />
-          </FadePageWrapper>
+          <div className="flex flex-col items-center">
+            <FadePageWrapper>
+              {/* Display List of Songs */}
+              <SongList wantToLearnList={songs} />
+            </FadePageWrapper>
+          </div>
         </div>
       </div>
     </FadePageWrapper>

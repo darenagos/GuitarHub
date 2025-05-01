@@ -66,10 +66,10 @@ const Homepage = () => {
             <img src={welcomeSmileIcon} className="ml-3 mr-10 h-8 w-8" />
             <button
               onClick={handleSignOut}
-              className="pl-5 flex justify-center items-center text-gray-800 
-                transition-all duration-300 ease-in-out
-                hover:scale-105 focus:outline-none focus:ring-[#e3d8b3] 
-                disabled:bg-[#e8e4d1] disabled:cursor-not-allowed"
+              className="pl-5 flex justify-center items-center text-gray-600 
+                transition-all duration-200 ease-in-out
+                 focus:outline-none focus:ring-[#e3d8b3] cursor-pointer hover:text-[#9cd0cd] hover:decoration-gray-300
+                disabled:bg-[#e8e4d1] disabled:cursor-not-allowed underline decoration-[#9cd0cd] "
             >
               Sign Out
             </button>

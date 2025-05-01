@@ -80,8 +80,11 @@ const SigninPage = () => {
           <h2 className="text-3xl text-center mb-6">Sign in</h2>
           <p className="text-center mb-4 text-sm text-gray-600">
             Don't have an account?{" "}
-            <Link to="/signup" className="text-gray-500 hover:text-gray-700">
-              Sign up!
+            <Link
+              to="/signup"
+              className="text-orange-400 hover:text-[#9cd0cd] transition-all duration-300 ease-in-out"
+            >
+              <u>Sign up!</u>
             </Link>
           </p>
           <div className="space-y-6">

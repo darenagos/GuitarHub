@@ -1,9 +1,13 @@
 import React from "react";
 
-const UserCustomSongHeader = ({ songName, onDelete }) => {
+const UserCustomSongHeader = ({ songName, createdAt, onDelete }) => {
   return (
     <div>
       <h1 className="text-2xl">{songName}</h1>
+
+      <p className="text-sm text-gray-500 mt-2 mb-2">
+        Created At: {new Date(createdAt).toLocaleString()}
+      </p>
 
       {/* delete song also in header */}
       <button

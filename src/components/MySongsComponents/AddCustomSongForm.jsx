@@ -55,9 +55,35 @@ const AddCustomSongForm = ({ userId, fetchUserSongs }) => {
       <div className="w-full max-w-xl">
         {/* Form for adding a custom song */}
         <div className=" bg-white p-6 rounded-lg shadow-md">
-          <div className="flex items-center mb-4">
-            <h2 className="text-s mr-2">Add my song </h2>
-            <img src={musicIcon} className="h-10 w-auto" />
+          <div className="flex items-center mb-4 relative">
+            <h2 className="text-s mr-2 group cursor-help flex items-center justify-center gap-x-2">
+              Add my song
+              <img src={musicIcon} className="h-10 w-auto flex" />
+              {/* Tooltip */}
+              <div
+                className="absolute left-1/2 -translate-x-1/2 bottom-full mt-2 z-10 w-108 opacity-0 
+            group-hover:opacity-100 transition-opacity duration-300 bg-gray-800 text-white 
+            text-sm rounded p-2 shadow-lg pointer-events-none mb-2"
+              >
+                <p className="text-xs mb-1">How to add your own song:</p>
+                <ol className="text-xs pl-4 list-decimal">
+                  <li>
+                    Enter your <u>song name</u>
+                  </li>
+                  <li>
+                    Enter your <u>chord sequence</u> (seperate chords with
+                    commas)
+                  </li>
+                  <li>
+                    Example: <u>A, B minor, D, G</u>
+                  </li>
+                  <li>
+                    Click the <u>Add My Song</u> button
+                  </li>
+                </ol>
+                <div className="absolute left-1/15 -translate-x-1/15 top-full border-8 border-transparent border-t-gray-800"></div>
+              </div>
+            </h2>
           </div>
           {/* Error message display */}
           {errorMessage && (
