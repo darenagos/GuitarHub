@@ -42,7 +42,7 @@ You can check out the live version of the project here:
    npm run dev
    ```
 
-4. Open the app in your browser at `http://localhost:3000`.
+4. Open the app in your browser at `http://localhost:5173`.
 
 ## Running Tests
 
